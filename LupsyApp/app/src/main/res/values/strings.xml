@@ -3,4 +3,13 @@
     <string name="BtnEntrar">Entrar</string>
     <string name="etPalavra_passe">Palavra-Passe</string>
     <string name="etE_mail">E-mail</string>
+    <string name="tvPassword">Password</string>
+    <string name="tvEmail">E-mail</string>
+    <string name="email_invalido">Email Invalido</string>
+    <string name="password_invalida">password invalida</string>
+    <string name="tvBV">Welcome</string>
+    <string name="tvData">dd/mm/aaaa</string>
+    <string name="tvSpacing" />
+    <string name="tvUser">User</string>
+    <string name="tvVendas">Mais Vendidas</string>
 </resources>

@@ -14,7 +14,7 @@
         android:id="@+id/view2"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.1" />
+        android:layout_weight="0.4" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -23,36 +23,70 @@
         android:layout_weight="1"
         app:srcCompat="@drawable/logotipo" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvEmail"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
         android:ems="10"
         android:hint="@string/etE_mail"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
-        android:background="@drawable/editborder"
-         />
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPassword"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
 
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
         android:ems="10"
         android:hint="@string/etPalavra_passe"
         android:inputType="textPassword"
         android:minHeight="48dp"
-        android:background="@drawable/editborder"
-         />
+        android:paddingStart="10dp" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:backgroundTint="#1B1B1B"
+        android:insetTop="10dp"
+        android:insetRight="15dp"
         android:onClick="onClickLogin"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="20dp"
         android:text="@string/BtnEntrar"
-        android:translationX="810px" />
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
 
     <View
         android:id="@+id/view"
