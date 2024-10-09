@@ -2,7 +2,9 @@ package pt.ipleiria.estg.dei.lupsyapp;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
@@ -36,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.show(); // Exibe a ActionBar
         }
+
     }
 
     public void onClickFunil(View view) {
+        Toast.makeText(this, "Funil clicado!", Toast.LENGTH_SHORT).show();
     }
 }
