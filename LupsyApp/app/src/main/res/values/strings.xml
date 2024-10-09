@@ -12,4 +12,6 @@
     <string name="tvSpacing" />
     <string name="tvUser">User</string>
     <string name="tvVendas">Mais Vendidas</string>
+    <string name="tvDescricao">Cerveja lager de cor dourada, com sabor leve e amargor suave, destacada por sua qualidade e consistência desde 1873</string>
+    <string name="tvNome">Heineken</string>
 </resources>

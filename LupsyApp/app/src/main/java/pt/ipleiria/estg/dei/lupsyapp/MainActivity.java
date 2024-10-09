@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.lupsyapp;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -35,5 +36,8 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.show(); // Exibe a ActionBar
         }
+    }
+
+    public void onClickFunil(View view) {
     }
 }
