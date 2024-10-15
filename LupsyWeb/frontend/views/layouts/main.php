@@ -18,6 +18,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../web/css/site.css">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -34,31 +35,51 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
+
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-    }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
         'items' => $menuItems,
     ]);
-    if (Yii::$app->user->isGuest) {
-        echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
+
+    // Custom Hamburger Menu button at the end of the Navbar
+    echo Html::beginTag('div', ['class' => 'navbar-nav ms-auto d-flex']);
+
+   if (Yii::$app->user->isGuest) {
+        echo Html::a('Login', ['/site/login'], ['class' => 'nav-link']);
     } else {
         echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none']
+                ['class' => 'btn btn-link logout text-decoration-none nav-link']
             )
             . Html::endForm();
     }
+
+
+    echo Html::endTag('div');
+
     NavBar::end();
     ?>
+
+    <!-- Additional collapsible content controlled by the hamburger icon -->
+    <div class="collapse" id="navbarContentRight">
+        <div class="bg-dark p-3">
+            <!-- Add any widget or additional content here -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <?= Html::a('Profile', ['/user/profile'], ['class' => 'nav-link text-white']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= Html::a('Settings', ['/user/settings'], ['class' => 'nav-link text-white']) ?>
+                </li>
+                <!-- Add more items as needed -->
+            </ul>
+        </div>
+    </div>
 </header>
 
 <main role="main" class="flex-shrink-0">
@@ -81,4 +102,4 @@ AppAsset::register($this);
 <?php $this->endBody() ?>
 </body>
 </html>
-<?php $this->endPage();
+<?php $this->endPage() ?>
