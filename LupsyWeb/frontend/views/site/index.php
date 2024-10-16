@@ -39,7 +39,8 @@ use yii\helpers\Html;
 <!-- Main Content Section -->
 <section class="main-content">
     <div class="content-row">
-        <img src="../../web/img/miniMeioCEV.png" alt="Bar Scene" class="main-img">
+        <?= Html::img('@web/img/miniMeioCEV.png', ['alt' => 'Bar Scene', 'class' => 'main-img']) ?>
+
         <div class="text-content">
             <h2>Your Title Here</h2>
             <p>Your description or text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -114,6 +115,7 @@ use yii\helpers\Html;
     }
 
     .banner img {
+        margin-top: -50px;
         width: 100%;
         height: auto;
     }
