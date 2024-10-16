@@ -1,10 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#D36B3E21"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CadastroActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/vSpacing"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/logotipo" />
+
+    <TextView
+        android:id="@+id/tvNomeCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="@string/tvNomeUtilizador"
+        android:textColor="@color/preto_fosco" />
+
+    <EditText
+        android:id="@+id/etNomeCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etNome"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/vSpacing4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05" />
+
+    <TextView
+        android:id="@+id/tvEmailCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvEmail"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
+    <EditText
+        android:id="@+id/etEmailCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etE_mail"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/vSpacing2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05" />
+
+    <TextView
+        android:id="@+id/tvPasswordCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvPassword"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
+    <EditText
+        android:id="@+id/etPasswordCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etPalavra_passe"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <Button
+        android:id="@+id/btnCadastro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:backgroundTint="#1B1B1B"
+        android:insetTop="10dp"
+        android:insetRight="15dp"
+        android:onClick="onClickCadastro"
+        android:paddingLeft="30dp"
+        android:paddingTop="20dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="20dp"
+        android:text="@string/BtnCriar"
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
+
+    <View
+        android:id="@+id/vSpacing3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.2" />
+
+</LinearLayout>

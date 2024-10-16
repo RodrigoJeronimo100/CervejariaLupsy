@@ -19,4 +19,10 @@
     <string name="pesquisa">Pesquisa</string>
     <string name="carrinho">Carrinho</string>
     <string name="perfil">Perfil</string>
+    <string name="NConta">Não tens conta?</string>
+    <string name="Conta">Criar Conta</string>
+    <string name="tvNomeUtilizador">Nome Utilizador</string>
+    <string name="etNome">Nome Utilizador</string>
+    <string name="BtnCriar">Criar</string>
+    <string name="nome_invalido" />
 </resources>

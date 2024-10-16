@@ -33,19 +33,21 @@ public class LoginActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+
     }
-    private boolean isEmailValido(String email){
-        if(email == null)
+
+    private boolean isEmailValido(String email) {
+        if (email == null)
             return false;
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
 
     }
-    private boolean isPasswordValida(String password){
-        if(password == null)
+
+    private boolean isPasswordValida(String password) {
+        if (password == null)
             return false;
         return password.length() >= 4;
     }
-
 
 
     public void onClickLogin(View view) {
@@ -71,5 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
 
+    }
+
+    public void onClickCadastro(View view) {
+
+        Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
+        startActivity(intent);
     }
 }
