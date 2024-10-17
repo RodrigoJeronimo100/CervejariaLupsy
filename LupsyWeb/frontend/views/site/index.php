@@ -5,11 +5,13 @@ use yii\helpers\Html;
 ?>
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet">
+    <link rel="stylesheet" href="../../web/css/pagina-frontal.css">
+
 </head>
 <body>
     <div class="menu-icon">
@@ -22,7 +24,7 @@ use yii\helpers\Html;
 <!-- Banner Section -->
 <section class="banner">
     <div class="banner-content">
-        <?= Html::img('@web/img/capaCEV.png', ['alt' => 'Cervejaria Lupsy Banner', 'class' => 'banner-img']) ?>
+        <?= Html::img('@web/img/capaCEV.jpg', ['alt' => 'Cervejaria Lupsy Banner', 'class' => 'banner-img']) ?>
 
     </div>
 </section>
@@ -30,9 +32,13 @@ use yii\helpers\Html;
 <section>
     <div class="top-middle-content">
         <?= Html::img('@web/img/meioCEV.png', ['alt' => 'metade', 'class' => 'middle-img']) ?>
-       <!-- <div class="overlay">
-            <button>Descobrir</button>
-        </div> -->
+    </div>
+    <div class="text-in-image">
+        <p>Descobre uma nova experiência de cervejas com a nossa <br> aplicação e website que une amantes de cervejas a <br>  partir da nossa comunidade.</p>
+        <p>O website oferece uma interface intuitiva para explorares, <br> avaliares e rastreares cervejas que já bebeste.</p>
+        <div class="overlay">
+            <button class="button-sh">Descobrir</button>
+        </div>
     </div>
 </section>
 
@@ -66,7 +72,17 @@ use yii\helpers\Html;
 
 </body>
 
-<style>* {
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+
+    .container{
+        max-width: 1920px;
+        --bs-gutter-x: 0rem !important;
+    }
+    main > .container, main > .container-fluid{
+        padding: 0;
+    }
+    * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -76,7 +92,7 @@ use yii\helpers\Html;
     body {
         background-color: #f5f5f5;
         cursor: url('data:image/x-icon;base64,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'), auto;
-        }
+    }
 
     .logo h1 {
         font-size: 24px;
@@ -95,7 +111,9 @@ use yii\helpers\Html;
     .middle-img{
         max-width: 70%;
         height: auto;
+        border-radius: 20px;
     }
+
 
     .menu-icon button {
         font-size: 24px;
@@ -115,23 +133,61 @@ use yii\helpers\Html;
     }
 
     .banner img {
-        margin-top: -50px;
         width: 100%;
         height: auto;
+        margin-top: 20px;
+    }
+
+    .text-in-image{
+        margin-left: 800px;
+        margin-top: -320px;
+        margin-bottom: 300px;
+        
+    }
+
+    .button-sh{
+        width: 155px;
+        height: 45px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        color: #000;
+        background-color: #ccceda;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: 2px solid #ffffff;
+        font-family: "Space Grotesk", sans-serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
+
+    .button-sh:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0);
+        transform: translateY(-7px);
+    }
+    }
+
+    .text-in-image button{
+        outline: white;
+    }
+
+    .bg-dark{
+        background-color: #1B1B1B !important;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .text-in-image p {
+        color: white;
+        line-height: 2;
     }
 
     .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        margin-top: 60px;
     }
 
     .overlay h1 {
@@ -147,11 +203,9 @@ use yii\helpers\Html;
     .overlay button {
         padding: 10px 20px;
         font-size: 18px;
-        background-color: #4CAF50;
+        background-color: rgba(255, 255, 255, 0);
         color: #fff;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
+
     }
 
     .main-content {

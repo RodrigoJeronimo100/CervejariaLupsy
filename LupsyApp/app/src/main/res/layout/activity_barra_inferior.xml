@@ -17,8 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/activity_barra_inferior_menu"
-        app:labelVisibilityMode="unlabeled"/>
+        android:background="@color/preto_fosco"
+        app:itemIconTint="@color/white"
+
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/activity_barra_inferior_menu" />
 
 </RelativeLayout>
