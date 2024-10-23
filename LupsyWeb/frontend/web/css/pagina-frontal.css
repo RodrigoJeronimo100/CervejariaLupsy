@@ -27,6 +27,7 @@ body {
 .middle-img{
     max-width: 70%;
     height: auto;
+
 }
 
 .menu-icon button {
@@ -120,15 +121,6 @@ body {
     padding-left: 20px;
 }
 
-.grid-item a {
-    font-size: 16px;
-    color: #000;
-    text-decoration: none;
-}
-
-.grid-item a:hover {
-    text-decoration: underline;
-}
 
 .arrow-link {
     display: inline-flex;
