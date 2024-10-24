@@ -8,6 +8,12 @@ use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Login';
 ?>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
 <div class="login">
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,9 +37,10 @@ $this->title = 'Login';
             </div>
 
     </form>
-
-            <?php ActiveForm::end(); ?>
 </div>
+</body>
+            <?php ActiveForm::end(); ?>
+
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
@@ -57,7 +64,14 @@ $this->title = 'Login';
         width:300px;
         height:300px;
     }
-    .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.7); letter-spacing:4px; font-weight: bold; text-align:center; margin-bottom:20px;}
+    .login h1 {
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0,0,0,0.7);
+        letter-spacing:4px;
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: bold;
+        text-align:center;
+        margin-bottom:20px;}
 
     input {
         width: 100%;

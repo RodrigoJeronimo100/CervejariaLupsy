@@ -80,6 +80,10 @@ AppAsset::register($this);
         </div>
     </div>
 </header>
+<?php
+// Verifique se a página atual é a página de login
+$isLoginPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->action->id === 'login';
+?>
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
@@ -91,12 +95,22 @@ AppAsset::register($this);
     </div>
 </main>
 
-
+<?php if (!$isLoginPage): // Apenas exiba o rodapé se não for a página de login ?>
+    <footer style="background-color: #1E1E1E; color: #e7e7e7; text-align: center; padding: 20px; margin-top: 30px;">
+        <p>&copy; 2024 Cervejaria Lupsy. Todos os direitos reservados.</p>
+        <nav>
+            <?= Html::a('Sobre', ['/site/about'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
+            <?= Html::a('Contacto', ['/site/contact'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
+            <?= Html::a('Política de Privacidade', ['/site/policy-privacy'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
+        </nav>
+    </footer>
+<?php endif; ?>
 
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Suranna&display=swap');
     body{

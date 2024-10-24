@@ -43,3 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+<style>
+    body{
+        padding: 0 30px;
+    }
+</style>
