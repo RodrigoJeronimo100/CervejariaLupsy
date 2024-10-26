@@ -73,54 +73,73 @@ $this->params['breadcrumbs'][] = $this->title;
             padding-bottom: 30px;
         }
 
-        .button {
-            border-radius: 9999px;
-            padding: 1rem 2rem;
-            font-weight: bold;
-            background: none;
+        .svg{
+            -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
             position: relative;
-            border: 0.25rem solid;
-            color: inherit;
-            font-size: 1.5rem;
-            font-family: "Fredericka the Great";
+            height: 45px;
+            width: 150px;
+            text-decoration: none;
+            margin: 10px 7px;
+            padding: 10px 5px;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 2px;
+            color: #383736;
+            border: 2px #383736 solid;
+            border-radius: 20px;
+            text-transform: uppercase;
+            outline: 0;
+            overflow:hidden;
+            background: none;
+            z-index: 1;
+            cursor: pointer;
+            transition:         0.08s ease-in;
+            -o-transition:      0.08s ease-in;
+            -ms-transition:     0.08s ease-in;
+            -moz-transition:    0.08s ease-in;
+            text-underline: none;
 
+        }
 
-            &:hover {
-                cursor: pointer;
-                color: #fff;
-            }
+        .svg:before{
+            position:absolute;
+            content:"";
+            background: url(https://f.cl.ly/items/3H3A0D1N281a2T280F3o/heist.svg) no-repeat center center;
+            width:100%;
+            height:100%;
+            top:0;
+            left:0;
+            border-radius: 20px;
+            z-index:-1;
+            opacity:0;
+            -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+        }
 
-            &::before {
-                content: "LUPSY";
-                color: #b69036;
-                font-size: 4rem;
-                padding-left: 0.5rem;
-                position: absolute;
-                inset: 0;
-                transform: translateX(0.75rem) translateY(0.5rem) rotateZ(-3deg) skewX(-10deg);
-                background-color: #a6822e;
-                z-index: -2;
-                border-radius: 1.4rem;
-                border-bottom-right-radius: 1rem;
-                border-bottom-left-radius: 2.25rem;
-                border-top-left-radius: 1.25rem;
-                transition: 250ms;
-                border: 5rem solid #a6822e;
-                border-top: 0 solid transparent;
-                border-left: 0 solid transparent;
-            }
+        .svg:after {
+            content: "";
+            position: absolute;
+            background: #d19b26;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 100%;
+            z-index: -2;
+            -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
+            border-radius: 20px;
+        }
 
-            &:hover::before {
-                color: rgb(175, 151, 13);
+        .svg:hover{
+            color:white;
+            border-radius: 20px;
+            border: 0px #d19b26 solid;
+        }
 
-                transform: translateX(0) translateY(-0.5rem) rotateZ(0deg) skewX(0) scaleX(25.25) scaleY(0.5);
-                border-radius: 0.25rem;
-                border-color:  rgb(175, 151, 13);
-                border-bottom-right-radius: 0.2rem;
-                border-bottom-left-radius: 0.2rem;
-                border-top-left-radius: 0.2rem;
-                background-color:  rgb(175, 151, 13);
-            }
+        .svg:hover:before {
+            opacity: .8;
+        }
+
+        .svg:hover:after {
+            top: 0;
         }
 
         .title-n{
@@ -128,8 +147,6 @@ $this->params['breadcrumbs'][] = $this->title;
             font-weight: 700;
 
         }
-
-
 
         .content-wrapper {
             display: flex;
@@ -203,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <div class="cta">
-        <?= Html::a('Descubra as nossas Cervejas', ['/site/login'], ['class' => 'button']) ?>
+        <?= Html::a('Descubra as nossas Cervejas', ['/site/login'], ['class' => 'svg']) ?>
     </div>
 
 </div>

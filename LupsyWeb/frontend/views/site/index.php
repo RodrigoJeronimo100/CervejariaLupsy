@@ -100,7 +100,9 @@ use yii\helpers\Html;
         max-width: 70%;
         height: auto;
         border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 1);
     }
+
 
 
     .menu-icon button {
@@ -208,6 +210,7 @@ use yii\helpers\Html;
         border-radius: 20px;
         margin-top: -100px;
         margin-bottom: 30px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 1);
     }
 
     .text-content {
@@ -266,6 +269,11 @@ use yii\helpers\Html;
         background-color: #1e1e1e;
         border-radius: 20px;
         padding-bottom: 20px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .grid-item1:hover{
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
     .grid-item1 img {
@@ -298,6 +306,11 @@ use yii\helpers\Html;
         background-color: #e7e7e7;
         border-radius: 20px;
         padding-bottom: 20px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .grid-item2:hover{
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     }
 
     .grid-item2 img {
