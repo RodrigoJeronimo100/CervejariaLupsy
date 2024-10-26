@@ -81,8 +81,9 @@ AppAsset::register($this);
     </div>
 </header>
 <?php
-// Verifique se a página atual é a página de login
+// Verifique se a página atual é a página de login ou signup
 $isLoginPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->action->id === 'login';
+$isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->action->id === 'signup';
 ?>
 
 <main role="main" class="flex-shrink-0">
@@ -95,7 +96,7 @@ $isLoginPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->ac
     </div>
 </main>
 
-<?php if (!$isLoginPage): // Apenas exiba o rodapé se não for a página de login ?>
+<?php if (!$isLoginPage  && !$isSignupPage): ?>
     <footer style="background-color: #1E1E1E; color: #e7e7e7; text-align: center; padding: 20px; margin-top: 30px;">
         <p>&copy; 2024 Cervejaria Lupsy. Todos os direitos reservados.</p>
         <nav>

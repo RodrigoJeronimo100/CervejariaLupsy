@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         }
 
-        /* Ajustes para telas pequenas */
+
         @media (max-width: 768px) {
             .content-wrapper {
                 flex-direction: column;
@@ -156,7 +156,7 @@ $this->params['breadcrumbs'][] = $this->title;
             }
 
             .text-content, .met-met2 {
-                width: 100%; /* Texto e imagem ocupam 100% da largura em telas pequenas */
+                width: 100%;
                 margin-left: 0;
                 text-align: center;
             }
