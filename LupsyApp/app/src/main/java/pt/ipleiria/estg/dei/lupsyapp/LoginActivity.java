@@ -33,6 +33,10 @@ public class LoginActivity extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        
+        // Temporario apenas para facilitar o login de teste
+        etEmail.setText("email@email.pt");
+        etPassword.setText("12345678");
 
     }
 
@@ -65,10 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Aqui você pode adicionar o restante do código de login
         Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show();
-
-
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
