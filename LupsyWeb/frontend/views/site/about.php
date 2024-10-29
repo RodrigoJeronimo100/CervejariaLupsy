@@ -41,10 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
         }
 
         .mission {
-            background-color: #eaeaea;
+            background-color: rgba(219, 213, 190, 0.8);
             padding: 15px;
             border-radius: 10px;
-            margin-top: 20px;
         }
 
         .mission h2 {

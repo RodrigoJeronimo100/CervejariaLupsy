@@ -78,9 +78,7 @@ use yii\helpers\Html;
     @import url('https://fonts.googleapis.com/css2?family=Suranna&display=swap');
 
 
-    body {
-        background-color: rgba(219, 213, 190, 0.22);
-    }
+
 
     .logo h1 {
         font-size: 24px;
