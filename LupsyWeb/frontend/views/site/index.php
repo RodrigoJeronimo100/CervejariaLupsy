@@ -159,7 +159,7 @@ use yii\helpers\Html;
         box-shadow: 0px 15px 20px rgba(46, 229, 157, 0);
         transform: translateY(-7px);
     }
-    }
+    
 
     .text-in-image button{
         outline: white;
@@ -339,7 +339,7 @@ use yii\helpers\Html;
     .svg{
         -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
         position: relative;
-    //display:block;
+        display:block;
         height: 45px;
         width: 150px;
         margin: 10px 7px;
