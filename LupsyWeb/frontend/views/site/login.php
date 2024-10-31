@@ -60,9 +60,13 @@ $this->title = 'Login';
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -150px 0 0 -150px;
-        width:300px;
-        height:300px;
+        transform: translate(-50%, -50%);
+        max-width: 350px;
+        width: 90%;
+        padding: 20px;
+        background-color: rgba(248, 249, 250, 0.15);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     .login h1 {
         color: #fff;

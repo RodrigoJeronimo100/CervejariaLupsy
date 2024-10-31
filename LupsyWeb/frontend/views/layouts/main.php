@@ -38,8 +38,9 @@ AppAsset::register($this);
     ]);
 
     $menuItems = [
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'About', 'url' => ['/site/about']],
+        ['label' => 'Contatos', 'url' => ['/site/contact']],
+        ['label' => 'Sobre', 'url' => ['/site/about']],
+        ['label' => Yii::$app->user->identity->username, 'url' => ['/utilizador/index'],['class' => 'margin-needed']],
     ];
 
     echo Nav::widget([
@@ -55,7 +56,7 @@ AppAsset::register($this);
         echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none nav-link']
+                ['class' => 'btn btn-link logout text-decoration-none nav-link logoutsmall']
             )
             . Html::endForm();
     }
@@ -159,4 +160,5 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         font-family: 'Space Grotesk', sans-serif;
         font-size: 16px;
     }
+    
 </style>

@@ -23,15 +23,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <form method="post">
         <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
+        <div class="form-container">
+            <div class="left-box">
             <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Username') ?>
 
             <?= $form->field($model, 'email') ?>
 
             <?= $form->field($model, 'password')->passwordInput()->label('Password') ?>
+            </div>
+            <div class="right-box">
+            <?= $form->field($model, 'nome')->textInput() ?>
 
+            <?= $form->field($model, 'nif')->textInput() ?>
+
+            <?= $form->field($model, 'telefone')->textInput() ?>
+            </div>
+
+
+        </div>
 
         <div class="button-container">
+            <?= $form->field($model, 'morada')->textInput() ?>
             <?= Html::submitButton('Signup', ['class' => 'button b-green rot-135', 'name' => 'signup-button']) ?>
         </div>
 
@@ -62,18 +74,26 @@ $this->params['breadcrumbs'][] = $this->title;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin: -150px 0 0 -150px;
-        width:300px;
-        height:300px;
+        transform: translate(-50%, -50%);
+        max-width: 600px;
+        width: 90%;
+        padding: 20px;
+        background-color: rgba(248, 249, 250, 0.15);
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
+
     .site-signup h1 {
-        color: #fff;
-        text-shadow: 0 0 10px rgba(0,0,0,0.7);
-        letter-spacing:4px;
+        color: #e7e7e7;
+        text-shadow: 0 0 10px rgba(0,0,0,0.1);
+        letter-spacing: 4px;
         font-family: "Space Grotesk", sans-serif;
         font-weight: bold;
-        text-align:center;
-        margin-bottom:20px;}
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
 
     input {
         width: 100%;
@@ -100,13 +120,19 @@ $this->params['breadcrumbs'][] = $this->title;
         font-size: 12px;
     }
     .button-container {
-        position: relative;
-        display: inline-block;
+        text-align: center;
+        margin-top: 20px;
     }
+
+
+    .button-container input {
+        margin-bottom: 10px;
+
+    }
+
 
     .button {
         position: relative;
-        margin-top: 10px;
         padding: 15px 35px;
         font-size: 18px;
         font-weight: bold;
@@ -126,8 +152,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-    .button-container::before,
-    .button-container::after {
+    .button::before,
+    .button::after {
         content: '';
         position: absolute;
         background-color: rgba(255, 255, 255, 0.8);
@@ -136,7 +162,7 @@ $this->params['breadcrumbs'][] = $this->title;
         opacity: 0;
     }
 
-    .button-container::before {
+    .button::before {
         width: 10px;
         height: 10px;
         bottom: 10px;
@@ -144,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
         animation: bubbles 4s infinite ease-in-out;
     }
 
-    .button-container::after {
+    .button::after {
         width: 6px;
         height: 6px;
         bottom: 10px;
@@ -152,19 +178,19 @@ $this->params['breadcrumbs'][] = $this->title;
         animation: bubbles 3s infinite ease-in-out;
     }
 
-    .button-container:hover::before,
-    .button-container:hover::after {
+    .button:hover::before,
+    .button:hover::after {
         opacity: 1;
     }
 
-
+    /* Animação das bolhas */
     @keyframes bubbles {
         0% {
             transform: translateY(0);
             opacity: 1;
         }
         100% {
-            transform: translateY(-100px);
+            transform: translateY(-40px); /* Elevação ajustada para aproximar as bolhas */
             opacity: 0;
         }
     }
@@ -237,6 +263,31 @@ $this->params['breadcrumbs'][] = $this->title;
     .yellow-link:hover {
         color: #a67c09;
         text-decoration: underline;
+    }
+
+
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .left-box, .right-box {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: -20px;
+    }
+
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .form-container {
+            flex-direction: column;
+        }
     }
 
 

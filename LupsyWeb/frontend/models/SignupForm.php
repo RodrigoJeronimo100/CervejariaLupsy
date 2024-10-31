@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\Utilizador;
 
 /**
  * Signup form
@@ -15,13 +16,16 @@ class SignupForm extends Model
     public $email;
     public $password;
 
+    public $nome;
+    public $nif;
+    public $telefone;
+    public $morada;
 
-    /**
-     * {@inheritdoc}
-     */
+    // Regras de validação
     public function rules()
     {
         return [
+            // Validações para username, email e password (já existentes)
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
@@ -35,6 +39,22 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+
+            // Validações para os novos campos da tabela `utilizador`
+            ['nome', 'trim'],
+            ['nome', 'required', 'message' => 'O nome é obrigatório.'],
+            ['nome', 'string', 'max' => 255],
+
+            ['nif', 'required', 'message' => 'O NIF é obrigatório.'],
+            ['nif', 'integer', 'message' => 'O NIF deve ser um número.'],
+            ['nif', 'string', 'min' => 9, 'max' => 9, 'message' => 'O NIF deve ter exatamente 9 dígitos.'],
+
+            ['telefone', 'required', 'message' => 'O telefone é obrigatório.'],
+            ['telefone', 'string', 'min' => 9, 'max' => 15, 'message' => 'O telefone deve ter entre 9 e 15 caracteres.'],
+
+            ['morada', 'trim'],
+            ['morada', 'required', 'message' => 'A morada é obrigatória.'],
+            ['morada', 'string', 'max' => 255],
         ];
     }
 
@@ -48,22 +68,39 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        
+
+
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        $user->status = User::STATUS_ACTIVE;
 
-        return $user->save() && $this->sendEmail($user);
+        if ($user->save()) {
+
+            $utilizador = new Utilizador();
+            $utilizador->id_user = $user->id;
+            $utilizador->nome = $this->nome;
+            $utilizador->nif = $this->nif;
+            $utilizador->telefone = $this->telefone;
+            $utilizador->morada = $this->morada;
+
+            if ($utilizador->save()) {
+                // Retorna o usuário caso o processo todo seja bem-sucedido
+                return $user;
+            } else {
+                // Caso a gravação em `utilizador` falhe, excluímos o registro em `user`
+                $user->delete();
+                return null;
+            }
+        }
+
+        return null;
     }
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
+
     protected function sendEmail($user)
     {
         return Yii::$app
