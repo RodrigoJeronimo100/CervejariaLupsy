@@ -42,6 +42,10 @@ AppAsset::register($this);
         ['label' => 'Sobre', 'url' => ['/site/about']],
 
     ];
+    if (!Yii::$app->user->isGuest) {
+        $userId = Yii::$app->user->id;
+        array_push($menuItems, ['label' => 'Conta', 'url' => ['/utilizador/view', 'id' => $userId]]);
+    }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav ms-auto mb-2 mb-md-0'],
@@ -56,17 +60,18 @@ AppAsset::register($this);
         echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
             . Html::submitButton(
                 'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none nav-link logoutsmall']
+                ['class' => 'btn btn-link logout text-decoration-none nav-link btn-danger']
 
 
             )
             . Html::endForm();
-      $menuItems =[
 
-        ['label' => 'Conta', 'url' => ['/utilizador/index'],['class' => 'margin-needed']] ];
     }
 
+
+
     echo Html::endTag('div');
+
 
     NavBar::end();
     ?>
@@ -108,7 +113,6 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         <nav>
             <?= Html::a('Sobre', ['/site/about'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
             <?= Html::a('Contacto', ['/site/contact'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
-            <?= Html::a('Política de Privacidade', ['/site/policy-privacy'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
         </nav>
     </footer>
 <?php endif; ?>
@@ -165,5 +169,4 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         font-family: 'Space Grotesk', sans-serif;
         font-size: 16px;
     }
-
 </style>

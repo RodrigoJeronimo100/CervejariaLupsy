@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         .mission {
             background-color: rgba(219, 213, 190, 0.8);
             padding: 15px;
+            margin-left:-10px;
             border-radius: 10px;
         }
 
@@ -72,45 +73,42 @@ $this->params['breadcrumbs'][] = $this->title;
             padding-bottom: 30px;
         }
 
-        .svg{
+        .svg {
             -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
             position: relative;
+            display: inline-block;
             height: 45px;
-            width: 150px;
-            text-decoration: none;
+            width: 25%;
             margin: 10px 7px;
-            padding: 10px 5px;
+            padding: 5px 5px;
             font-weight: 700;
             font-size: 15px;
             letter-spacing: 2px;
             color: #383736;
             border: 2px #383736 solid;
-            border-radius: 20px;
+            border-radius: 30px;
             text-transform: uppercase;
             outline: 0;
-            overflow:hidden;
+            overflow: hidden;
             background: none;
             z-index: 1;
             cursor: pointer;
-            transition:         0.08s ease-in;
-            -o-transition:      0.08s ease-in;
-            -ms-transition:     0.08s ease-in;
-            -moz-transition:    0.08s ease-in;
-            text-underline: none;
-
+            text-align: center;
+            line-height: 35px;
+            text-decoration: none;
+            transition: 0.08s ease-in;
         }
 
-        .svg:before{
-            position:absolute;
-            content:"";
+        .svg:before {
+            position: absolute;
+            content: "";
             background: url(https://f.cl.ly/items/3H3A0D1N281a2T280F3o/heist.svg) no-repeat center center;
-            width:100%;
-            height:100%;
-            top:0;
-            left:0;
-            border-radius: 20px;
-            z-index:-1;
-            opacity:0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0;
             -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
         }
 
@@ -124,12 +122,10 @@ $this->params['breadcrumbs'][] = $this->title;
             top: 100%;
             z-index: -2;
             -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
-            border-radius: 20px;
         }
 
-        .svg:hover{
-            color:white;
-            border-radius: 20px;
+        .svg:hover {
+            color: white;
             border: 0px #d19b26 solid;
         }
 

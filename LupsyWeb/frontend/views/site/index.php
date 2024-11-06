@@ -35,7 +35,7 @@ use yii\helpers\Html;
         <p>Descobre uma nova experiência de cervejas com a nossa <br> aplicação e website que une amantes de cervejas a <br>  partir da nossa comunidade.</p>
         <p>O website oferece uma interface intuitiva para explorares, <br> avaliares e rastreares cervejas que já bebeste.</p>
         <div class="overlay">
-            <button class="button-sh">Descobrir</button>
+            <?= Html::a('Descobrir', ['/site/login'], ['class' => 'button-sh']) ?>
         </div>
     </div>
 </section>
@@ -49,7 +49,7 @@ use yii\helpers\Html;
             <p>Com a nossa nova plataforma Lupsy podes levar os teus gostos de cerveja para onde quiseres.</p>
             <p>Através da nossa Aplicação Móvel e do nosso Website.</p>
             <p>Junta-te a nós nesta nova aventura.</p>
-            <button class="svg">Entrar</button>
+            <?= Html::a('Entrar', ['/site/login'], ['class' => 'svg']) ?>
         </div>
     </div>
 
@@ -133,20 +133,23 @@ use yii\helpers\Html;
         
     }
 
-    .button-sh{
+    .button-sh {
+        display: inline-block;
         width: 155px;
         height: 45px;
-        font-size: 11px;
+        font-size: 18px;
         text-transform: uppercase;
         letter-spacing: 2.5px;
-        color: #000;
-        background-color: #ccceda;
+        color: #fff;
         border: none;
         border-radius: 15px;
         box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease 0s;
         cursor: pointer;
         outline: 2px solid #ffffff;
+        text-decoration: none; /* Remove sublinhado */
+        text-align: center; /* Centraliza o texto */
+        line-height: 45px; /* Alinha o texto verticalmente */
         font-family: "Space Grotesk", sans-serif;
         font-optical-sizing: auto;
         font-style: normal;
@@ -154,7 +157,7 @@ use yii\helpers\Html;
 
     .button-sh:hover {
         background-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0);
+        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.1);
         transform: translateY(-7px);
     }
     
@@ -334,10 +337,10 @@ use yii\helpers\Html;
         padding-left: 20px;
     }
 
-    .svg{
+    .svg {
         -webkit-transition: all 150ms cubic-bezier(0.445, 0.050, 0.550, 0.950);
         position: relative;
-        display:block;
+        display: inline-block; /* Para alinhar bem em ambos os casos */
         height: 45px;
         width: 150px;
         margin: 10px 7px;
@@ -350,27 +353,26 @@ use yii\helpers\Html;
         border-radius: 15px;
         text-transform: uppercase;
         outline: 0;
-        overflow:hidden;
+        overflow: hidden;
         background: none;
         z-index: 1;
         cursor: pointer;
-        transition:         0.08s ease-in;
-        -o-transition:      0.08s ease-in;
-        -ms-transition:     0.08s ease-in;
-        -moz-transition:    0.08s ease-in;
-
+        text-align: center;
+        line-height: 35px; /* Alinha o texto verticalmente */
+        text-decoration: none; /* Remove sublinhado no <a> */
+        transition: 0.08s ease-in;
     }
 
-    .svg:before{
-        position:absolute;
-        content:"";
+    .svg:before {
+        position: absolute;
+        content: "";
         background: url(https://f.cl.ly/items/3H3A0D1N281a2T280F3o/heist.svg) no-repeat center center;
-        width:100%;
-        height:100%;
-        top:0;
-        left:0;
-        z-index:-1;
-        opacity:0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        opacity: 0;
         -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
     }
 
@@ -386,8 +388,8 @@ use yii\helpers\Html;
         -webkit-transition: all 250ms cubic-bezier(0.230, 1.000, 0.320, 1.000);
     }
 
-    .svg:hover{
-        color:white;
+    .svg:hover {
+        color: white;
         border: 0px #d19b26 solid;
     }
 
@@ -398,7 +400,6 @@ use yii\helpers\Html;
     .svg:hover:after {
         top: 0;
     }
-
 
 </style>
 </html>
