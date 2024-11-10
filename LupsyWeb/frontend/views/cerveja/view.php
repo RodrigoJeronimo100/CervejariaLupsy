@@ -25,7 +25,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <p>
+    <?php
+        // Verificar se a cerveja está nos favoritos do usuário logado
+        $isFavorito = \common\models\Favorita::find()
+            ->where(['id_user' => Yii::$app->user->id, 'id_cerveja' => $model->id])
+            ->exists();
+        
+        // Configurar o texto e a cor do botão com base no estado do favorito
+        $botaoTexto = $isFavorito ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos';
+        $botaoClasse = $isFavorito ? 'btn btn-warning' : 'btn btn-success';
 
+        // Botão para adicionar ou remover dos favoritos
+        echo Html::a($botaoTexto, ['add-favorito', 'id' => $model->id], [
+            'class' => $botaoClasse,
+            'data-method' => 'post',
+        ]);
+        ?>
+        </p>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

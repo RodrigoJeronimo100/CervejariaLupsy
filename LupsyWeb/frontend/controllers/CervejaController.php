@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Cerveja;
+use common\models\Favorita;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -141,4 +143,38 @@ class CervejaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    public function actionAddFavorito($id)
+{
+     // Verifica se o usuário está logado
+     if (Yii::$app->user->isGuest) {
+        return $this->redirect(['site/login']);
+    }
+    $id_user = Yii::$app->user->id;
+
+    // Verifica se a cerveja já está nos favoritos
+    $favorito = Favorita::findOne(['id_user' => $id_user, 'id_cerveja' => $id]);
+
+    if ($favorito) {
+        // Se já estiver nos favoritos, remove
+        $favorito->delete();
+        Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos.');
+    } else {
+        // Adiciona como favorito
+        $novoFavorito = new Favorita();
+        $novoFavorito->id_user = $id_user;
+        $novoFavorito->id_cerveja = $id;
+        if ($novoFavorito->save()) {
+            Yii::$app->session->setFlash('success', 'Cerveja adicionada aos favoritos!');
+        } else {
+             // Captura e formata os erros para exibição
+            $erros = implode('<br>', array_map(function($erro) {
+                return implode(', ', $erro);
+            }, $novoFavorito->getErrors()));
+            Yii::$app->session->setFlash('error', "Falha ao adicionar aos favoritos. Erros: <br>$erros");
+        }
+    }
+
+    // Redireciona de volta à página de visualização da cerveja
+    return $this->redirect(['view', 'id' => $id]);
+}
 }

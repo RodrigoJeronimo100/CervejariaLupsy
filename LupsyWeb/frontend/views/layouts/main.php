@@ -39,6 +39,7 @@ AppAsset::register($this);
 
     $menuItems = [
         ['label' => 'Contatos', 'url' => ['/site/contact']],
+        ['label' => 'Cervejas', 'url' => ['/cerveja/index']],
         ['label' => 'Sobre', 'url' => ['/site/about']],
 
     ];

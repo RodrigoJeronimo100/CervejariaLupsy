@@ -8,12 +8,12 @@ use Yii;
  * This is the model class for table "favorita".
  *
  * @property int $id
- * @property int|null $id_utilizador
+ * @property int|null $id_user
  * @property int|null $id_cerveja
  * @property string|null $data_adicao
  *
  * @property Cerveja $cerveja
- * @property Utilizador $utilizador
+ * @property User $user
  */
 class Favorita extends \yii\db\ActiveRecord
 {
@@ -31,10 +31,10 @@ class Favorita extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_utilizador', 'id_cerveja'], 'integer'],
+            [['id_user', 'id_cerveja'], 'integer'],
             [['data_adicao'], 'safe'],
             [['id_cerveja'], 'exist', 'skipOnError' => true, 'targetClass' => Cerveja::class, 'targetAttribute' => ['id_cerveja' => 'id']],
-            [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class Favorita extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_utilizador' => 'Id Utilizador',
+            'id_user' => 'Id User',
             'id_cerveja' => 'Id Cerveja',
             'data_adicao' => 'Data Adicao',
         ];
@@ -66,8 +66,8 @@ class Favorita extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUtilizador()
+    public function getUser()
     {
-        return $this->hasOne(Utilizador::class, ['id' => 'id_utilizador']);
+        return $this->hasOne(User::class, ['id' => 'id_user']);
     }
 }
