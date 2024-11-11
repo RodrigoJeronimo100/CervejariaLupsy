@@ -1,28 +1,32 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
+use common\models\Cerveja;
+use common\models\Utilizador;
 use Yii;
 
 /**
- * This is the model class for table "historico_bebi".
+ * This is the model class for table "avaliacao".
  *
  * @property int $id
  * @property int|null $id_utilizador
  * @property int|null $id_cerveja
- * @property string|null $data
+ * @property int|null $nota
+ * @property string|null $comentario
+ * @property string|null $data_avaliacao
  *
  * @property Cerveja $cerveja
  * @property Utilizador $utilizador
  */
-class HistoricoBebi extends \yii\db\ActiveRecord
+class Avaliacao extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'historico_bebi';
+        return 'avaliacao';
     }
 
     /**
@@ -31,8 +35,9 @@ class HistoricoBebi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_utilizador', 'id_cerveja'], 'integer'],
-            [['data'], 'safe'],
+            [['id_utilizador', 'id_cerveja', 'nota'], 'integer'],
+            [['data_avaliacao'], 'safe'],
+            [['comentario'], 'string', 'max' => 250],
             [['id_cerveja'], 'exist', 'skipOnError' => true, 'targetClass' => Cerveja::class, 'targetAttribute' => ['id_cerveja' => 'id']],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
         ];
@@ -47,7 +52,9 @@ class HistoricoBebi extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_utilizador' => 'Id Utilizador',
             'id_cerveja' => 'Id Cerveja',
-            'data' => 'Data',
+            'nota' => 'Nota',
+            'comentario' => 'Comentario',
+            'data_avaliacao' => 'Data Avaliacao',
         ];
     }
 

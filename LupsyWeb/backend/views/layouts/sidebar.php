@@ -42,8 +42,6 @@
                      'items' => [
                         ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
                         ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
-                        ['label' => 'Editar', 'icon' => 'edit', 'url' => ['/cerveja/update']],
-                        ['label' => 'Deletar', 'icon' => 'trash', 'url' => ['/cerveja/delete']],
                     ]],
                     ['label' => 'Usuários', 'header' => true],
                     ['label' => 'Lista', 'icon' => 'list', 'url' => ['/backend/user/index']],

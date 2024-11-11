@@ -1,28 +1,30 @@
 <?php
 
-namespace app\models;
+namespace frontend\models;
 
+use common\models\Cerveja;
+use common\models\Utilizador;
 use Yii;
 
 /**
- * This is the model class for table "favorita".
+ * This is the model class for table "historico_bebi".
  *
  * @property int $id
  * @property int|null $id_utilizador
  * @property int|null $id_cerveja
- * @property string|null $data_adicao
+ * @property string|null $data
  *
  * @property Cerveja $cerveja
  * @property Utilizador $utilizador
  */
-class Favorito extends \yii\db\ActiveRecord
+class HistoricoBebis extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'favorita';
+        return 'historico_bebi';
     }
 
     /**
@@ -32,7 +34,7 @@ class Favorito extends \yii\db\ActiveRecord
     {
         return [
             [['id_utilizador', 'id_cerveja'], 'integer'],
-            [['data_adicao'], 'safe'],
+            [['data'], 'safe'],
             [['id_cerveja'], 'exist', 'skipOnError' => true, 'targetClass' => Cerveja::class, 'targetAttribute' => ['id_cerveja' => 'id']],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
         ];
@@ -47,7 +49,7 @@ class Favorito extends \yii\db\ActiveRecord
             'id' => 'ID',
             'id_utilizador' => 'Id Utilizador',
             'id_cerveja' => 'Id Cerveja',
-            'data_adicao' => 'Data Adicao',
+            'data' => 'Data',
         ];
     }
 

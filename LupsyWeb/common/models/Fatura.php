@@ -1,30 +1,28 @@
 <?php
 
-namespace app\models;
+namespace common\models;
 
 use Yii;
 
 /**
- * This is the model class for table "avaliacao".
+ * This is the model class for table "fatura".
  *
  * @property int $id
  * @property int|null $id_utilizador
- * @property int|null $id_cerveja
- * @property int|null $nota
- * @property string|null $comentario
- * @property string|null $data_avaliacao
+ * @property string|null $data_fatura
+ * @property float|null $total
  *
- * @property Cerveja $cerveja
+ * @property ItemFatura[] $itemFaturas
  * @property Utilizador $utilizador
  */
-class Avaliacao extends \yii\db\ActiveRecord
+class Fatura extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'avaliacao';
+        return 'fatura';
     }
 
     /**
@@ -33,10 +31,9 @@ class Avaliacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_utilizador', 'id_cerveja', 'nota'], 'integer'],
-            [['data_avaliacao'], 'safe'],
-            [['comentario'], 'string', 'max' => 250],
-            [['id_cerveja'], 'exist', 'skipOnError' => true, 'targetClass' => Cerveja::class, 'targetAttribute' => ['id_cerveja' => 'id']],
+            [['id_utilizador'], 'integer'],
+            [['data_fatura'], 'safe'],
+            [['total'], 'number'],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
         ];
     }
@@ -49,21 +46,19 @@ class Avaliacao extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'id_utilizador' => 'Id Utilizador',
-            'id_cerveja' => 'Id Cerveja',
-            'nota' => 'Nota',
-            'comentario' => 'Comentario',
-            'data_avaliacao' => 'Data Avaliacao',
+            'data_fatura' => 'Data Fatura',
+            'total' => 'Total',
         ];
     }
 
     /**
-     * Gets query for [[Cerveja]].
+     * Gets query for [[ItemFaturas]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCerveja()
+    public function getItemFaturas()
     {
-        return $this->hasOne(Cerveja::class, ['id' => 'id_cerveja']);
+        return $this->hasMany(ItemFatura::class, ['id_fatura' => 'id']);
     }
 
     /**

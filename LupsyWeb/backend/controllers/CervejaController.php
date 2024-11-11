@@ -1,10 +1,8 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use common\models\Cerveja;
-use common\models\Favorita;
-use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -42,7 +40,7 @@ class CervejaController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Cerveja::find(),
-            
+            /*
             'pagination' => [
                 'pageSize' => 50
             ],
@@ -51,7 +49,7 @@ class CervejaController extends Controller
                     'id' => SORT_DESC,
                 ]
             ],
-           
+            */
         ]);
 
         return $this->render('index', [
@@ -77,6 +75,22 @@ class CervejaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
+    public function actionCreate()
+    {
+        $model = new Cerveja();
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Updates an existing Cerveja model.
@@ -85,7 +99,18 @@ class CervejaController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    
+    public function actionUpdate($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
 
     /**
      * Deletes an existing Cerveja model.
@@ -116,38 +141,4 @@ class CervejaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    public function actionAddFavorito($id)
-{
-     // Verifica se o usuário está logado
-     if (Yii::$app->user->isGuest) {
-        return $this->redirect(['site/login']);
-    }
-    $id_user = Yii::$app->user->id;
-
-    // Verifica se a cerveja já está nos favoritos
-    $favorito = Favorita::findOne(['id_user' => $id_user, 'id_cerveja' => $id]);
-
-    if ($favorito) {
-        // Se já estiver nos favoritos, remove
-        $favorito->delete();
-        Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos.');
-    } else {
-        // Adiciona como favorito
-        $novoFavorito = new Favorita();
-        $novoFavorito->id_user = $id_user;
-        $novoFavorito->id_cerveja = $id;
-        if ($novoFavorito->save()) {
-            Yii::$app->session->setFlash('success', 'Cerveja adicionada aos favoritos!');
-        } else {
-             // Captura e formata os erros para exibição
-            $erros = implode('<br>', array_map(function($erro) {
-                return implode(', ', $erro);
-            }, $novoFavorito->getErrors()));
-            Yii::$app->session->setFlash('error', "Falha ao adicionar aos favoritos. Erros: <br>$erros");
-        }
-    }
-
-    // Redireciona de volta à página de visualização da cerveja
-    return $this->redirect(['view', 'id' => $id]);
-}
 }
