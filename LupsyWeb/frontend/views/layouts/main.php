@@ -18,6 +18,7 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../web/css/site.css">
     <?php $this->registerCsrfMetaTags() ?>
@@ -33,19 +34,20 @@ AppAsset::register($this);
         'brandLabel' => '<span class="brand-small">Cervejaria</span><br><span class="brand-large">LUPSY</span>',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
+            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top navbar-nav custom-nav',
         ],
     ]);
 
     $menuItems = [
         ['label' => 'Contatos', 'url' => ['/site/contact']],
-        ['label' => 'Cervejas', 'url' => ['/cerveja/index']],
         ['label' => 'Sobre', 'url' => ['/site/about']],
 
     ];
     if (!Yii::$app->user->isGuest) {
         $userId = Yii::$app->user->id;
-        array_push($menuItems, ['label' => 'Conta', 'url' => ['/utilizador/view', 'id' => $userId]]);
+        array_push($menuItems, ['label' => 'Cerveja', 'url' => ['/cerveja/index']]);
+        array_push($menuItems, ['label' => '<i class="fas fa-user-circle"></i>', 'url' => ['/utilizador/view', 'id' => $userId], 'encode' => false]);
+
     }
 
     echo Nav::widget([
@@ -170,4 +172,15 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         font-family: 'Space Grotesk', sans-serif;
         font-size: 16px;
     }
+
+    .custom-nav .nav-item {
+        margin-right: 20px;
+    }
+
+    .navbar-nav .fa-user-circle {
+        display: inline-block;
+        font-size: 1.5em;
+
+    }
+
 </style>
