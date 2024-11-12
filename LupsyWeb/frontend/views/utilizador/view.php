@@ -40,13 +40,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="actions">
         <?= Html::a('Atualizar Dados', ['update', 'id' => $model->id], ['class' => 'btn-shineE']) ?>
+        <?= Html::beginForm(['/site/logout'], 'post', ['class' => ''])
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn-shineL']
+
+
+            )
+            . Html::endForm();
+        ?>
         <?= Html::a('Excluir Conta', ['delete', 'id' => $model->id], [
             'class' => 'btn-shineD',
             'data' => [
                 'confirm' => 'Tem certeza de que deseja excluir esta conta?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]);
+
+        ?>
     </div>
 
 </div>
@@ -132,6 +143,25 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 12px 48px;
         color: #fff;
         background: linear-gradient(to right, #a61919 0, #fff 10%, #731010 20%);
+        background-position: 0;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s infinite linear;
+        animation-fill-mode: forwards;
+        -webkit-text-size-adjust: none;
+        font-weight: 600;
+        font-size: 16px;
+        text-decoration: none;
+        white-space: nowrap;
+        font-family: "Poppins", sans-serif;
+    }
+
+    .btn-shineL {
+
+        border: none;
+        padding: 12px 48px;
+        color: #fff;
+        background: linear-gradient(to right, #eca523 0, #fff 10%, #9f7b20 20%);
         background-position: 0;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;

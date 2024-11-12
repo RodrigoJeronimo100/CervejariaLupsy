@@ -43,9 +43,9 @@
                         ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
                         ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
                     ]],
-                    ['label' => 'Usuários', 'header' => true],
-                    ['label' => 'Lista', 'icon' => 'list', 'url' => ['/backend/user/index']],
-                    ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
+                    ['label' => 'Utilizadores', 'header' => true],
+                    ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
+                    ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/utilizador/create']],
                     ['label' => 'Editar', 'icon' => 'edit', 'url' => ['/cerveja/update']],
                     ['label' => 'Deletar', 'icon' => 'trash', 'url' => ['/cerveja/delete']],
                     

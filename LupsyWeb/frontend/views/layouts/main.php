@@ -58,17 +58,8 @@ AppAsset::register($this);
     echo Html::beginTag('div', ['class' => 'navbar-nav d-flex']);
 
     if (Yii::$app->user->isGuest) {
-        echo Html::a('Login', ['/site/login'], ['class' => 'nav-link']);
-    } else {
-        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'd-flex'])
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout text-decoration-none nav-link btn-danger']
-
-
-            )
-            . Html::endForm();
-
+        echo Html::a(
+            'Login <i class="fas fa-right-to-bracket"></i>', ['/site/login'], ['class' => 'nav-link btn btn-link btn-success success', 'encode' => false]);
     }
 
 
@@ -177,10 +168,22 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         margin-right: 20px;
     }
 
+    .navbar-nav .nav-item:last-child {
+        margin-right: 0;
+    }
+
     .navbar-nav .fa-user-circle {
         display: inline-block;
         font-size: 1.5em;
 
+    }
+    .success{
+        margin-left: 20px;
+    }
+    .nav-link.btn-success:focus,
+    .nav-link.btn-success:active {
+        color: inherit;
+        outline: none;
     }
 
 </style>
