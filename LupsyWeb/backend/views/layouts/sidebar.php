@@ -46,8 +46,6 @@
                     ['label' => 'Utilizadores', 'header' => true],
                     ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
                     ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/utilizador/create']],
-                    ['label' => 'Editar', 'icon' => 'edit', 'url' => ['/cerveja/update']],
-                    ['label' => 'Deletar', 'icon' => 'trash', 'url' => ['/cerveja/delete']],
                     
                 ],
             ]);

@@ -107,6 +107,7 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
         <nav>
             <?= Html::a('Sobre', ['/site/about'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
             <?= Html::a('Contacto', ['/site/contact'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
+
         </nav>
     </footer>
 <?php endif; ?>

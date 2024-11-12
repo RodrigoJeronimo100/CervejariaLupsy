@@ -27,6 +27,7 @@ use yii\grid\GridView;
             //'id_user',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
                 'urlCreator' => function ($action, Utilizador $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
