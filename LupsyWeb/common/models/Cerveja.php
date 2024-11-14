@@ -16,6 +16,7 @@ use Yii;
  * @property string|null $descricao
  * @property float|null $teor_alcoolico
  * @property float|null $preco
+ * @property int|null $estado
  * @property int|null $id_fornecedor
  * @property int|null $id_categoria
  *
@@ -46,8 +47,10 @@ class Cerveja extends \yii\db\ActiveRecord
             [['teor_alcoolico', 'preco'], 'number'],
             [['id_fornecedor', 'id_categoria'], 'integer'],
             [['nome', 'descricao'], 'string', 'max' => 255],
+            [['estado'],'boolean'],
             [['id_categoria'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::class, 'targetAttribute' => ['id_categoria' => 'id']],
             [['id_fornecedor'], 'exist', 'skipOnError' => true, 'targetClass' => Fornecedor::class, 'targetAttribute' => ['id_fornecedor' => 'id']],
+           
         ];
     }
 
@@ -62,6 +65,7 @@ class Cerveja extends \yii\db\ActiveRecord
             'descricao' => 'Descricao',
             'teor_alcoolico' => 'Teor Alcoolico',
             'preco' => 'Preco',
+            'estado' => 'Estado',
             'id_fornecedor' => 'Id Fornecedor',
             'id_categoria' => 'Id Categoria',
         ];
