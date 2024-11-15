@@ -20,8 +20,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'preco')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estado')->checkbox(['label' => 'Disponibilizar para Clientes', 'value' => 1, 'uncheck' => 0, 'checked' => $model->estado ? true : false,]) ?>
+    <?= $form->field($model, 'id_fornecedor')->textInput() ?>
 
+    <?= $form->field($model, 'id_categoria')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
