@@ -13,10 +13,9 @@ class m241115_182212_update_estado_column_in_cerveja extends Migration
      */
     public function safeUp()
     {
-        $this->alterColumn('{{%cerveja}}', 'estado', $this->integer()->notNull()->defaultValue(1));
-        // Explanation:
-        // - Changes `estado` to an integer column
-        // - Sets `NOT NULL` constraint
+        if ($this->db->schema->getTableSchema('{{%cerveja}}')->getColumn('estado') === null) {
+            $this->addColumn('{{%cerveja}}', 'estado', $this->integer()->notNull()->defaultValue(1));
+        }
         // - Sets the default value to `1` (assuming "Ativo")
     }
 
@@ -25,7 +24,6 @@ class m241115_182212_update_estado_column_in_cerveja extends Migration
      */
     public function safeDown()
     {
-        $this->alterColumn('{{%cerveja}}', 'estado', $this->integer());
-        // Reverts `estado` to its previous state (removes `NOT NULL` and `defaultValue`).
+        $this->dropColumn('{{%cerveja}}', 'estado');
     }
 }
