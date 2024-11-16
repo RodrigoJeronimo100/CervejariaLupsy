@@ -14,13 +14,17 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cerveja-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Criar Cerveja', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-
             'id',
             'nome',
-            'descricao',
             'descricao',
             [
                 'attribute' => 'teor_alcoolico',
@@ -31,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'preco',
                 'value' => function ($model) {
-                    return  number_format($model->preco, 2) . '€' ; // Adds € symbol with 2 decimal places
+                    return number_format($model->preco, 2) . '€'; // Adds € symbol with 2 decimal places
                 },
             ],
             [
@@ -40,16 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->estado ? 'Ativo' : 'Inativo';
                 },
             ],
-
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Cerveja $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>
-
 
 </div>
 
@@ -57,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
     .cerveja-index table tbody tr:nth-child(odd) {
         background-color: #dbd5bd;
     }
+
     .cerveja-index table tbody tr:nth-child(even) {
         background-color: #ffffff;
     }
@@ -70,6 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
         color: #fff;
         text-decoration: none;
     }
+
     .cerveja-index table thead th a:hover {
         color: #e4e4e4;
     }

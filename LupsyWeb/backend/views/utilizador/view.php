@@ -12,9 +12,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Utilizadors', 'url' => ['index']];
 ?>
 <div class="utilizador-view">
 
-
-
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

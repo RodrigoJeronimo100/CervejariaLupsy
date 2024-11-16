@@ -11,65 +11,78 @@ $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-<div class="site-signup">
+    <div class="site-signup">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <h1><?= Html::encode($this->title) ?></h1>
 
 
-    <form method="post">
-        <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-        <div class="form-container">
-            <div class="left-box">
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Username') ?>
+        <form method="post">
+            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            <div class="form-container">
+                <div class="left-box">
+                    <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label('Username') ?>
 
-            <?= $form->field($model, 'email') ?>
+                    <?= $form->field($model, 'email') ?>
 
-            <?= $form->field($model, 'password')->passwordInput()->label('Password') ?>
+                    <?= $form->field($model, 'password')->passwordInput()->label('Password') ?>
+                </div>
+                <div class="right-box">
+                    <?= $form->field($model, 'nome')->textInput() ?>
+
+                    <?= $form->field($model, 'nif')->textInput() ?>
+
+                    <?= $form->field($model, 'telefone')->textInput() ?>
+                </div>
+
+
             </div>
-            <div class="right-box">
-            <?= $form->field($model, 'nome')->textInput() ?>
 
-            <?= $form->field($model, 'nif')->textInput() ?>
-
-            <?= $form->field($model, 'telefone')->textInput() ?>
+            <div class="button-container">
+                <?= $form->field($model, 'morada')->textInput() ?>
+                <?= Html::submitButton('Signup', ['class' => 'button b-green rot-135', 'name' => 'signup-button']) ?>
             </div>
 
-
-        </div>
-
-        <div class="button-container">
-            <?= $form->field($model, 'morada')->textInput() ?>
-            <?= Html::submitButton('Signup', ['class' => 'button b-green rot-135', 'name' => 'signup-button']) ?>
-        </div>
-
-    </form>
+        </form>
 
 
 
-</div>
+    </div>
 </body>
-    <?php ActiveForm::end(); ?>
+<?php ActiveForm::end(); ?>
 
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 
-    * { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -o-box-sizing: border-box;
+        box-sizing: border-box;
+    }
 
-    html { width: 100%; height:100%; overflow:hidden; }
+    html {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
 
     body {
         width: 100%;
-        height:100%;
+        height: 100%;
         font-family: 'Open Sans', sans-serif;
         background-image: url(https://i.ibb.co/TW9rm2G/loginbgimg.png);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3E1D6D', endColorstr='#092756', GradientType=1);
     }
+
     .site-signup {
         position: absolute;
         top: 50%;
@@ -80,13 +93,13 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 20px;
         background-color: rgba(248, 249, 250, 0.15);
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
 
     .site-signup h1 {
         color: #e7e7e7;
-        text-shadow: 0 0 10px rgba(0,0,0,0.1);
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         letter-spacing: 4px;
         font-family: "Space Grotesk", sans-serif;
         font-weight: bold;
@@ -103,22 +116,26 @@ $this->params['breadcrumbs'][] = $this->title;
         padding: 10px;
         font-size: 13px;
         color: #fff;
-        text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
         border: 1px solid rgb(0, 0, 0);
         border-radius: 10px;
-        box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
+        box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
         -webkit-transition: box-shadow .5s ease;
         -moz-transition: box-shadow .5s ease;
         -o-transition: box-shadow .5s ease;
         -ms-transition: box-shadow .5s ease;
         transition: box-shadow .5s ease;
     }
-    input:focus { box-shadow: inset 0 -5px 45px rgb(228, 200, 26), 0 1px 1px rgb(159, 123, 32); }
+
+    input:focus {
+        box-shadow: inset 0 -5px 45px rgb(228, 200, 26), 0 1px 1px rgb(159, 123, 32);
+    }
 
 
-    .mini-txt{
+    .mini-txt {
         font-size: 12px;
     }
+
     .button-container {
         text-align: center;
         margin-top: 20px;
@@ -189,8 +206,10 @@ $this->params['breadcrumbs'][] = $this->title;
             transform: translateY(0);
             opacity: 1;
         }
+
         100% {
-            transform: translateY(-40px); /* Elevação ajustada para aproximar as bolhas */
+            transform: translateY(-40px);
+            /* Elevação ajustada para aproximar as bolhas */
             opacity: 0;
         }
     }
@@ -215,7 +234,7 @@ $this->params['breadcrumbs'][] = $this->title;
         cursor: pointer;
     }
 
-    .field-loginform-rememberme input[type="checkbox"]:checked + .custom-checkbox {
+    .field-loginform-rememberme input[type="checkbox"]:checked+.custom-checkbox {
         background-color: #ffcc00;
         border-color: #ffcc00;
         animation: checkbox-bounce 0.3s ease;
@@ -235,7 +254,7 @@ $this->params['breadcrumbs'][] = $this->title;
         transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
-    .field-loginform-rememberme input[type="checkbox"]:checked + .custom-checkbox::after {
+    .field-loginform-rememberme input[type="checkbox"]:checked+.custom-checkbox::after {
         opacity: 1;
         transform: rotate(45deg) scale(1);
     }
@@ -244,9 +263,11 @@ $this->params['breadcrumbs'][] = $this->title;
         0% {
             transform: scale(1);
         }
+
         50% {
             transform: scale(1.2);
         }
+
         100% {
             transform: scale(1);
         }
@@ -273,7 +294,8 @@ $this->params['breadcrumbs'][] = $this->title;
         margin-bottom: 20px;
     }
 
-    .left-box, .right-box {
+    .left-box,
+    .right-box {
         flex: 1;
         min-width: 250px;
         margin-bottom: -20px;
@@ -289,7 +311,4 @@ $this->params['breadcrumbs'][] = $this->title;
             flex-direction: column;
         }
     }
-
-
-
 </style>

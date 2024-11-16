@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Cervejas', 'url' => ['index']];
             [
                 'attribute' => 'preco',
                 'value' => function ($model) {
-                    return  number_format($model->preco, 2) . '€' ; // Adds € symbol with 2 decimal places
+                    return  number_format($model->preco, 2) . '€'; // Adds € symbol with 2 decimal places
                 },
             ],
             [

@@ -87,6 +87,12 @@ class SignupForm extends Model
             $utilizador->telefone = $this->telefone;
             $utilizador->morada = $this->morada;
 
+            $auth = \Yii::$app->authManager;
+            $utilizadorRole = $auth->getRole('utilizador');
+            $auth->assign($utilizadorRole, $utilizador->getId());
+
+            return $utilizador;
+
             if ($utilizador->save()) {
                 // Retorna o usuário caso o processo todo seja bem-sucedido
                 return $user;

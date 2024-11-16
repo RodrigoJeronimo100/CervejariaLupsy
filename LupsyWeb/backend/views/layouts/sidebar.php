@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-orange ">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-       <!-- <img src="<?=$assetDir?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+        <!-- <img src="<?= $assetDir ?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
         <span class="brand-text font-weight-light">Cervejaria Lupsy</span>
     </a>
 
@@ -10,7 +10,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="<?= $assetDir ?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">
@@ -38,15 +38,37 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'Produtos', 'header' => true],
-                    ['label' => 'Cervejas', 'icon' => 'beer',
-                     'items' => [
-                        ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
-                        ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
-                    ]],
+                    [
+                        'label' => 'Cervejas',
+                        'icon' => 'beer',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
+                            ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
+                        ]
+                    ],
                     ['label' => 'Utilizadores', 'header' => true],
-                    ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
-                    ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/utilizador/create']],
-                    
+                    [
+                        'label' => 'Utilizadores',
+                        'icon' => 'user',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
+                            ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/utilizador/create']],
+                        ]
+                    ],
+                    ['label' => 'Categorias', 'header' => true],
+                    [
+                        'label' => 'Categorias',
+                        'icon' => 'box',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/categoria/index']],
+                            ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/categoria/create']],
+                        ]
+                    ],
+
+                    ['label' => 'Fornecedores', 'header' => true],
+                    ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fornecedor/index']],
+                    ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/fornecedor/create']],
+                    ['label' => 'Fornecedores', 'icon' => 'truck'],
                 ],
             ]);
             ?>
