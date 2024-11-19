@@ -41,17 +41,15 @@ class CervejaController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Cerveja::find(),
-            
+            'query' => Cerveja::find()->where(['estado' => 1]),
             'pagination' => [
-                'pageSize' => 50
+                'pageSize' => 50,
             ],
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC,
-                ]
+                ],
             ],
-           
         ]);
 
         return $this->render('index', [

@@ -13,13 +13,7 @@
     text-align: center;
     margin-bottom: 20px;
     color: #333;
-}
 
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
 }
 
 .details-container {
@@ -44,8 +38,6 @@
 }
 
 .image-container {
-    display: flex;
-    justify-content: center;
     margin-bottom: 20px;
 }
 
