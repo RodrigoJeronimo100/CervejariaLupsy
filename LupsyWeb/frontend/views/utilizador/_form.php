@@ -19,11 +19,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'telefone')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'morada')->textInput(['maxlength' => true]) ?>
-    
-    <?= $form->field($model, 'id')->textInput(['readonly' => true]) ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+
+    <div class="actions">
+        <?= Html::submitButton('Atualizar Dados', ['class' => 'btn-shineE']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

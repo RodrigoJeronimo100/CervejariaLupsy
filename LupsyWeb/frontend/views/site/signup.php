@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php $this->registerCssFile("@web/css/signup.css"); ?>
 </head>
 
 <body>
@@ -57,9 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </body>
 <?php ActiveForm::end(); ?>
 
-<style>
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
+<<<<<<< HEAD
 
     * {
         -webkit-box-sizing: border-box;
@@ -312,3 +312,5 @@ $this->params['breadcrumbs'][] = $this->title;
         }
     }
 </style>
+=======
+>>>>>>> origin/main
