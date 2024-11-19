@@ -54,12 +54,12 @@
       "version": "v3.2.0",
       "source": {
         "type": "git",
-        "url": "https://github.com/ColorlibHQ/AdminLTE.git",
+        "url": "git@github.com:almasaeed2010/AdminLTE.git",
         "reference": "bd4d9c72931f1dd28601b6bfb387554a381ad540"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/bd4d9c72931f1dd28601b6bfb387554a381ad540",
+        "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/bd4d9c72931f1dd28601b6bfb387554a381ad540",
         "reference": "bd4d9c72931f1dd28601b6bfb387554a381ad540"
       },
       "type": "bower-asset"
@@ -4784,15 +4784,16 @@
     },
     {
       "name": "symfony/console",
-      "version": "v5.4.46",
+      "version": "v7.1.8",
       "source": {
         "type": "git",
         "url": "https://github.com/symfony/console.git",
-        "reference": "fb0d4760e7147d81ab4d9e2d57d56268261b4e4e"
+        "reference": "ff04e5b5ba043d2badfb308197b9e6b42883fcd5"
       },
       "dist": {
         "type": "zip",
-        "reference": "c4ba980ca61a9eb18ee6bcc73f28e475852bb1ed",
+        "url": "https://api.github.com/repos/symfony/console/zipball/ff04e5b5ba043d2badfb308197b9e6b42883fcd5",
+        "reference": "ff04e5b5ba043d2badfb308197b9e6b42883fcd5",
         "shasum": ""
       },
       "require": {
@@ -4856,7 +4857,7 @@
         "terminal"
       ],
       "support": {
-        "source": "https://github.com/symfony/console/tree/v5.4.46"
+        "source": "https://github.com/symfony/console/tree/v7.1.8"
       },
       "funding": [
         {
@@ -4872,7 +4873,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2024-11-05T14:17:06+00:00"
+      "time": "2024-11-06T14:23:19+00:00"
     },
     {
       "name": "symfony/css-selector",
@@ -5315,17 +5316,17 @@
       "time": "2024-11-13T13:31:21+00:00"
     },
     {
-      "name": "symfony/string",
-      "version": "v5.4.45",
+      "name": "symfony/var-dumper",
+      "version": "v7.1.8",
       "source": {
         "type": "git",
-        "url": "https://github.com/symfony/string.git",
-        "reference": "7f6807add88b1e2635f3c6de5e1ace631ed7cad2"
+        "url": "https://github.com/symfony/var-dumper.git",
+        "reference": "7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/symfony/string/zipball/7f6807add88b1e2635f3c6de5e1ace631ed7cad2",
-        "reference": "7f6807add88b1e2635f3c6de5e1ace631ed7cad2",
+        "url": "https://api.github.com/repos/symfony/var-dumper/zipball/7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8",
+        "reference": "7bb01a47b1b00428d32b5e7b4d3b2d1aa58d3db8",
         "shasum": ""
       },
       "require": {
@@ -5379,7 +5380,7 @@
         "dump"
       ],
       "support": {
-        "source": "https://github.com/symfony/string/tree/v5.4.45"
+        "source": "https://github.com/symfony/var-dumper/tree/v7.1.8"
       },
       "funding": [
         {
@@ -5395,7 +5396,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2024-09-25T14:11:13+00:00"
+      "time": "2024-11-08T15:46:42+00:00"
     },
     {
       "name": "symfony/yaml",

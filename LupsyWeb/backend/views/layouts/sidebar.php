@@ -42,8 +42,8 @@
                         'label' => 'Cervejas',
                         'icon' => 'beer',
                         'items' => [
-                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
                             ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/cerveja/create']],
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/cerveja/index']],
                         ]
                     ],
                     ['label' => 'Utilizadores', 'header' => true],
@@ -51,8 +51,8 @@
                         'label' => 'Utilizadores',
                         'icon' => 'user',
                         'items' => [
-                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
                             ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/utilizador/create']],
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/utilizador/index']],
                         ]
                     ],
                     ['label' => 'Categorias', 'header' => true],
@@ -60,15 +60,20 @@
                         'label' => 'Categorias',
                         'icon' => 'box',
                         'items' => [
-                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/categoria/index']],
                             ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/categoria/create']],
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/categoria/index']],
                         ]
                     ],
 
                     ['label' => 'Fornecedores', 'header' => true],
-                    ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fornecedor/index']],
-                    ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/fornecedor/create']],
-                    ['label' => 'Fornecedores', 'icon' => 'truck'],
+                    [
+                        'label' => 'Fornecedores',
+                        'icon' => 'truck',
+                        'items' => [
+                            ['label' => 'Criar', 'icon' => 'plus', 'url' => ['/fornecedor/create']],
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fornecedor/index']],
+                        ]
+                    ],
                 ],
             ]);
             ?>

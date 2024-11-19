@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Site controller
@@ -25,12 +26,17 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
+                        'roles' => ['?'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -62,6 +68,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->can('admin')) {
+            throw new ForbiddenHttpException('Acesso negado. Você não tem permissão para acessar esta página.');
+        }
         return $this->render('index');
     }
 
@@ -80,6 +89,11 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (!Yii::$app->user->can('admin')) {
+                Yii::$app->user->logout();
+                Yii::$app->session->setFlash('error', 'Acesso negado. Você não tem permissão para acessar esta página.');
+                return $this->goBack();
+            }
             return $this->goBack();
         }
 

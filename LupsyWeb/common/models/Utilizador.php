@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use frontend\models\Avaliacao;
+use frontend\models\HistoricoBebis;
 use Yii;
 
 use yii\db\ActiveRecord;
@@ -99,7 +101,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getHistoricoBebis()
     {
-        return $this->hasMany(HistoricoBebi::class, ['id_utilizador' => 'id']);
+        return $this->hasMany(HistoricoBebis::class, ['id_utilizador' => 'id']);
     }
 
     /**
