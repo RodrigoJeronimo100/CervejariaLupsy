@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Bahiana&family=Comfortaa:wght@300..700&family=Inknut+Antiqua:wght@300;400;500;600;700;800;900&family=Londrina+Solid:wght@100;300;400;900&family=Quicksand:wght@300..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Suranna&display=swap');
+
+
 .custom-view {
     max-width: 40%;
     margin: 0 auto;
@@ -28,9 +31,22 @@
     gap: 20px;
 }
 
+.detail-nome{
+    display:flex;
+    margin-top: 20%;
+    font-weight: 600;
+    font-family: "Suranna", serif;
+    font-size: 200%;
+}
+
 .detail-item {
     width: 48%;
-    padding: 10px;
+    padding: 30px 30px 0 30px;
+}
+
+.detail-item-notop{
+    width: 48%;
+    padding: 0 30px;
 }
 
 .detail-title {
@@ -44,111 +60,41 @@
 }
 
 .image-container {
-    display: flex;
-    justify-content: center;
     margin-bottom: 20px;
 }
-
-.toprowimg{
-    height: auto;
-    border-radius: 50%;
-    width:50%;
+.card-divider {
+    width: 100%;
+    border: 1px solid var(--main-color);
+    border-radius: 50px;
+    margin: 5px 0;
+}
+.card-price{
+    font-family: "SansSerif", serif;
+    font-size: 20px;
+    color: #808080;
 }
 
-.btn-shineE {
-
-    padding: 12px 48px;
-    color: #fff;
-    background: linear-gradient(to right, rgba(86, 170, 31, 0.8) 0, #fff 10%, rgba(61, 121, 23, 0.8) 20%);
-    background-position: 0;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 3s infinite linear;
-    animation-fill-mode: forwards;
-    -webkit-text-size-adjust: none;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    white-space: nowrap;
-    font-family: "Poppins", sans-serif;
-}
-.btn-shineD {
-
-    padding: 12px 48px;
-    color: #fff;
-    background: linear-gradient(to right, #a61919 0, #fff 10%, #731010 20%);
-    background-position: 0;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 3s infinite linear;
-    animation-fill-mode: forwards;
-    -webkit-text-size-adjust: none;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    white-space: nowrap;
-    font-family: "Poppins", sans-serif;
+.card-side-by-side {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
 }
 
-.btn-shineL {
+.card-btn {
+    height: 35px;
+    border-radius: 5px;
+    padding: 0 15px;
+    transition: all 0.3s;
+}
 
+.card-btn-nobrd {
+    height: 75px;
+    border-radius: 20px;
     border: none;
-    padding: 12px 48px;
-    color: #fff;
-    background: linear-gradient(to right, #eca523 0, #fff 10%, #9f7b20 20%);
-    background-position: 0;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shine 3s infinite linear;
-    animation-fill-mode: forwards;
-    -webkit-text-size-adjust: none;
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    white-space: nowrap;
-    font-family: "Poppins", sans-serif;
+    padding: 0 15px;
+    transition: all 0.3s;
 }
-@-moz-keyframes shine {
-    0% {
-        background-position: 0;
-    }
-    60% {
-        background-position: 180px;
-    }
-    100% {
-        background-position: 180px;
-    }
-}
-@-webkit-keyframes shine {
-    0% {
-        background-position: 0;
-    }
-    60% {
-        background-position: 180px;
-    }
-    100% {
-        background-position: 180px;
-    }
-}
-@-o-keyframes shine {
-    0% {
-        background-position: 0;
-    }
-    60% {
-        background-position: 180px;
-    }
-    100% {
-        background-position: 180px;
-    }
-}
-@keyframes shine {
-    0% {
-        background-position: 0;
-    }
-    60% {
-        background-position: 180px;
-    }
-    100% {
-        background-position: 180px;
-    }
-}
+
+

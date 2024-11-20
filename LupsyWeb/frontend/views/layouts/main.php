@@ -101,7 +101,7 @@ $isSignupPage = Yii::$app->controller->id === 'site' && Yii::$app->controller->a
 </main>
 
 <?php if (!$isLoginPage  && !$isSignupPage): ?>
-    <footer style="background-color: #1E1E1E; color: #e7e7e7; text-align: center; padding: 20px; margin-top: 30px;">
+    <footer style="background-color: #1E1E1E; color: #e7e7e7; text-align: center; padding: 20px; margin-top: 105px;">
         <p>&copy; 2024 Cervejaria Lupsy. Todos os direitos reservados.</p>
         <nav>
             <?= Html::a('Sobre', ['/site/about'], ['style' => 'color: #e7e7e7; margin-right: 15px;']) ?>
