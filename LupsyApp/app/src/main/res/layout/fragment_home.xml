@@ -8,14 +8,16 @@
     android:background="#FFFFFF"
     android:orientation="horizontal"
     android:backgroundTint="@color/fundo_amarelo_seco"
-    tools:context=".MainActivity">
+    tools:context=".HomeFragment">
 
+    <!-- LinearLayout principal que contém os widgets do fragment -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Primeira linha com TextViews -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,6 +45,7 @@
                 android:textSize="20sp" />
         </LinearLayout>
 
+        <!-- Segunda linha com TextViews -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,9 +69,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/tvSpacing" />
-
         </LinearLayout>
 
+        <!-- Sepline -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -77,11 +80,13 @@
             android:layout_marginRight="15dp"
             app:srcCompat="@drawable/ic_sepline" />
 
+        <!-- Espaço em branco -->
         <View
             android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
 
+        <!-- Vendas e Funil -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -116,6 +121,7 @@
 
         </LinearLayout>
 
+        <!-- Espaço em branco -->
         <View
             android:id="@+id/view5"
             android:layout_width="wrap_content"
@@ -127,13 +133,4 @@
             android:layout_height="20dp" />
 
     </LinearLayout>
-
-    <!--<com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/activity_barra_inferior_menu"
-        app:labelVisibilityMode="unlabeled" />-->
-
 </LinearLayout>

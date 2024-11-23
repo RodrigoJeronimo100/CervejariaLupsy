@@ -25,4 +25,6 @@
     <string name="etNome">Nome Utilizador</string>
     <string name="BtnCriar">Criar</string>
     <string name="nome_invalido" />
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
