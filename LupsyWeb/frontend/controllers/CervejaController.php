@@ -65,8 +65,15 @@ class CervejaController extends Controller
      */
     public function actionView($id)
     {
+        $model = Cerveja::findOne($id);
+        
+        $isFavoritada = Favorita::find()
+        ->where(['id_cerveja' => $id, 'id_utilizador' => Yii::$app->user->id])
+        ->exists();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'isFavoritada' => $isFavoritada,
         ]);
     }
 

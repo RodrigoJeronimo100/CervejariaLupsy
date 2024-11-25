@@ -63,13 +63,14 @@ class SignupForm extends Model
      *
      * @return bool whether the creating new account was successful and email was sent
      */
+
     public function signup()
     {
         if (!$this->validate()) {
             return null;
         }
-
-
+    
+        // Criação do User
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
@@ -77,35 +78,43 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->status = User::STATUS_ACTIVE;
-
-        if ($user->save()) {
-
-            $utilizador = new Utilizador();
-            $utilizador->id_user = $user->id;
-            $utilizador->nome = $this->nome;
-            $utilizador->nif = $this->nif;
-            $utilizador->telefone = $this->telefone;
-            $utilizador->morada = $this->morada;
-
-            $auth = \Yii::$app->authManager;
-            $utilizadorRole = $auth->getRole('utilizador');
-            $auth->assign($utilizadorRole, $utilizador->getId());
-
-            return $utilizador;
-
-            if ($utilizador->save()) {
-                // Retorna o usuário caso o processo todo seja bem-sucedido
-                return $user;
-            } else {
-                // Caso a gravação em `utilizador` falhe, excluímos o registro em `user`
-                $user->delete();
+    
+        // Prepara o Utilizador mas não salva ainda
+        $utilizador = new Utilizador();
+        $utilizador->nome = $this->nome;
+        $utilizador->nif = $this->nif;
+        $utilizador->telefone = $this->telefone;
+        $utilizador->morada = $this->morada;
+    
+        // Inicia uma transação para garantir consistência
+        $transaction = \Yii::$app->db->beginTransaction();
+        try {
+            // Salva o User e verifica sucesso
+            if (!$user->save()) {
+                $transaction->rollBack();
                 return null;
             }
+    
+            // Relaciona o ID do User ao Utilizador e tenta salvar
+            $utilizador->id_user = $user->id;
+            if (!$utilizador->save()) {
+                $transaction->rollBack();
+                return null;
+            }
+    
+            // Atribui a role e confirma a transação
+            $auth = \Yii::$app->authManager;
+            $utilizadorRole = $auth->getRole('utilizador');
+            $auth->assign($utilizadorRole, $user->id);
+    
+            $transaction->commit();
+            return $user;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            return null;
         }
-
-        return null;
     }
-
+    
 
     protected function sendEmail($user)
     {

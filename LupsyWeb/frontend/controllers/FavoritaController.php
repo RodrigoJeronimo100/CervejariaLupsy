@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Favorita;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -39,7 +40,7 @@ class FavoritaController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Favorita::find(),
+            'query' => Favorita::find()->where(['id_utilizador'=> Yii::$app->user->id]),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -75,9 +76,32 @@ class FavoritaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($id_cerveja)
     {
+        $id_utilizador = Yii::$app->user->id;
+        // Verifica se a cerveja já está favoritada pelo usuário
+        $favoritaExistente = Favorita::findOne(['id_cerveja' => $id_cerveja, 'id_utilizador' => $id_utilizador]);
+
+        if ($favoritaExistente) {
+            // Desfavorita removendo o registro
+            if ($favoritaExistente->delete()) {
+                Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos com sucesso!');
+            } else {
+                Yii::$app->session->setFlash('error', 'Falha ao remover a cerveja dos favoritos.');
+            }
+            return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
+    }
         $model = new Favorita();
+        $model->id_cerveja = $id_cerveja;
+        $model->id_utilizador = $id_utilizador; 
+
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', 'Cerveja favoritada com sucesso!');
+            return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
+        }
+        $errors = $model->getErrors();
+        Yii::$app->session->setFlash('error', 'Falha ao favoritar a cerveja.'. json_encode($errors));
+        return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {

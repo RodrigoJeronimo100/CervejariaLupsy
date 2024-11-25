@@ -31,10 +31,10 @@ class Favorita extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_user', 'id_cerveja'], 'integer'],
+            [['id_utilizador', 'id_cerveja'], 'integer'],
             [['data_adicao'], 'safe'],
             [['id_cerveja'], 'exist', 'skipOnError' => true, 'targetClass' => Cerveja::class, 'targetAttribute' => ['id_cerveja' => 'id']],
-            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
+            [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class Favorita extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'id_user' => 'Id User',
+            'id_utilizador' => 'Id Utilizador',
             'id_cerveja' => 'Id Cerveja',
             'data_adicao' => 'Data Adicao',
         ];
@@ -68,6 +68,6 @@ class Favorita extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::class, ['id' => 'id_user']);
+        return $this->hasOne(User::class, ['id' => 'id_utilizador']);
     }
 }

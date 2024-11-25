@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
 
         // Configura a data atual
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt", "BR"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("pt", "PT"));
         String dataAtual = dateFormat.format(calendar.getTime());
         tvData.setText(dataAtual);
 
