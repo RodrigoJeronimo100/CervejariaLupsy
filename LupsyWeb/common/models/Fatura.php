@@ -11,6 +11,7 @@ use Yii;
  * @property int|null $id_utilizador
  * @property string|null $data_fatura
  * @property float|null $total
+ * @property string|null $estado
  *
  * @property ItemFatura[] $itemFaturas
  * @property Utilizador $utilizador
@@ -34,6 +35,7 @@ class Fatura extends \yii\db\ActiveRecord
             [['id_utilizador'], 'integer'],
             [['data_fatura'], 'safe'],
             [['total'], 'number'],
+            [['estado'], 'string'],
             [['id_utilizador'], 'exist', 'skipOnError' => true, 'targetClass' => Utilizador::class, 'targetAttribute' => ['id_utilizador' => 'id']],
         ];
     }
@@ -44,10 +46,11 @@ class Fatura extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'ID Fatura',
             'id_utilizador' => 'Id Utilizador',
             'data_fatura' => 'Data Fatura',
             'total' => 'Total',
+            'estado' => 'Estado',
         ];
     }
 
@@ -70,4 +73,15 @@ class Fatura extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Utilizador::class, ['id' => 'id_utilizador']);
     }
+
+    public function getTotalFatura()
+{
+    $total = 0;
+
+    foreach ($this->itemFaturas as $itemFatura) {
+        $total += $itemFatura->quantidade * $itemFatura->preco_unitario;
+    }
+
+    return $total;
+}
 }

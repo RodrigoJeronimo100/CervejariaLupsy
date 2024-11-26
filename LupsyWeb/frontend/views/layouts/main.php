@@ -46,6 +46,7 @@ AppAsset::register($this);
         $userId = Yii::$app->user->id;
         array_push($menuItems, ['label' => 'Cerveja', 'url' => ['/cerveja/index']]);
         array_push($menuItems, ['label' => 'Favoritas', 'url' => ['/favorita/index']]);
+        array_push($menuItems, ['label' => 'Faturas', 'url' => ['/fatura/index']]);
         array_push($menuItems, ['label' => '<i class="fas fa-user-circle"></i>', 'url' => ['/utilizador/view', 'id' => $userId], 'encode' => false]);
 
     }
