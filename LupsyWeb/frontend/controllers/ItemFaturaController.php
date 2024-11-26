@@ -206,7 +206,7 @@ class ItemFaturaController extends Controller
     
         $model->delete();
     
-        return $this->redirect(['index']);
+        return $this->redirect(['/fatura/view', 'id' => $model->fatura->id]);
     }
 
     /**
