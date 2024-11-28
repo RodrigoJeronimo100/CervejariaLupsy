@@ -18,3 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
 
 </div>
+<style>
+    .m-0
+    {
+        font-weight: bolder;
+    }
+</style>

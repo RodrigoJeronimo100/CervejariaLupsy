@@ -9,17 +9,8 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-//$this->title = 'Categorias';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Criar Categoria', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -36,5 +27,32 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-
 </div>
+
+<style>
+    .table tbody tr:nth-child(odd) {
+        background-color: #dbd5bd;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .table thead th {
+        background-color: #323232;
+        font-weight: bold;
+    }
+
+    .table thead th a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .table thead th a:hover {
+        color: #e4e4e4;
+    }
+
+    .m-0{
+        font-weight: bolder;
+    }
+</style>

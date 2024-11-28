@@ -16,20 +16,20 @@ public class BarraInferior extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barra_inferior);
 
-        // Inicializar a BottomNavigationView
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        //loadFragment(new FavoritosFragment());
+
         
-        // Configurar o listener de seleção
+
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
 
             if (item.getItemId() == R.id.nav_lupa) {
                 loadFragment(new HomeFragment());
                 return true;
-//            } else if (item.getItemId() == R.id.nav_loja) {
-//                loadFragment(new LojaFragment());
-//                return true;
+            } else if (item.getItemId() == R.id.nav_loja) {
+                loadFragment(new LojaFragment());
+                return true;
 //            } else if (item.getItemId() == R.id.nav_favoritos) {
 ////                loadFragment(new FavoritosFragment());
 //                return true;
@@ -42,14 +42,19 @@ public class BarraInferior extends AppCompatActivity {
             }
             return false;
         });
-        // Seleciona o que vai abrir primeiro
+
             if (savedInstanceState == null) {
                 loadFragment(new HomeFragment());
             }
     }
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fadein,
+                        R.anim.fadeout
+                )
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 }

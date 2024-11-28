@@ -1,0 +1,21 @@
+.cerveja-index table tbody tr:nth-child(odd) {
+    background-color: #dbd5bd;
+}
+
+.cerveja-index table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.cerveja-index table thead th {
+    background-color: #323232;
+    font-weight: bold;
+}
+
+.cerveja-index table thead th a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.cerveja-index table thead th a:hover {
+    color: #e4e4e4;
+}

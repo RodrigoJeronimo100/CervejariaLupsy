@@ -14,19 +14,26 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="favorita-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_utilizador',
-            'id_cerveja',
-            'data_adicao',
+            [
+                'attribute' => 'cerveja.nome',
+                'label' => 'Nome da Cerveja',
+            ],
+            [
+                'attribute' => 'cerveja.descricao',
+                'label' => 'Descrição da Cerveja',
+            ],
+            [
+                'attribute' => 'data_adicao',
+                'label' => 'Data de Adição',
+            ],
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
                 'urlCreator' => function ($action, Favorita $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

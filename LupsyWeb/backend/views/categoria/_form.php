@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var backend\models\Categoria $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
-
+<?php $this->registerCssFile("@web/css/tabelas.css"); ?>
 <div class="categoria-form">
 
     <?php $form = ActiveForm::begin(); ?>

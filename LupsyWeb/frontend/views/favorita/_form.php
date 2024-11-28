@@ -7,14 +7,14 @@ use yii\widgets\ActiveForm;
 /** @var common\models\Favorita $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
-
+<?php $this->registerCssFile("@web/css/form_favorita.css"); ?>
 <div class="favorita-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_utilizador')->textInput() ?>
 
-    <?= $form->field($model, 'id_cerveja')->textInput() ?>
+    <div class="card-title"><?= $model->cerveja->nome ?></div>
+    <div class="card-subtitle"><?= $model->cerveja->descricao ?></div>
 
     <?= $form->field($model, 'data_adicao')->textInput() ?>
 

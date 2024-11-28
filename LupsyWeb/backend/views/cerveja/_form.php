@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 /** @var common\models\Cerveja $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
-
+<?php $this->registerCssFile("@web/css/tabelas.css"); ?>
 <div class="cerveja-form">
 
     <?php $form = ActiveForm::begin(); ?>

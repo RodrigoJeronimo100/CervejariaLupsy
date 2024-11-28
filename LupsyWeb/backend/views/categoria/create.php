@@ -5,16 +5,21 @@ use yii\helpers\Html;
 /** @var yii\web\View $this */
 /** @var backend\models\Categoria $model */
 
-$this->title = 'Create Categoria';
+
 $this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Criar Categoria';
 ?>
 <div class="categoria-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
 </div>
+<style>
+    .m-0
+    {
+       font-weight: bolder;
+    }
+</style>

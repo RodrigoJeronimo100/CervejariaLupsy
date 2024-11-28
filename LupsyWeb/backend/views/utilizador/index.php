@@ -35,3 +35,31 @@ use yii\grid\GridView;
 
 
 </div>
+
+<style>
+    .table tbody tr:nth-child(odd) {
+        background-color: #dbd5bd;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .table thead th {
+        background-color: #323232;
+        font-weight: bold;
+    }
+
+    .table thead th a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .table thead th a:hover {
+        color: #e4e4e4;
+    }
+
+    .m-0{
+        font-weight: bolder;
+    }
+</style>
