@@ -9,11 +9,11 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Favoritas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="favorita-index">
 
+    <h1><?= Html::encode($title = 'Favoritos') ?></h1>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -43,3 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+    h1{
+        font-family: "Space Grotesk", sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        font-weight: bold;
+    }
+</style>

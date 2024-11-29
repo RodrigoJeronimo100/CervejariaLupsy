@@ -9,30 +9,21 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Faturas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fatura-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Fatura', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <h1><?= Html::encode($title = 'Carrinho') ?></h1>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_utilizador',
             'data_fatura',
             'total',
-            'estado',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
                 'urlCreator' => function ($action, Fatura $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
@@ -42,3 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+    h1{
+        font-family: "Space Grotesk", sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        font-weight: bold;
+    }
+</style>
