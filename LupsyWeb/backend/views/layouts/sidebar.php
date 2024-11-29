@@ -74,6 +74,15 @@
                             ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fornecedor/index']],
                         ]
                     ],
+
+                    ['label' => 'Carrinho', 'header' => true],
+                    [
+                        'label' => 'Carrinho',
+                        'icon' => 'shopping-cart',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fatura/index']],
+                        ]
+                    ],
                 ],
             ]);
             ?>
