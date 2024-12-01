@@ -3,7 +3,7 @@
 namespace common\models;
 
 use frontend\models\Avaliacao;
-use frontend\models\HistoricoBebis;
+use frontend\models\HistoricoBebi;
 use Yii;
 
 use yii\db\ActiveRecord;
@@ -21,7 +21,7 @@ use yii\db\ActiveRecord;
  * @property Avaliacao[] $avaliacaos
  * @property Fatura[] $faturas
  * @property Favorita[] $favoritas
- * @property HistoricoBebi[] $historicoBebis
+ * @property HistoricoBebi[] $historicoBebi
  * @property User $user
  */
 class Utilizador extends \yii\db\ActiveRecord
@@ -101,7 +101,7 @@ class Utilizador extends \yii\db\ActiveRecord
      */
     public function getHistoricoBebis()
     {
-        return $this->hasMany(HistoricoBebis::class, ['id_utilizador' => 'id']);
+        return $this->hasMany(HistoricoBebi::class, ['id_utilizador' => 'id']);
     }
 
     /**

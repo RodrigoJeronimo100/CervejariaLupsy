@@ -5,7 +5,7 @@ namespace common\models;
 use backend\models\Categoria;
 use backend\models\Fornecedor;
 use frontend\models\Avaliacao;
-use frontend\models\HistoricoBebis;
+use frontend\models\HistoricoBebi;
 use Yii;
 
 /**
@@ -24,7 +24,7 @@ use Yii;
  * @property Categoria $categoria
  * @property Favorita[] $favoritas
  * @property Fornecedor $fornecedor
- * @property HistoricoBebis[] $historicoBebis
+ * @property HistoricoBebi[] $historicoBebi
  * @property ItemFatura[] $itemFaturas
  */
 class Cerveja extends \yii\db\ActiveRecord
@@ -112,13 +112,13 @@ class Cerveja extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[HistoricoBebis]].
+     * Gets query for [[HistoricoBebi]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getHistoricoBebis()
     {
-        return $this->hasMany(HistoricoBebis::class, ['id_cerveja' => 'id']);
+        return $this->hasMany(HistoricoBebi::class, ['id_cerveja' => 'id']);
     }
 
     /**

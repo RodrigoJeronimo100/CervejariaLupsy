@@ -17,7 +17,7 @@ use Yii;
  * @property Cerveja $cerveja
  * @property Utilizador $utilizador
  */
-class HistoricoBebis extends \yii\db\ActiveRecord
+class HistoricoBebi extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
