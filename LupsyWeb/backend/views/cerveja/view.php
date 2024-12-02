@@ -37,6 +37,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Cervejas', 'url' => ['index']];
                     return $model->estado ? 'Ativo' : 'Inativo';
                 },
             ],
+            [
+                'attribute' => 'fornecedor',
+                'value' => function ($model) {
+                    return $model->fornecedor->nome;
+                },
+            ],
         ],
     ]) ?>
 

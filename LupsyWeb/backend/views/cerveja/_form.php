@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -19,6 +20,12 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'teor_alcoolico')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'preco')->textInput(['maxlength' => true]) ?>
+
+    <!-- Campo para selecionar o fornecedor -->
+    <?= $form->field($model, 'id_fornecedor')->dropDownList(
+        ArrayHelper::map(\backend\models\Fornecedor::find()->all(), 'id', 'nome'), 
+      //  ['prompt' => 'Selecione um Fornecedor'] 
+    ) ?>
 
     <?= $form->field($model, 'estado')->checkbox(['label' => 'Disponibilizar para Clientes', 'value' => 1, 'uncheck' => 0, 'checked' => $model->estado ? true : false,]) ?>
 
