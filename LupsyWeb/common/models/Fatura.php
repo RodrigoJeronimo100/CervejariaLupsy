@@ -75,13 +75,18 @@ class Fatura extends \yii\db\ActiveRecord
     }
 
     public function getTotalFatura()
-{
-    $total = 0;
+    {
+        $total = 0;
 
-    foreach ($this->itemFaturas as $itemFatura) {
-        $total += $itemFatura->quantidade * $itemFatura->preco_unitario;
+        foreach ($this->itemFaturas as $itemFatura) {
+            $total += $itemFatura->quantidade * $itemFatura->preco_unitario;
+        }
+
+        return $total;
     }
-
-    return $total;
-}
+    public function updateTotal()
+    {
+        $this->total = $this->getTotalFatura();
+        $this->save(false);
+    }
 }

@@ -72,4 +72,14 @@ class ItemFatura extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Fatura::class, ['id' => 'id_fatura']);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        // Recalcular o total da fatura associada
+        if ($this->fatura) {
+            $this->fatura->updateTotal();
+        }
+    }
 }
