@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Fatura;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -38,22 +39,23 @@ class FaturaController extends Controller
      */
     public function actionIndex()
     {
+        $estado = Yii::$app->request->get('estado', 'todas'); // "todas" é o padrão
+        $query = Fatura::find();
+    
+        if ($estado !== 'todas') {
+            $query->andWhere(['estado' => $estado]); // Filtra pelo estado
+        }
+    
         $dataProvider = new ActiveDataProvider([
-            'query' => Fatura::find(),
-            /*
+            'query' => $query,
             'pagination' => [
-                'pageSize' => 50
+                'pageSize' => 10,
             ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
         ]);
-
+    
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'estado' => $estado, // Passa o estado selecionado para a view
         ]);
     }
 
@@ -75,22 +77,22 @@ class FaturaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
-    {
-        $model = new Fatura();
+    // public function actionCreate()
+    // {
+    //     $model = new Fatura();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
+    //     if ($this->request->isPost) {
+    //         if ($model->load($this->request->post()) && $model->save()) {
+    //             return $this->redirect(['view', 'id' => $model->id]);
+    //         }
+    //     } else {
+    //         $model->loadDefaultValues();
+    //     }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+    //     return $this->render('create', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Updates an existing Fatura model.
