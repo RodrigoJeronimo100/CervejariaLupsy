@@ -1,0 +1,44 @@
+.historico-bebi-index table thead tr:first-child {
+    text-align: center;
+    font-weight: bold;
+    background-color: #1e1e1e;
+    color: #e7e7e7;
+}
+
+.historico-bebi-index table tbody th:nth-child(odd) {
+    background-color: #999999;
+    color: white;
+}
+
+.historico-bebi-index table tbody th:nth-child(even) {
+    background-color: #bcbcbc;
+    color: black;
+}
+
+.historico-bebi-index table thead th:first-child {
+    text-align: center;
+    font-weight: bold;
+    background-color: #1e1e1e;
+    color: #e7e7e7;
+}
+
+.historico-bebi-index table tbody tr:nth-child(odd) td:first-child {
+    background-color: #999999;
+    color: white;
+}
+
+.historico-bebi-index table tbody tr:nth-child(even) td:first-child {
+    background-color: #bcbcbc;
+    color: black;
+}
+
+.historico-bebi-index table{
+    border: 1px #e7e7e7;
+    text-align: center;
+}
+
+.historico-bebi-index table tbody tr td:first-child {
+    background-color: #1e1e1e;
+    color: white;
+    font-weight: normal;
+}
