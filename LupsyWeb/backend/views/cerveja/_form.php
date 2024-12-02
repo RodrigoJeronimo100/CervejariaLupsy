@@ -26,7 +26,9 @@ use yii\widgets\ActiveForm;
         ArrayHelper::map(\backend\models\Fornecedor::find()->all(), 'id', 'nome'), 
       //  ['prompt' => 'Selecione um Fornecedor'] 
     ) ?>
-
+    <?= $form->field($model, 'id_categoria')->dropDownList(
+        ArrayHelper::map(\backend\models\Categoria::find()->all(), 'id', 'nome'), 
+    ) ?>
     <?= $form->field($model, 'estado')->checkbox(['label' => 'Disponibilizar para Clientes', 'value' => 1, 'uncheck' => 0, 'checked' => $model->estado ? true : false,]) ?>
 
 

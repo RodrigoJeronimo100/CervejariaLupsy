@@ -55,6 +55,7 @@ use yii\widgets\ActiveForm;
             'total',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {update}',
                 'urlCreator' => function ($action, Fatura $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                 }
