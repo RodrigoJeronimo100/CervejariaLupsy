@@ -40,7 +40,7 @@ class FavoritaController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Favorita::find()->where(['id_utilizador'=> Yii::$app->user->id]),
+            'query' => Favorita::find()->where(['id_utilizador' => Yii::$app->user->id]),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -78,29 +78,24 @@ class FavoritaController extends Controller
      */
     public function actionCreate($id_cerveja)
     {
-        $id_utilizador = Yii::$app->user->id;
-        // Verifica se a cerveja já está favoritada pelo usuário
-        $favoritaExistente = Favorita::findOne(['id_cerveja' => $id_cerveja, 'id_utilizador' => $id_utilizador]);
+        $model = new Favorita();
 
-        if ($favoritaExistente) {
-            // Desfavorita removendo o registro
-            if ($favoritaExistente->delete()) {
-                Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos com sucesso!');
-            } else {
-                Yii::$app->session->setFlash('error', 'Falha ao remover a cerveja dos favoritos.');
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id_utilizador = Yii::$app->user->id; // Define o valor de id_utilizador com o ID do usuário autenticado
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
-            return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
-    }
+        }
         $model = new Favorita();
         $model->id_cerveja = $id_cerveja;
-        $model->id_utilizador = $id_utilizador; 
+        $model->id_cerveja = $id_cerveja;
 
         if ($model->save()) {
             Yii::$app->session->setFlash('success', 'Cerveja favoritada com sucesso!');
             return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
         }
         $errors = $model->getErrors();
-        Yii::$app->session->setFlash('error', 'Falha ao favoritar a cerveja.'. json_encode($errors));
+        Yii::$app->session->setFlash('error', 'Falha ao favoritar a cerveja.' . json_encode($errors));
         return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
 
         if ($this->request->isPost) {

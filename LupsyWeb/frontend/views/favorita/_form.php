@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
     <div class="card-title"><?= $model->cerveja->nome ?></div>
     <div class="card-subtitle"><?= $model->cerveja->descricao ?></div>
 
-    <?= $form->field($model, 'data_adicao')->textInput() ?>
+    <?= $form->field($model, 'data_adicao')->textInput(['value' => date('Y-m-d H:i:s')]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

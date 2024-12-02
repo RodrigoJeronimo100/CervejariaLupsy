@@ -35,6 +35,7 @@ class SiteController extends Controller
                         'roles' => ['@'],
                     ],
                     [
+                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -68,9 +69,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        if (!Yii::$app->user->can('admin')) {
-            throw new ForbiddenHttpException('Acesso negado. Você não tem permissão para acessar esta página.');
-        }
         return $this->render('index');
     }
 
@@ -92,7 +90,7 @@ class SiteController extends Controller
             if (!Yii::$app->user->can('admin')) {
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', 'Acesso negado. Você não tem permissão para acessar esta página.');
-                return $this->goBack();
+                return $this->redirect(['site/login']);
             }
             return $this->goBack();
         }

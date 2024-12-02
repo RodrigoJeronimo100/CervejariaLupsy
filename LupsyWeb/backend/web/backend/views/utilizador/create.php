@@ -11,14 +11,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="utilizador-create">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <?= $this->render('_form', [
         'model' => $model,
     ]) ?>
 
 </div>
-<style>
-    .m-0
-    {
-        font-weight: bolder;
-    }
-</style>

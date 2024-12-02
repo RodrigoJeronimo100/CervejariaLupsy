@@ -15,8 +15,8 @@ class m241022_230124_create_utilizador_table extends Migration
             'nif' => $this->string(100),
             'telefone' => $this->string(50),
             'morada' => $this->string(255),
-            'id_user' => $this->integer()->notNull(),
-        ],'ENGINE=InnoDB');
+            'id_user' => $this->integer(),
+        ], 'ENGINE=InnoDB');
     }
 
     public function safeDown()
