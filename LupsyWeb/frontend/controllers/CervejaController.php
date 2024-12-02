@@ -40,20 +40,34 @@ class CervejaController extends Controller
      */
     public function actionIndex()
     {
+         // Captura o filtro de categoria da requisição GET
+        $id_categoria = Yii::$app->request->get('categoria'); // 'todas' é o valor padrão
+        
+        // Inicia a consulta
+        $query = Cerveja::find();
+
+        // Se não for 'todas', aplica o filtro pela categoria
+        if ($id_categoria !== "") {
+            $query->andWhere(['id_categoria' => $id_categoria]); // Ajuste o nome do campo conforme seu banco de dados
+        }
+
+        // Cria o DataProvider com a consulta filtrada
         $dataProvider = new ActiveDataProvider([
-            'query' => Cerveja::find()->where(['estado' => 1]),
+            'query' => $query,
             'pagination' => [
-                'pageSize' => 50,
+                'pageSize' => 10, // Ajuste o número de itens por página conforme necessário
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ],
-            ],
+                    'id' => SORT_DESC, // Ordena por ID de forma decrescente
+                ]
+            ]
         ]);
 
+        // Passa o dataProvider para a view
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'id_categoria' => $id_categoria, // Passando o valor de categoria para a view
         ]);
     }
 
