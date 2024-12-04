@@ -3,12 +3,16 @@
 namespace frontend\controllers;
 
 use common\models\Cerveja;
+use common\models\Comentario;
 use common\models\Favorita;
+use common\models\Nota;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\web\BadRequestHttpException;
 
 /**
  * CervejaController implements the CRUD actions for Cerveja model.
@@ -80,7 +84,14 @@ class CervejaController extends Controller
     public function actionView($id)
     {
         $model = Cerveja::findOne($id);
-        
+        if (!$model) {
+            throw new NotFoundHttpException('A cerveja solicitada não foi encontrada.');
+        }
+
+        $novoComentario = new Comentario();
+        $comentarios = $model->getComentarios()->orderBy(['data' => SORT_DESC])->all();
+        $mediaNota = $this->calcularMediaNota($id);
+
         $isFavoritada = Favorita::find()
         ->where(['id_cerveja' => $id, 'id_utilizador' => Yii::$app->user->id])
         ->exists();
@@ -88,6 +99,9 @@ class CervejaController extends Controller
         return $this->render('view', [
             'model' => $model,
             'isFavoritada' => $isFavoritada,
+            'comentarios' => $comentarios,
+            'novoComentario' => $novoComentario,
+            'mediaNota' => $mediaNota,
         ]);
     }
 
@@ -136,37 +150,93 @@ class CervejaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     public function actionAddFavorito($id)
-{
-     // Verifica se o usuário está logado
-     if (Yii::$app->user->isGuest) {
-        return $this->redirect(['site/login']);
-    }
-    $id_user = Yii::$app->user->id;
-
-    // Verifica se a cerveja já está nos favoritos
-    $favorito = Favorita::findOne(['id_user' => $id_user, 'id_cerveja' => $id]);
-
-    if ($favorito) {
-        // Se já estiver nos favoritos, remove
-        $favorito->delete();
-        Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos.');
-    } else {
-        // Adiciona como favorito
-        $novoFavorito = new Favorita();
-        $novoFavorito->id_user = $id_user;
-        $novoFavorito->id_cerveja = $id;
-        if ($novoFavorito->save()) {
-            Yii::$app->session->setFlash('success', 'Cerveja adicionada aos favoritos!');
-        } else {
-             // Captura e formata os erros para exibição
-            $erros = implode('<br>', array_map(function($erro) {
-                return implode(', ', $erro);
-            }, $novoFavorito->getErrors()));
-            Yii::$app->session->setFlash('error', "Falha ao adicionar aos favoritos. Erros: <br>$erros");
+    {
+        // Verifica se o usuário está logado
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
         }
+        $id_user = Yii::$app->user->id;
+
+        // Verifica se a cerveja já está nos favoritos
+        $favorito = Favorita::findOne(['id_user' => $id_user, 'id_cerveja' => $id]);
+
+        if ($favorito) {
+            // Se já estiver nos favoritos, remove
+            $favorito->delete();
+            Yii::$app->session->setFlash('success', 'Cerveja removida dos favoritos.');
+        } else {
+            // Adiciona como favorito
+            $novoFavorito = new Favorita();
+            $novoFavorito->id_user = $id_user;
+            $novoFavorito->id_cerveja = $id;
+            if ($novoFavorito->save()) {
+                Yii::$app->session->setFlash('success', 'Cerveja adicionada aos favoritos!');
+            } else {
+                // Captura e formata os erros para exibição
+                $erros = implode('<br>', array_map(function($erro) {
+                    return implode(', ', $erro);
+                }, $novoFavorito->getErrors()));
+                Yii::$app->session->setFlash('error', "Falha ao adicionar aos favoritos. Erros: <br>$erros");
+            }
+        }
+
+        // Redireciona de volta à página de visualização da cerveja
+        return $this->redirect(['view', 'id' => $id]);
     }
 
-    // Redireciona de volta à página de visualização da cerveja
-    return $this->redirect(['view', 'id' => $id]);
-}
+    public function actionRate($id)
+    {
+        // Verifica se o usuário está logado
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['site/login']);
+        }
+    
+        // Busca a cerveja
+        $cerveja = Cerveja::findOne($id);
+        if (!$cerveja) {
+            throw new NotFoundHttpException('Cerveja não encontrada.');
+        }
+    
+        // Recebe a nota enviada
+        $nota = Yii::$app->request->post('nota');
+        if (!$nota || $nota < 0.5 || $nota > 5) {
+            throw new BadRequestHttpException('Nota inválida.');
+        }
+    
+        // Salva ou atualiza a nota do usuário
+        $notaModel = Nota::findOne([
+            'id_user' => Yii::$app->user->id,
+            'id_cerveja' => $id,
+        ]) ?? new Nota();
+    
+        $notaModel->id_user = Yii::$app->user->id;
+        $notaModel->id_cerveja = $id;
+        $notaModel->nota = $nota;
+    
+        if ($notaModel->save()) {
+            Yii::$app->session->setFlash('success', 'Sua nota foi salva com sucesso!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Não foi possível salvar sua nota.');
+        }
+    
+        return $this->redirect(['cerveja/view', 'id' => $id]);
+    }
+    
+    private function calcularMediaNota($idCerveja)
+    {
+        // Buscar todas as notas associadas à cerveja
+        $notas = Nota::find()->where(['id_cerveja' => $idCerveja])->all();
+        
+        // Se não houver notas, retorna 0
+        if (count($notas) === 0) {
+            return 0;
+        }
+
+        // Somar todas as notas
+        $somaNotas = array_sum(ArrayHelper::getColumn($notas, 'nota'));
+        
+        // Calcular e retornar a média
+        return number_format($somaNotas / count($notas), 1);
+    }
+
 }

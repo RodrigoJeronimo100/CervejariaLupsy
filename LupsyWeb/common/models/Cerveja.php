@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\Comentario;
 use backend\models\Categoria;
 use backend\models\Fornecedor;
 use frontend\models\Avaliacao;
@@ -26,6 +27,7 @@ use Yii;
  * @property Fornecedor $fornecedor
  * @property HistoricoBebi[] $historicoBebi
  * @property ItemFatura[] $itemFaturas
+ * @property Comentario[] $comentario
  */
 class Cerveja extends \yii\db\ActiveRecord
 {
@@ -129,5 +131,10 @@ class Cerveja extends \yii\db\ActiveRecord
     public function getItemFaturas()
     {
         return $this->hasMany(ItemFatura::class, ['id_cerveja' => 'id']);
+    }
+
+    public function getComentarios()
+    {
+        return $this->hasMany(Comentario::class, ['id_cerveja' => 'id']);
     }
 }

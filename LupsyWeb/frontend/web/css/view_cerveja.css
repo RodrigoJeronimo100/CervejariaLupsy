@@ -8,6 +8,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 1%;
 }
 
 .view-title {
@@ -33,7 +34,7 @@
 
 .detail-nome{
     display:flex;
-    margin-top: 20%;
+    margin-top: 10%;
     font-weight: 600;
     font-family: "Suranna", serif;
     font-size: 200%;
@@ -45,7 +46,7 @@
 }
 
 .detail-item-notop{
-    width: 48%;
+    width: 60%;
     padding: 0 30px;
 }
 
@@ -76,6 +77,7 @@
     font-family: "SansSerif", serif;
     font-size: 20px;
     color: #808080;
+    margin-bottom: 10%;
 }
 
 .card-side-by-side {
@@ -101,4 +103,68 @@
     transition: all 0.3s;
 }
 
+.rating {
+    direction: ltr;
+    font-size: 2em;
+    color: #d3d3d3;
+    cursor: pointer;
+}
 
+.rating .star {
+    padding: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.rating .star.selected {
+    color: #FFD700; /* Cor dourada das estrelas selecionadas */
+}
+
+.rating .star:hover {
+    color: #ffcc00; /* Cor de destaque nas estrelas ao passar o mouse */
+}
+
+.btn-warning {
+    background-color: #f39c12;
+    border-color: #f39c12;
+    font-size: 1.2em;
+}
+
+.btn-warning:hover {
+    background-color: #e67e22;
+    border-color: #e67e22;
+}
+
+.card {
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.container-fim {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.favoritar {
+    flex: 1; 
+    text-align: right
+}
+.comprar {
+    flex: 1;
+    text-align: right
+}
+
+.detail-item-notop {
+    flex: 1; 
+    text-align: left; 
+}
+.icon {
+    margin-bottom: 10%;
+}

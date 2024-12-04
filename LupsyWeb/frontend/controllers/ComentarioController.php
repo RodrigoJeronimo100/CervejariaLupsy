@@ -1,18 +1,19 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
-use common\models\Fatura;
+use common\models\Comentario;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
- * FaturaController implements the CRUD actions for Fatura model.
+ * ComentarioController implements the CRUD actions for Comentario model.
  */
-class FaturaController extends Controller
+class ComentarioController extends Controller
 {
     /**
      * @inheritDoc
@@ -33,35 +34,34 @@ class FaturaController extends Controller
     }
 
     /**
-     * Lists all Fatura models.
+     * Lists all Comentario models.
      *
      * @return string
      */
     public function actionIndex()
     {
-        $estado = Yii::$app->request->get('estado', 'todas'); // "todas" é o padrão
-        $query = Fatura::find();
-    
-        if ($estado !== 'todas') {
-            $query->andWhere(['estado' => $estado]); // Filtra pelo estado
-        }
-    
         $dataProvider = new ActiveDataProvider([
-            'query' => $query,
+            'query' => Comentario::find(),
+            /*
             'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 50
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ],
+            */
         ]);
-    
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'estado' => $estado, // Passa o estado selecionado para a view
         ]);
     }
 
     /**
-     * Displays a single Fatura model.
-     * @param int $id ID Fatura
+     * Displays a single Comentario model.
+     * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -73,31 +73,35 @@ class FaturaController extends Controller
     }
 
     /**
-     * Creates a new Fatura model.
+     * Creates a new Comentario model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    // public function actionCreate()
-    // {
-    //     $model = new Fatura();
-
-    //     if ($this->request->isPost) {
-    //         if ($model->load($this->request->post()) && $model->save()) {
-    //             return $this->redirect(['view', 'id' => $model->id]);
-    //         }
-    //     } else {
-    //         $model->loadDefaultValues();
-    //     }
-
-    //     return $this->render('create', [
-    //         'model' => $model,
-    //     ]);
-    // }
+    public function actionCreate()
+    {
+        if (Yii::$app->user->isGuest) {
+            throw new ForbiddenHttpException('Você precisa estar logado para enviar um comentário.');
+        }
+    
+        $model = new Comentario();
+        $model->id_user = Yii::$app->user->id; 
+        $model->id_cerveja = Yii::$app->request->post('id_cerveja'); 
+        $model->comentario = Yii::$app->request->post('Comentario')['comentario'];
+    
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', 'Comentário enviado com sucesso!');
+        } else {
+            Yii::$app->session->setFlash('error', 'Erro ao enviar o comentário. Tente novamente.');
+        }
+    
+        return $this->redirect(['cerveja/view', 'id' => $model->id_cerveja]);
+    
+    }
 
     /**
-     * Updates an existing Fatura model.
+     * Updates an existing Comentario model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID Fatura
+     * @param int $id ID
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -114,17 +118,30 @@ class FaturaController extends Controller
         ]);
     }
 
+    /**
+     * Deletes an existing Comentario model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @param int $id ID
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
 
     /**
-     * Finds the Fatura model based on its primary key value.
+     * Finds the Comentario model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID Fatura
-     * @return Fatura the loaded model
+     * @param int $id ID
+     * @return Comentario the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Fatura::findOne(['id' => $id])) !== null) {
+        if (($model = Comentario::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
