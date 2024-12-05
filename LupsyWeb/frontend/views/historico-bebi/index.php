@@ -14,7 +14,7 @@ $this->title = 'Cervejas Bebidas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $this->registerCssFile("@web/css/index_historico.css"); ?>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <div class="historico-bebi-index">
 
     <?= Breadcrumbs::widget([

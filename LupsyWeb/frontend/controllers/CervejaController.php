@@ -44,7 +44,9 @@ class CervejaController extends Controller
      */
     public function actionIndex()
     {
+        $todas = Cerveja::find();
          // Captura o filtro de categoria da requisição GET
+
         $id_categoria = Yii::$app->request->get('categoria'); // 'todas' é o valor padrão
         
         // Inicia a consulta
