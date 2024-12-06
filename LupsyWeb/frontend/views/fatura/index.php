@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'summary' => false,
         'columns' => [
 
             'data_fatura',

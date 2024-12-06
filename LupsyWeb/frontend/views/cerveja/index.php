@@ -15,27 +15,24 @@ use yii\widgets\ListView;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cerveja-index">
-    <br><br><br>
     <?= Breadcrumbs::widget([
         'homeLink' => ['label' => 'Home', 'url' => ['/site/index']],
         'links' => [
             ['label' => 'Cervejas', 'url' => null],
         ],
-        'options' => ['class' => 'breadcrumb', 'style' => 'background-color: #f7f5f0; margin-top: -8px; margin-bottom: -8px;'],
+        'options' => ['class' => 'breadcrumb', 'style' => 'background-color: #f7f5f0; margin-top: 4.3em; margin-bottom: -8px;'],
         'itemTemplate' => "<li style='display: inline-block; margin-right: 5px;'>{link}</li> &nbsp; > &nbsp; ",
         'activeItemTemplate' => "<li style='display: inline-block; margin-right: 5px; font-weight: bold;'>{link}</li>",
     ]); ?>
     <h1><?= Html::encode($title = 'Cervejas') ?></h1>
-    <br>
     <!-- Filtro de Categoria -->
-    <div class="filtro-categoria mb-3">
+    <div class="filtro-categoria">
         <?php $form = ActiveForm::begin([
             'method' => 'get',
             'action' => ['index'],
             'options' => ['class' => 'd-flex align-items-center gap-2'], 
         ]); ?>
 
-        <?= Html::label('Filtrar por categoria:', 'categoria', ['class' => 'form-label me-2']) ?>
 
         <?= Html::dropDownList('categoria', $id_categoria, 
             \yii\helpers\ArrayHelper::map(\backend\models\Categoria::find()->all(), 'id', 'nome'), 
@@ -45,10 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ) ?>
 
-        <?= Html::submitButton('<i class="fas fa-filter"></i> Filtrar', [
-            'class' => 'btn btn-primary btn-sm px-4 py-2 rounded-pill',
-            'style' => 'background-color: #007bff; border: none; font-weight: bold;',
+        <?= Html::submitButton('<span class="button__text">Filtrar</span><span class="button__icon"><i class="fa fa-filter"></i></span>', [
+            'class' => 'btn-custom-golden',
+            'type' => 'submit',
+            'style' => 'background-color: goldenrod; border: 1px solid #DAA520; font-weight: bold;',
         ]) ?>
+
+
+
 
         <?php ActiveForm::end(); ?>
     </div>
@@ -81,6 +82,9 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     .breadcrumb a:hover {
         text-decoration: none;
+    }
+    .container{
+        display: none;
     }
 </style>
 

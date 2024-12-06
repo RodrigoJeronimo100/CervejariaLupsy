@@ -106,6 +106,11 @@
     align-items: center;
     overflow: hidden;
     flex-shrink: 0;
+    padding: 10px !important;
+}
+
+.align-items-center{
+    gap: 2px !important;
 }
 
 .card-price {
@@ -161,3 +166,76 @@
     line-height: 1.5;
     max-height: 4em;
 }
+
+.filtro-categoria{
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+}
+
+.btn-custom-golden {
+    position: relative;
+    width: 150px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 6px solid #DAA520;
+    background-color: goldenrod;
+    border-radius: 5px;
+
+}
+
+.btn-custom-golden, .button__icon, .button__text {
+    transition: all 0.3s;
+}
+
+.btn-custom-golden .button__text {
+    transform: translateX(30px);
+    color: #fff;
+    font-weight: 600;
+}
+
+.btn-custom-golden .button__icon {
+    position: absolute;
+    transform: translateX(109px);
+    height: 100%;
+    width: 39px;
+    background-color: #DAA520;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-custom-golden .svg {
+    width: 30px;
+    stroke: #fff;
+}
+
+.btn-custom-golden .fa-filter {
+    font-size: 18px;
+    color: #fff;
+}
+
+.btn-custom-golden:hover {
+    background: #b8860b;
+}
+
+.btn-custom-golden:hover .button__text {
+    color: transparent;
+}
+
+.btn-custom-golden:hover .button__icon {
+    width: 148px;
+    transform: translateX(0);
+}
+
+.btn-custom-golden:active .button__icon {
+    background-color: #8b7500;
+}
+
+.btn-custom-golden:active {
+    border: 1px solid #8b7500;
+}
+
+

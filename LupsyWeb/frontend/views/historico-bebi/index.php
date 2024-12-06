@@ -29,39 +29,44 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
-    'dataProvider' => $dataProvider,
-    'columns' => [
-        [
-            'label' => 'Top Bebidas',
-            'value' => function ($model, $key, $index, $widget) {
-                switch ($index) {
-                    case 0:
-                        return '<i class="fa fa-trophy" style="color: gold; font-size: 18px;"></i>';
-                    case 1:
-                        return '<i class="fa fa-trophy" style="color: #939393; font-size: 18px;"></i>';
-                    case 2:
-                        return '<i class="fa fa-trophy" style="color: #cd7f32; font-size: 18px;"></i>';
-                    default:
-                        return $index + 1;
-                }
-            },
-            'format' => 'raw',
-            'headerOptions' => ['style' => 'text-align: center; font-weight: bold;  background-color: #1e1e1e; color: #e7e7e7'],
-            'contentOptions' => [
-            'style' => 'text-align: center; width: 50px; font-weight: bold; color: white; padding: 10px 0 10px 0; font-size: 16px;'
+        'dataProvider' => $dataProvider,
+        'summary' => false,
+        'columns' => [
+            [
+                'label' => 'Top Bebidas',
+                'value' => function ($model, $key, $index, $widget) {
+                    switch ($index) {
+                        case 0:
+                            return '<i class="fa fa-trophy" style="color: gold; font-size: 18px;"></i>';
+                        case 1:
+                            return '<i class="fa fa-trophy" style="color: #939393; font-size: 18px;"></i>';
+                        case 2:
+                            return '<i class="fa fa-trophy" style="color: #cd7f32; font-size: 18px;"></i>';
+                        default:
+                            return $index + 1;
+                    }
+                },
+                'format' => 'raw',
+                'headerOptions' => ['style' => 'text-align: center; font-weight: bold; background-color: #1e1e1e; color: #e7e7e7;'],
+                'contentOptions' => [
+                    'style' => 'text-align: center; width: 50px; font-weight: bold; color: white; padding: 10px 0 10px 0; font-size: 16px;',
+                ],
+            ],
+            [
+                'attribute' => 'cerveja_nome',
+                'label' => 'Nome da Cerveja',
+                'headerOptions' => ['style' => 'text-align: center;'],
+                'contentOptions' => ['style' => 'text-align: center;'],
+            ],
+            [
+                'attribute' => 'total_consumed',
+                'label' => 'Quantidade Bebida',
+                'headerOptions' => ['style' => 'text-align: center;'],
+                'contentOptions' => ['style' => 'text-align: center;'],
             ],
         ],
-        [
-            'attribute' => 'cerveja_nome',
-            'label' => 'Nome da Cerveja',
-        ],
-        [
-            'attribute' => 'total_consumed',
-            'label' => 'Quantidade Bebida',
-        ],
+    ]); ?>
 
-    ],
-]); ?>
 
 
 </div>

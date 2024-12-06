@@ -100,7 +100,7 @@
     height: 75px;
     border-radius: 20px;
     border: none;
-    padding: 0 15px;
+    padding: 0 15px 0 30px;
     transition: all 0.3s;
 }
 
@@ -175,6 +175,7 @@
 }
 .align-items-center{
     gap:1em;
+    margin-left: 5px;
 }
 
 .title-c{
@@ -243,4 +244,47 @@
 
 .list-group-item{
     border-radius: 1em !important;
+}
+
+
+.card-btn-nobrd {
+    position: relative;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.help-icon {
+    position: absolute;
+    top: -5px;
+    right: -15px;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+
+.help-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 200px;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.3s;
 }
