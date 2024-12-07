@@ -55,4 +55,8 @@ class Nota extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'id_user']);
     }
+    public function getUtilizador()
+    {
+        return $this->hasOne(Utilizador::class, ['id_user' => 'id'])->via('user');
+    }
 }
