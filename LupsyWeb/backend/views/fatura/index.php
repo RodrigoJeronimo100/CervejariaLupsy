@@ -25,8 +25,9 @@ use yii\widgets\ActiveForm;
 
         <?= Html::dropDownList('estado', $estado, [
             'todas' => 'Todas',
-            'paga' => 'Paga',
             'aberta' => 'Aberta',
+            'paga' => 'Paga',
+            'cancelada' => 'Cancelada',
         ], ['class' => 'form-select w-auto']) ?>
 
         <?= Html::submitButton('<i class="fas fa-filter"></i> Filtrar', [
@@ -49,6 +50,9 @@ use yii\widgets\ActiveForm;
                 'value' => function ($model) {
                     return $model->utilizador->nome;
                 },
+                'headerOptions' => [
+                    'style' => 'color: white;', // Sets the text color of the header to white
+                ],
             ],
             'data_fatura',
             'estado',
@@ -62,4 +66,35 @@ use yii\widgets\ActiveForm;
             ],
         ],
     ]); ?>
+
 </div>
+
+
+<style>
+    .table tbody tr:nth-child(odd) {
+        background-color: #dbd5bd;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+    .table thead th {
+        background-color: #323232;
+        font-weight: bold;
+    }
+
+    .table thead th a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .table thead th a:hover {
+        color: #e4e4e4;
+    }
+
+    .m-0{
+        font-weight: bolder;
+    }
+
+</style>

@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'total')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'estado')->dropDownList([ 'aberta' => 'Aberta', 'paga' => 'Paga', 'cancelada' => 'Cancelada', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'estado')->dropDownList([ 'aberta' => 'Aberta', 'paga' => 'Paga', 'cancelada' => 'Cancelada', ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

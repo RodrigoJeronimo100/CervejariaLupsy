@@ -12,12 +12,13 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id_utilizador')->textInput() ?>
+    <?= $form->field($model, 'id_utilizador')->textInput(['readonly' => true,])->label() ?>
 
-    <?= $form->field($model, 'data_fatura')->textInput() ?>
+    <?= $form->field($model, 'data_fatura')->textInput(['readonly' => true,])->label() ?>
 
-    <?= $form->field($model, 'total')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'total')->textInput(['maxlength' => true,'readonly' => true,])->label() ?>
 
+    <?= $form->field($model, 'estado')->dropDownList($model::getEstados()) ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

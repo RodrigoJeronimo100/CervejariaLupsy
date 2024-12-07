@@ -89,4 +89,13 @@ class Fatura extends \yii\db\ActiveRecord
         $this->total = $this->getTotalFatura();
         $this->save(false);
     }
+
+    public static function getEstados()
+    {
+        return [
+            1 => 'Aberta',
+            2 => 'Paga',
+            3 => 'Cancelada',
+        ];
+    }
 }

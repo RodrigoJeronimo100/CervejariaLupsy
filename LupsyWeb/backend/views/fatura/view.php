@@ -1,6 +1,6 @@
 <?php
 
-use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -13,17 +13,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="fatura-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
+
     </p>
 
     <?= DetailView::widget([
@@ -33,7 +24,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_utilizador',
             'data_fatura',
             'total',
+            'estado',
         ],
     ]) ?>
-
+ <h2>Itens da Fatura</h2>
+    <?= GridView::widget([
+        'dataProvider' => new yii\data\ArrayDataProvider([
+            'allModels' => $model->itemFaturas,  
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]),
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            
+            [
+                'attribute' => 'nome_cerveja',
+                'value' => function ($model) {
+                    return $model->cerveja ? $model->cerveja->nome : 'Sem nome';
+                },
+            ],
+            'quantidade',
+            'preco_unitario',
+            [
+                'attribute' => 'preco',
+                'value' => function ($model) {
+                    return $model->quantidade * $model->preco_unitario;
+                },
+                'format' => ['decimal', 2],
+            ],
+          
+        ],
+       
+    ]); ?>
 </div>

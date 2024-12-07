@@ -42,7 +42,7 @@ AppAsset::register($this);
     ];
     if (!Yii::$app->user->isGuest) {
         $userId = Yii::$app->user->id;
-        array_push($menuItems, ['label' => 'Cerveja', 'url' => ['/cerveja/index']]);
+        array_push($menuItems, ['label' => 'Cerveja', 'url' => ['/cerveja/index', 'categoria' => ''],]);
         array_push($menuItems, ['label' => 'Favoritos', 'url' => ['/favorita/index']]);
         array_push($menuItems, ['label' => 'Historico', 'url' => ['/historico-bebi/index', 'id' => $userId]]);
         array_push($menuItems, ['label' => '<i class="fas fa-cart-shopping"></i>', 'url' => ['/fatura/index'], 'encode' => false]);

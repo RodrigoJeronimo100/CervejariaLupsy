@@ -83,6 +83,14 @@
                             ['label' => 'Lista', 'icon' => 'list', 'url' => ['/fatura/index']],
                         ]
                     ],
+                    ['label' => 'Notas', 'header' => true],
+                    [
+                        'label' => 'Notas',
+                        'icon' => 'medal',
+                        'items' => [
+                            ['label' => 'Lista', 'icon' => 'list', 'url' => ['/nota/index']],
+                        ]
+                    ],
                 ],
             ]);
             ?>
