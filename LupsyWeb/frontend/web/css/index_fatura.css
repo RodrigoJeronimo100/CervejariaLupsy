@@ -1,0 +1,36 @@
+.table thead tr:first-child {
+    text-align: center;
+    font-weight: bold;
+    background-color: #1e1e1e;
+    color: #e7e7e7;
+}
+
+
+.table tbody tr td:first-child {
+    background-color: rgba(255, 255, 255, 0);
+    color: #1e1e1e;
+    display: flex;
+    justify-content: center;
+}
+
+.table > thead a{
+    text-decoration: none;
+    text-underline: none;
+    color: white;
+}
+
+.table {
+    width: 100%; +
+border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 8px;
+}
+
+.table tbody tr {
+
+}
