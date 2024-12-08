@@ -3,7 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Utilizador;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +23,16 @@ class UtilizadorController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'only' => ['view', 'update', 'delete'], 
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -32,32 +44,6 @@ class UtilizadorController extends Controller
     }
 
     /**
-     * Lists all Utilizador models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Utilizador::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
-            ],
-            */
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
      * Displays a single Utilizador model.
      * @param int $id ID
      * @return string
@@ -65,6 +51,7 @@ class UtilizadorController extends Controller
      */
     public function actionView($id)
     {
+        $this->checkUserAccess($id);
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -75,22 +62,22 @@ class UtilizadorController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
-    {
-        $model = new Utilizador();
+    // public function actionCreate()
+    // {
+    //     $model = new Utilizador();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
+    //     if ($this->request->isPost) {
+    //         if ($model->load($this->request->post()) && $model->save()) {
+    //             return $this->redirect(['view', 'id' => $model->id]);
+    //         }
+    //     } else {
+    //         $model->loadDefaultValues();
+    //     }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
+    //     return $this->render('create', [
+    //         'model' => $model,
+    //     ]);
+    // }
 
     /**
      * Updates an existing Utilizador model.
@@ -101,6 +88,7 @@ class UtilizadorController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->checkUserAccess($id);
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -121,6 +109,7 @@ class UtilizadorController extends Controller
      */
     public function actionDelete($id)
     {
+        $this->checkUserAccess($id);
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -140,5 +129,11 @@ class UtilizadorController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    protected function checkUserAccess($id)
+    {
+        if (Yii::$app->user->isGuest || Yii::$app->user->id != $id) {
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para aceder a esta página.');
+        }
     }
 }
