@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\widgets\Breadcrumbs;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
@@ -12,7 +13,16 @@ use yii\grid\GridView;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="favorita-index">
-
+    <?php $this->registerCssFile("@web/css/index_favorita.css"); ?>
+    <?= Breadcrumbs::widget([
+        'homeLink' => ['label' => 'Home', 'url' => ['/site/index']],
+        'links' => [
+            ['label' => 'Favoritos', 'url' => null],
+        ],
+        'options' => ['class' => 'breadcrumb', 'style' => 'background-color: #f7f5f0; margin-top: 8pn; margin-bottom: -8px;'],
+        'itemTemplate' => "<li style='display: inline-block; margin-right: 5px;'>{link}</li> &nbsp; > &nbsp; ",
+        'activeItemTemplate' => "<li style='display: inline-block; margin-right: 5px; font-weight: bold;'>{link}</li>",
+    ]); ?>
     <h1><?= Html::encode($title = 'Favoritos') ?></h1>
 
     <?= GridView::widget([
@@ -52,5 +62,16 @@ $this->params['breadcrumbs'][] = $this->title;
         justify-content: center;
         padding: 15px;
         font-weight: bold;
+    }
+    .breadcrumb {
+        font-size: 14px;
+        color: #333;
+    }
+    .breadcrumb a {
+        text-decoration: none;
+        color: #373737;
+    }
+    .breadcrumb a:hover {
+        text-decoration: none;
     }
 </style>
