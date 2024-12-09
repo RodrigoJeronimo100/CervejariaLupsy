@@ -20,8 +20,12 @@ class m241119_214724_init_rbac extends Migration
         $utilizador = $auth->createRole('utilizador');
         $auth->add($utilizador);
 
+        $funcionario = $auth->createRole('funcionario');
+        $auth->add($funcionario);
+
         $auth->assign($admin, 1);
         $auth->assign($utilizador, 2);
+        $auth->assign($funcionario, 3);
     }
 
     /**

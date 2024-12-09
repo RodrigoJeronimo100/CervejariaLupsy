@@ -2,7 +2,10 @@
 
 namespace backend\controllers;
 
+use common\models\Cerveja;
 use common\models\LoginForm;
+use common\models\User;
+use common\models\Utilizador;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -37,7 +40,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['admin', 'funcionario'],
                     ],
                 ],
             ],
@@ -69,7 +72,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $userCount = Utilizador::find()->count(); //Conta o nº de utilizadores
+        $cervejasCount = Cerveja::find()->where(['estado' => '1'])->count(); //Conta o nº de cervejas
+        return $this->render('index', [
+            'userCount' => $userCount,
+            'cervejasCount' => $cervejasCount,
+        ]);
     }
 
     /**
