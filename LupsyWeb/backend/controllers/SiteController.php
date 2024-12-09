@@ -2,11 +2,16 @@
 
 namespace backend\controllers;
 
+use common\models\Favorita;
 use common\models\Cerveja;
+use common\models\HistoricoBebi;
 use common\models\LoginForm;
+use common\models\Nota;
 use common\models\User;
 use common\models\Utilizador;
 use Yii;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -74,9 +79,52 @@ class SiteController extends Controller
     {
         $userCount = Utilizador::find()->count(); //Conta o nº de utilizadores
         $cervejasCount = Cerveja::find()->where(['estado' => '1'])->count(); //Conta o nº de cervejas
+
+        $topCervejas = HistoricoBebi::find()
+            ->select(['cerveja_nome' => 'cerveja.nome', 'total_consumed' => 'COUNT(*)'])
+            ->joinWith('cerveja')
+            ->groupBy('id_cerveja')
+            ->orderBy(['total_consumed' => SORT_DESC])
+            ->limit(5)
+            ->asArray()
+            ->all();
+
+
+        $topRatedCervejas = Nota::find()
+            ->select(['id_cerveja', 'AVG(nota) as average_rating'])
+            ->groupBy('id_cerveja')
+            ->orderBy(['average_rating' => SORT_DESC])
+            ->limit(5)
+            ->asArray()
+            ->all();
+
+        foreach ($topRatedCervejas as &$item) {
+            $cerveja = Cerveja::findOne($item['id_cerveja']);
+            $item['cerveja_nome'] = $cerveja ? $cerveja->nome : 'Desconhecido';
+        }
+
+        $query = Favorita::find()
+            ->select(['id_cerveja', 'COUNT(*) AS quantidade', 'cerveja.nome'])
+            ->joinWith('cerveja')
+            ->groupBy('id_cerveja')
+            ->orderBy(['quantidade' => SORT_DESC])
+            ->limit(5);
+
+        // Criação do DataProvider com a consulta
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+        ]);
+
+
         return $this->render('index', [
             'userCount' => $userCount,
             'cervejasCount' => $cervejasCount,
+            'topCervejas' => $topCervejas,
+            'topRatedCervejas' => $topRatedCervejas,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

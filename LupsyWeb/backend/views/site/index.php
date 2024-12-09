@@ -4,8 +4,11 @@
 /** @var int $userCount */
 /** @var int $cervejasCount */
 
+use yii\grid\GridView;
+
 $this->title = 'BackOffice';
 ?>
+<?php $this->registerCssFile("@web/css/index_back.css"); ?>
 <div class="site-index">
 
     <div class="row">
@@ -40,38 +43,117 @@ $this->title = 'BackOffice';
 
         <div class="body-content">
 
-            <div class="row">
-                <div class="col-lg-4">
-                    <h2>Heading</h2>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur.</p>
-
-                    <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+            <div class="row" style="margin-left: 7.5px!important;">
+                <div class="col-lg-4" >
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Top 5 Cervejas Mais Consumidas</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center; width: 50px;">#</th>
+                                    <th style="text-align: center;">Nome da Cerveja</th>
+                                    <th style="text-align: center;">Quantidade Bebida</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($topCervejas as $index => $cerveja): ?>
+                                    <tr>
+                                        <td style="text-align: center; font-size: 16px; font-weight: bold;">
+                                            <?php
+                                            switch ($index) {
+                                                case 0:
+                                                    echo '<i class="fa fa-trophy" style="color: gold; font-size: 18px;"></i>';
+                                                    break;
+                                                case 1:
+                                                    echo '<i class="fa fa-trophy" style="color: #939393; font-size: 18px;"></i>';
+                                                    break;
+                                                case 2:
+                                                    echo '<i class="fa fa-trophy" style="color: #cd7f32; font-size: 18px;"></i>';
+                                                    break;
+                                                default:
+                                                    echo $index + 1;
+                                            }
+                                            ?>
+                                        </td>
+                                        <td style="text-align: center; font-size: 16px;">
+                                            <?= $cerveja['cerveja_nome'] ?>
+                                        </td>
+                                        <td style="text-align: center; font-size: 16px; color: rgba(0, 0, 0, 0.6);">
+                                            <?= $cerveja['total_consumed'] ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <h2>Heading</h2>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur.</p>
-
-                    <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                    <div class="card card-secondary">
+                        <div class="card-header">
+                            <h3 class="card-title">Cervejas Mais Bem Avaliadas</h3>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nome da Cerveja</th>
+                                    <th>Média da Nota</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($topRatedCervejas as $index => $cerveja): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?></td>
+                                        <td><?= $cerveja['cerveja_nome'] ?></td>
+                                        <td><?= number_format($cerveja['average_rating'], 2) ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-4">
-                    <h2>Heading</h2>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                        fugiat nulla pariatur.</p>
-
-                    <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Top 5 Cervejas mais Favoritadas</h3>
+                            </div>
+                            <div class="card-body">
+                                <?= GridView::widget([
+                                    'dataProvider' => $dataProvider,
+                                    'summary' => false,  // Não mostrar resumo de paginação
+                                    'columns' => [
+                                        [
+                                            'label' => 'Ranking',
+                                            'value' => function ($model, $key, $index, $widget) {
+                                                return $index + 1; // Rank da cerveja
+                                            },
+                                            'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
+                                            'contentOptions' => ['style' => 'text-align: center;'],
+                                        ],
+                                        [
+                                            'attribute' => 'cerveja.nome',
+                                            'label' => 'Nome da Cerveja',
+                                            'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
+                                            'contentOptions' => ['style' => 'text-align: center;'],
+                                        ],
+                                        [
+                                            'attribute' => 'quantidade',
+                                            'label' => 'Quantidade de Favoritos',
+                                            'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
+                                            'contentOptions' => ['style' => 'text-align: center;'],
+                                        ],
+                                    ],
+                                ]); ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
         </div>
     </div>
+
