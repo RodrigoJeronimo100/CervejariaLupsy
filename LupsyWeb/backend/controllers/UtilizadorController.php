@@ -2,7 +2,10 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use common\models\Utilizador;
+use frontend\models\SignupForm;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -85,7 +88,7 @@ class UtilizadorController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
+ 
     /**
      * Creates a new Utilizador model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -93,14 +96,10 @@ class UtilizadorController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Utilizador();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->redirect(['index']); 
         }
 
         return $this->render('create', [
