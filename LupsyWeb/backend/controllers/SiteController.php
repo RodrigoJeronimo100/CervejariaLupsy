@@ -104,9 +104,9 @@ class SiteController extends Controller
         }
 
         $query = Favorita::find()
-            ->select(['id_cerveja', 'COUNT(*) AS quantidade', 'cerveja.nome'])
+            ->select(['favorita.id_cerveja', 'COUNT(favorita.id_cerveja) AS quantidade', 'cerveja.nome'])
             ->joinWith('cerveja')
-            ->groupBy('id_cerveja')
+            ->groupBy('favorita.id_cerveja')
             ->orderBy(['quantidade' => SORT_DESC])
             ->limit(5);
 

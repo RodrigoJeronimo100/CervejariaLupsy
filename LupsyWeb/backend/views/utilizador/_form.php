@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'isUtilizador')->checkbox(['class' => 'role-checkbox is-utilizador']) ?>
 
         <div class="form-group">
-            <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

@@ -25,6 +25,9 @@ class Favorita extends \yii\db\ActiveRecord
         return 'favorita';
     }
 
+    public $quantidade;
+
+
     /**
      * {@inheritdoc}
      */

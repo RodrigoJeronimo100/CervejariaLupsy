@@ -126,12 +126,12 @@ $this->title = 'BackOffice';
                             <div class="card-body">
                                 <?= GridView::widget([
                                     'dataProvider' => $dataProvider,
-                                    'summary' => false,  // Não mostrar resumo de paginação
+                                    'summary' => false,
                                     'columns' => [
                                         [
                                             'label' => 'Ranking',
                                             'value' => function ($model, $key, $index, $widget) {
-                                                return $index + 1; // Rank da cerveja
+                                                return $index + 1;
                                             },
                                             'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
                                             'contentOptions' => ['style' => 'text-align: center;'],
@@ -150,6 +150,7 @@ $this->title = 'BackOffice';
                                         ],
                                     ],
                                 ]); ?>
+
                             </div>
                         </div>
                     </div>

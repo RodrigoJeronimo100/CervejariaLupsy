@@ -10,12 +10,8 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Notas';
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="nota-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
