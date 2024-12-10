@@ -79,36 +79,17 @@ class FavoritaController extends Controller
     public function actionCreate($id_cerveja)
     {
         $model = new Favorita();
-
-        if ($model->load(Yii::$app->request->post())) {
-            $model->id_utilizador = Yii::$app->user->id; // Define o valor de id_utilizador com o ID do usuário autenticado
-            if ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        }
-        $model = new Favorita();
         $model->id_cerveja = $id_cerveja;
-        $model->id_cerveja = $id_cerveja;
+        $model->id_utilizador = Yii::$app->user->id; // Define o valor de id_utilizador com o ID do usuário autenticado
 
         if ($model->save()) {
             Yii::$app->session->setFlash('success', 'Cerveja favoritada com sucesso!');
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            $errors = $model->getErrors();
+            Yii::$app->session->setFlash('error', 'Falha ao favoritar a cerveja.' . json_encode($errors));
             return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
         }
-        $errors = $model->getErrors();
-        Yii::$app->session->setFlash('error', 'Falha ao favoritar a cerveja.' . json_encode($errors));
-        return $this->redirect(['cerveja/view', 'id' => $id_cerveja]);
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -24,6 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'nif')->textInput() ?>
         <?= $form->field($model, 'telefone')->textInput() ?>
         <?= $form->field($model, 'morada')->textInput() ?>
+
+        <?= $form->field($model, 'isFuncionario')->checkbox() ?>
+        <?= $form->field($model, 'isUtilizador')->checkbox() ?>
 
         <div class="form-group">
             <?= Html::submitButton('Salvar', ['class' => 'btn btn-success']) ?>

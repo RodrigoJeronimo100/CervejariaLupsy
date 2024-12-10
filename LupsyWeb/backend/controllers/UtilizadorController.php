@@ -88,7 +88,7 @@ class UtilizadorController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
- 
+
     /**
      * Creates a new Utilizador model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -97,9 +97,28 @@ class UtilizadorController extends Controller
     public function actionCreate()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->redirect(['index']); 
+
+        if ($this->request->isPost) {
+            if ($model->load($this->request->post()) && $model->signup()) {
+                $user = User::findByUsername($model->username);
+                $auth = Yii::$app->authManager;
+
+                if ($model->isUtilizador) {
+                    $utilizadorRole = $auth->getRole('utilizador');
+                    $auth->assign($utilizadorRole, $user->id);
+                }
+
+                if ($model->isFuncionario) {
+                    $funcionarioRole = $auth->getRole('funcionario');
+                    $auth->assign($funcionarioRole, $user->id);
+                }
+
+                Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso!');
+                return $this->redirect(['view', 'id' => $user->id]);
+            } else {
+                $errors = $model->getErrors();
+                Yii::$app->session->setFlash('error', 'Falha ao criar o utilizador. Erros: ' . json_encode($errors));
+            }
         }
 
         return $this->render('create', [

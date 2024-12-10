@@ -19,6 +19,8 @@ class SignupForm extends Model
     public $nif;
     public $telefone;
     public $morada;
+    public $isFuncionario;
+    public $isUtilizador;
 
     // Regras de validação
     public function rules()
@@ -54,6 +56,9 @@ class SignupForm extends Model
             ['morada', 'trim'],
             ['morada', 'required', 'message' => 'A morada é obrigatória.'],
             ['morada', 'string', 'max' => 255],
+
+            [['isFuncionario', 'isUtilizador'], 'boolean'],
+
         ];
     }
 
@@ -68,7 +73,7 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-    
+
         // Criação do User
         $user = new User();
         $user->username = $this->username;
@@ -77,14 +82,14 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $user->status = User::STATUS_ACTIVE;
-    
+
         // Prepara o Utilizador mas não salva ainda
         $utilizador = new Utilizador();
         $utilizador->nome = $this->nome;
         $utilizador->nif = $this->nif;
         $utilizador->telefone = $this->telefone;
         $utilizador->morada = $this->morada;
-    
+
         // Inicia uma transação para garantir consistência
         $transaction = \Yii::$app->db->beginTransaction();
         try {
@@ -93,19 +98,27 @@ class SignupForm extends Model
                 $transaction->rollBack();
                 return null;
             }
-    
+
             // Relaciona o ID do User ao Utilizador e tenta salvar
             $utilizador->id_user = $user->id;
             if (!$utilizador->save()) {
                 $transaction->rollBack();
                 return null;
             }
-    
+
             // Atribui a role e confirma a transação
             $auth = \Yii::$app->authManager;
-            $utilizadorRole = $auth->getRole('utilizador');
-            $auth->assign($utilizadorRole, $user->id);
-    
+
+            if ($this->isUtilizador) {
+                $utilizadorRole = $auth->getRole('utilizador');
+                $auth->assign($utilizadorRole, $user->id);
+            }
+
+            if ($this->isFuncionario) {
+                $funcionarioRole = $auth->getRole('funcionario');
+                $auth->assign($funcionarioRole, $user->id);
+            }
+
             $transaction->commit();
             return $user;
         } catch (\Exception $e) {
@@ -113,7 +126,7 @@ class SignupForm extends Model
             return null;
         }
     }
-    
+
 
     protected function sendEmail($user)
     {
