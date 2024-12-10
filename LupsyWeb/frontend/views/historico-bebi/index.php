@@ -1,10 +1,7 @@
 <?php
 
-use frontend\models\HistoricoBebi;
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 
 /** @var yii\web\View $this */

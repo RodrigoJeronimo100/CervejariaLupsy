@@ -2,12 +2,11 @@
 
 namespace frontend\controllers;
 
-use frontend\models\HistoricoBebi;
+use common\models\HistoricoBebi;
 use Yii;
-use yii\data\ActiveDataProvider;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * HistoricoBebiController implements the CRUD actions for HistoricoBebi model.

@@ -2,12 +2,9 @@
 
 namespace common\models;
 
-use common\models\Comentario;
 use backend\models\Categoria;
 use backend\models\Fornecedor;
 use frontend\models\Avaliacao;
-use frontend\models\HistoricoBebi;
-use Yii;
 
 /**
  * This is the model class for table "cerveja".

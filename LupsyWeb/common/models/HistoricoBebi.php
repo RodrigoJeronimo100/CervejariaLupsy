@@ -1,10 +1,6 @@
 <?php
 
-namespace frontend\models;
-
-use common\models\Cerveja;
-use common\models\Utilizador;
-use Yii;
+namespace common\models;
 
 /**
  * This is the model class for table "historico_bebi".
