@@ -103,16 +103,6 @@ class UtilizadorController extends Controller
                 $user = User::findByUsername($model->username);
                 $auth = Yii::$app->authManager;
 
-                if ($model->isUtilizador) {
-                    $utilizadorRole = $auth->getRole('utilizador');
-                    $auth->assign($utilizadorRole, $user->id);
-                }
-
-                if ($model->isFuncionario) {
-                    $funcionarioRole = $auth->getRole('funcionario');
-                    $auth->assign($funcionarioRole, $user->id);
-                }
-
                 Yii::$app->session->setFlash('success', 'Utilizador criado com sucesso!');
                 return $this->redirect(['view', 'id' => $user->id]);
             } else {
