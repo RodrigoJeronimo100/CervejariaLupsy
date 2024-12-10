@@ -8,6 +8,7 @@ use yii\grid\GridView;
 
 $this->title = 'BackOffice';
 ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <?php $this->registerCssFile("@web/css/index_back.css"); ?>
 <div class="site-index">
 
@@ -16,7 +17,7 @@ $this->title = 'BackOffice';
             <div class="small-box bg-gradient-success">
                 <div class="inner">
                     <h3><?= $userCount ?></h3>
-                    <p>Usuários Registados</p>
+                    <p>Utilizadores Registados</p>
                 </div>
                 <div class="icon">
                     <i class="fas fa-user-plus"></i>
@@ -47,7 +48,7 @@ $this->title = 'BackOffice';
                 <div class="col-lg-4" >
                     <div class="card card-secondary">
                         <div class="card-header">
-                            <h3 class="card-title">Top 5 Cervejas Mais Consumidas</h3>
+                            <h3 class="card-title">Top 5 Cervejas Mais Consumidas <i class="fa-solid fa-trophy"></i></h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-hover">
@@ -94,7 +95,7 @@ $this->title = 'BackOffice';
                 <div class="col-lg-4">
                     <div class="card card-secondary">
                         <div class="card-header">
-                            <h3 class="card-title">Cervejas Mais Bem Avaliadas</h3>
+                            <h3 class="card-title">Cervejas Mais Bem Avaliadas <i class="fa-solid fa-star"></i></h3>
                         </div>
                         <div class="card-body">
                             <table class="table table-striped">
@@ -121,7 +122,7 @@ $this->title = 'BackOffice';
                 <div class="col-lg-4">
                         <div class="card card-secondary">
                             <div class="card-header">
-                                <h3 class="card-title">Top 5 Cervejas mais Favoritadas</h3>
+                                <h3 class="card-title">Top 5 Cervejas mais Favoritadas <i class="fa-solid fa-heart"></i></h3>
                             </div>
                             <div class="card-body">
                                 <?= GridView::widget([
