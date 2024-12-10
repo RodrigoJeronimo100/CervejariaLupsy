@@ -145,11 +145,43 @@ class UtilizadorController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        // Inicia uma transação para garantir que ambos sejam deletados corretamente
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            // Encontra o modelo de Utilizador com base no ID
+            $utilizador = $this->findModel($id);
+    
+            // Encontra o User associado ao Utilizador
+            $user = User::findOne(['id' => $utilizador->id_user]);
+    
+            // Deleta o Utilizador primeiro
+            if (!$utilizador->delete()) {
+                // Se falhar ao deletar o Utilizador, faz o rollback
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Falha ao excluir o Utilizador.');
+                return $this->redirect(['index']);
+            }
+    
+            // Agora deleta o User associado
+            if ($user && !$user->delete()) {
+                // Se falhar ao deletar o User, faz o rollback
+                $transaction->rollBack();
+                Yii::$app->session->setFlash('error', 'Falha ao excluir o User.');
+                return $this->redirect(['index']);
+            }
+    
+            // Se tudo ocorreu bem, comita a transação
+            $transaction->commit();
+            Yii::$app->session->setFlash('success', 'Utilizador e User excluídos com sucesso.');
+        } catch (\Exception $e) {
+            // Se ocorrer um erro durante a transação, faz o rollback
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('error', 'Erro ao excluir os dados. Tente novamente.');
+        }
+    
         return $this->redirect(['index']);
     }
-
+    
     /**
      * Finds the Utilizador model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
