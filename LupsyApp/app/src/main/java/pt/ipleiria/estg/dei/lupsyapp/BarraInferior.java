@@ -30,12 +30,12 @@ public class BarraInferior extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_loja) {
                 loadFragment(new LojaFragment());
                 return true;
-//            } else if (item.getItemId() == R.id.nav_favoritos) {
-////                loadFragment(new FavoritosFragment());
-//                return true;
-//            } else if (item.getItemId() == R.id.nav_cart) {
-//                loadFragment(new CarrinhoFragment());
-//                return true;
+            } else if (item.getItemId() == R.id.nav_favoritos) {
+                loadFragment(new FavoritosFragment());
+                return true;
+            } else if (item.getItemId() == R.id.nav_cart) {
+                loadFragment(new CarrinhoFragment());
+                return true;
             } else if (item.getItemId() == R.id.nav_perfil) {
                 loadFragment(new PerfilFragment());
                 return true;

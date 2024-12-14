@@ -4,23 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:backgroundTint="@color/fundo_amarelo_seco"
     tools:context=".HomeFragment">
 
     <!-- LinearLayout principal que contém os widgets do fragment -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="vertical">
 
         <!-- Primeira linha com TextViews -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -48,7 +47,7 @@
         <!-- Segunda linha com TextViews -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -71,7 +70,7 @@
                 android:text="@string/tvSpacing" />
         </LinearLayout>
 
-        <!-- Sepline -->
+        <!-- Linha separadora -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -86,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
 
-        <!-- Vendas e Funil -->
+        <!-- Linha Vendas e Funil -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
@@ -111,26 +110,35 @@
                 android:id="@+id/imageView5"
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_marginRight="15dp"
                 android:layout_weight="0.05"
-                app:srcCompat="@drawable/ic_filtericon"
                 android:clickable="true"
                 android:focusable="true"
-                android:layout_gravity="center"
-                android:onClick="onClickFunil"/>
+                android:onClick="onClickFunil"
+                app:srcCompat="@drawable/ic_filtericon" />
 
         </LinearLayout>
 
-        <!-- Espaço em branco -->
         <View
-            android:id="@+id/view5"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp" />
-
-        <View
-            android:id="@+id/view8"
-            android:layout_width="wrap_content"
+            android:id="@+id/vMeio"
+            android:layout_width="match_parent"
             android:layout_height="20dp" />
 
     </LinearLayout>
+
+    <!-- Layout de Atualização e Lista -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv_cervejas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </LinearLayout>

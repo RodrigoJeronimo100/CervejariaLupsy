@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LojaFragment">
+    tools:context=".CarrinhoFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <ListView
-            android:id="@+id/lv_cervejas"
+            android:id="@+id/lv_carrinho"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

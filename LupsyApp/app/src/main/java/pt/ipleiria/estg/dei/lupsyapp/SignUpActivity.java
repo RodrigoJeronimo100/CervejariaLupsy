@@ -13,7 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class CadastroActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private EditText etNomeCad;
     private EditText etEmailCad;
@@ -24,7 +24,7 @@ public class CadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_cadastro);
+        setContentView(R.layout.activity_singup);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -57,7 +57,7 @@ public class CadastroActivity extends AppCompatActivity {
         return password.length() >= 4;
     }
 
-    public void onClickCadastro(View view) {
+    public void onClickSignUp(View view) {
 
         String nome = etNomeCad.getText().toString();
         String email = etEmailCad.getText().toString();
@@ -81,7 +81,7 @@ public class CadastroActivity extends AppCompatActivity {
         Toast.makeText(this, "Conta Criada", Toast.LENGTH_SHORT).show();
 
 
-        Intent intent = new Intent(CadastroActivity.this, LoginActivity.class);
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

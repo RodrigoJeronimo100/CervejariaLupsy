@@ -5,25 +5,30 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/fundo_amarelo_seco"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".PerfilActivity">
 
-    <!-- Imagem do Perfil e Dados do Usuário -->
+    <!-- Profile Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp">
 
         <ImageView
             android:id="@+id/imgPerfil"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logonobg" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -31,89 +36,99 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:text="@string/username"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email" />
+                android:text="@string/email"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvExtra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="..."
+                android:textSize="14sp" />
         </LinearLayout>
-
     </LinearLayout>
 
-    <!-- Título de Histórico -->
+    <!-- History Section -->
     <TextView
         android:id="@+id/tvTituloHistorico"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal|left"
-        android:text="Historico de bebidas"
+        android:paddingBottom="8dp"
+        android:text="@string/hist_rico_de_bebidas"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- Histórico com Scroll -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3">
+        android:paddingBottom="16dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerCrop"
+                />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginEnd="8dp"
+                android:scaleType="centerCrop"
+                 />
+
+            <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@android:drawable/ic_menu_crop" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@android:drawable/ic_menu_crop" />
-
-            <ImageView
-                android:id="@+id/imageView6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_crop" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                />
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- Bebidas mais Bebidas -->
+    <!-- Favorites Section -->
+    <TextView
+        android:id="@+id/TituloBebidasMaisBebeste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:text="Bebidas que mais bebeste"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.3"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/TituloBebidasMaisBebeste"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:text="Bebidas que mais bebeste"
-            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvCerveja1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
             android:text="Cerveja 1" />
 
         <TextView
             android:id="@+id/tvCerveja2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
             android:text="Cerveja 2" />
 
         <TextView
@@ -121,6 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerveja 3" />
-
     </LinearLayout>
+
+
 </LinearLayout>

@@ -25,6 +25,9 @@
     <string name="etNome">Nome Utilizador</string>
     <string name="BtnCriar">Criar</string>
     <string name="nome_invalido" />
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_content_hint" />
+    <string name="hist_rico_de_bebidas">Histórico de bebidas</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+
 </resources>
