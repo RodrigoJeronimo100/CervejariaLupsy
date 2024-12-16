@@ -8,7 +8,7 @@
     android:background="@color/fundo_amarelo_seco"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".PerfilActivity">
+    tools:context=".PerfilFragment">
 
     <!-- Profile Section -->
     <LinearLayout
