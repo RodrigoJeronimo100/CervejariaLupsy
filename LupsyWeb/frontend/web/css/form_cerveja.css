@@ -34,9 +34,9 @@
 }
 
 .card-img {
-    transition: all 0.5s;
     display: flex;
     justify-content: center;
+    transition: transform 0.3s ease;
 }
 
 .card-img .img {
@@ -142,8 +142,10 @@
 }
 
 .card-img:hover {
-    transform: translateY(-3px);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
 }
+
 
 .card-btn:hover {
     border: 2px solid var(--main-focus);
@@ -238,4 +240,16 @@
     border: 1px solid #8b7500;
 }
 
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
 
