@@ -13,10 +13,10 @@
     justify-content: center;
 }
 
-.table > thead a{
+.table > thead a {
     text-decoration: none;
     text-underline: none;
-    color: white;
+    color: black;
 }
 
 .table {

@@ -43,14 +43,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Data de Adição',
             ],
             [
-                'class' => ActionColumn::className(),
-                'template' => '{view} {delete}',
+                'class' => yii\grid\ActionColumn::className(),
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<i class="fas fa-trash"></i>', // FontAwesome delete icon
+                            $url,
+                            [
+                                'title' => 'Delete',
+                                'data-confirm' => 'Tem certeza de que deseja excluir este item?',
+                                'data-method' => 'post',
+                                'style' => 'color: black;', // Make the icon black
+                            ]
+                        );
+                    },
+                ],
                 'urlCreator' => function ($action, Favorita $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>
+
 
 
 </div>

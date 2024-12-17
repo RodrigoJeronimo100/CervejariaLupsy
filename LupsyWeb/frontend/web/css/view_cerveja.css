@@ -48,7 +48,6 @@
 }
 
 .detail-item-notop{
-    width: 60%;
     padding: 0 30px;
 }
 
@@ -63,8 +62,28 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-    max-width: 25ch;
+    line-height: 1.5;
+    display: block;
 }
+.detail-content-middle{
+    color: #333;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    line-height: 1.5;
+    display: flex;
+    justify-content: center;
+
+}
+.card-alcohol {
+    margin-top: 10%;
+    padding: 10px;
+    background: #fff;
+    color: #1e1e1e;
+    border-radius: 5%;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px;
+}
+
 
 .image-container {
     margin-bottom: 20px;
