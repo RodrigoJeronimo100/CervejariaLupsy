@@ -1,7 +1,13 @@
+<?php
+
+use yii\bootstrap5\Html;
+
+?>
 <aside class="main-sidebar sidebar-dark-orange ">
     <!-- Brand Logo -->
-    <a href="../web/index.php" class="brand-link">
-        <img src="../web/img/logonobg.png"  class="brand-image img-circle elevation-3" style="opacity: 1">
+
+    <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" class="brand-link">
+        <?= Html::img('@web/img/logonobg.png', ['alt' => 'IBU', 'class' => 'brand-image img-circle elevation-3', 'style' => 'opacity: 1']) ?>
         <span class="brand-text font-weight-light">Cervejaria Lupsy</span>
     </a>
 
@@ -10,7 +16,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="../web/index.php" class="d-block">
+                <a href="<?= \yii\helpers\Url::to(['/site/index']) ?>" class="d-block">
                     <?= Yii::$app->user->isGuest ? 'Guest' : Yii::$app->user->identity->username ?>
                 </a>
             </div>

@@ -29,5 +29,8 @@
     <string name="hist_rico_de_bebidas">Histórico de bebidas</string>
     <string name="email">Email</string>
     <string name="username">Username</string>
+    <string name="tvFav">Favoritas</string>
+    <string name="tvLoja">Loja</string>
+    <string name="tvCar">O teu Carrinho</string>
 
 </resources>

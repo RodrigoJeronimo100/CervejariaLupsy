@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -37,6 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         // Temporario apenas para facilitar o login de teste
         etEmail.setText("email@email.pt");
         etPassword.setText("12345678");
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        setContentView(R.layout.activity_login);
 
     }
 
