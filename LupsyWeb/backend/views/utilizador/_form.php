@@ -26,8 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'telefone')->textInput() ?>
         <?= $form->field($model, 'morada')->textInput() ?>
 
-        <?= $form->field($model, 'isFuncionario')->checkbox(['class' => 'role-checkbox is-funcionario']) ?>
-        <?= $form->field($model, 'isUtilizador')->checkbox(['class' => 'role-checkbox is-utilizador']) ?>
+        <?= $form->field($model, 'isFuncionario')->checkbox(['class' => 'role-checkbox is-funcionario', 'label' => 'Funcionário']) ?>
+        <?= $form->field($model, 'isUtilizador')->checkbox(['class' => 'role-checkbox is-utilizador', 'label' => 'Utilizador']) ?>
 
         <div class="form-group">
             <?= Html::submitButton('Guardar', ['class' => 'btn btn-success']) ?>
@@ -38,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <?php
-$this->registerJs(<<<JS
+$this->registerJs(
+    <<<JS
 $('.role-checkbox').on('change', function () {
     if ($(this).hasClass('is-funcionario') && $(this).is(':checked')) {
         $('.is-utilizador').prop('checked', false);

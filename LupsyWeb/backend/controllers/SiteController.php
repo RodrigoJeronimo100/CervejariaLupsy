@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Fornecedor;
 use common\models\Favorita;
 use common\models\Cerveja;
 use common\models\HistoricoBebi;
@@ -79,6 +80,7 @@ class SiteController extends Controller
     {
         $userCount = Utilizador::find()->count(); //Conta o nº de utilizadores
         $cervejasCount = Cerveja::find()->where(['estado' => '1'])->count(); //Conta o nº de cervejas
+        $fornecedoresCount = Fornecedor::find()->count(); //Conta o nº de fornecedores
 
         $topCervejas = HistoricoBebi::find()
             ->select(['cerveja_nome' => 'cerveja.nome', 'total_consumed' => 'COUNT(*)'])
@@ -122,6 +124,7 @@ class SiteController extends Controller
         return $this->render('index', [
             'userCount' => $userCount,
             'cervejasCount' => $cervejasCount,
+            'fornecedoresCount' => $fornecedoresCount,
             'topCervejas' => $topCervejas,
             'topRatedCervejas' => $topRatedCervejas,
             'dataProvider' => $dataProvider,
@@ -143,7 +146,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if (!Yii::$app->user->can('admin')) {
+            if (!Yii::$app->user->can('admin') && !Yii::$app->user->can('funcionario')) {
                 Yii::$app->user->logout();
                 Yii::$app->session->setFlash('error', 'Acesso negado. Você não tem permissão para acessar esta página.');
                 return $this->redirect(['site/login']);

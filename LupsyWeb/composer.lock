@@ -2556,6 +2556,7 @@
         "codeception/module-filesystem": "^1.0",
         "codeception/verify": "<2",
         "codemix/yii2-localeurls": "^1.7",
+        "phpstan/phpstan": "^1.10",
         "yiisoft/yii2": "dev-master",
         "yiisoft/yii2-app-advanced": "dev-master"
       },
