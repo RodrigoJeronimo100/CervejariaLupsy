@@ -1,0 +1,13 @@
+suite_namespace: frontend\tests\acceptance
+actor: AcceptanceTester
+modules:
+  enabled:
+    - WebDriver:
+        url: "http://localhost/CervejariaLupsy/LupsyWeb/frontend/web/"
+        browser: chrome
+        window_size: maximize
+        capabilities:
+            goog:chromeOptions:
+                args: []
+    - Yii2:
+        part: init

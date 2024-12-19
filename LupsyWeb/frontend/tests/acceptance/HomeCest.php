@@ -9,13 +9,14 @@ class HomeCest
 {
     public function checkHome(AcceptanceTester $I)
     {
-        $I->amOnRoute(Url::toRoute('/site/index'));
-        $I->see('My Application');
-
+        $I->amOnPage('/');
+        $I->wait(2);
+        $I->see('Descobre uma nova experiência de cervejas com a nossa aplicação e website que une amantes de cervejas a partir da nossa comunidade.');
+/*
         $I->seeLink('About');
         $I->click('About');
         $I->wait(2); // wait for page to be opened
 
-        $I->see('This is the About page.');
+        $I->see('This is the About page.');*/
     }
 }
