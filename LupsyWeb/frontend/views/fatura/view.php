@@ -3,6 +3,7 @@
 use common\models\ItemFatura;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\helpers\Url;
@@ -10,30 +11,28 @@ use yii\helpers\Url;
 /** @var yii\web\View $this */
 /** @var common\models\Fatura $model */
 
-$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Faturas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="fatura-view">
+    <?php $this->registerCssFile("@web/css/view_fatura.css"); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?= Breadcrumbs::widget([
+        'homeLink' => ['label' => 'Home', 'url' => ['/site/index']],
+        'links' => [
+            ['label' => 'Fatura', 'url' => ['/fatura/index']],
+            ['label' => 'Detalhes da Fatura', 'url' => null],
+        ],
+        'options' => ['class' => 'breadcrumb', 'style' => 'background-color: #f7f5f0; margin-top: 8pn; margin-bottom: -8px;'],
+        'itemTemplate' => "<li style='display: inline-block; margin-right: 5px;'>{link}</li> &nbsp; > &nbsp; ",
+        'activeItemTemplate' => "<li style='display: inline-block; margin-right: 5px; font-weight: bold;'>{link}</li>",
+    ]); ?>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+    <h1><?= Html::encode('Fatura') ?></h1>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             [
                 'label' => 'Nome',
                 'value' => $model->utilizador->nome,
@@ -44,21 +43,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->getTotalFatura(),
                 'format' => ['decimal', 2],
             ],
-            'estado',
         ],
     ]) ?>
 
     <h2>Itens da Fatura</h2>
     <?= GridView::widget([
         'dataProvider' => new yii\data\ArrayDataProvider([
-            'allModels' => $model->itemFaturas,  
+            'allModels' => $model->itemFaturas,
             'pagination' => [
                 'pageSize' => 10,
             ],
         ]),
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            
+
             [
                 'attribute' => 'nome_cerveja',
                 'value' => function ($model) {
@@ -75,13 +73,56 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => ['decimal', 2],
             ],
             [
-                'class' => ActionColumn::className(),
+                'class' => yii\grid\ActionColumn::className(),
+                'template' => '{delete}',
+                'buttons' => [
+                    'delete' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<i class="fas fa-trash"></i>', // FontAwesome icon
+                            $url,
+                            [
+                                'title' => 'Delete',
+                                'data-confirm' => 'Tem certeza de que deseja excluir este item?',
+                                'data-method' => 'post',
+                                'style' => 'color: black;', // Make the icon black
+                            ]
+                        );
+                    },
+                ],
                 'urlCreator' => function ($action, ItemFatura $model, $key, $index, $column) {
                     return Url::toRoute(['/item-fatura/' . $action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
-       
     ]); ?>
 
+
 </div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+    h1{
+        font-family: "Space Grotesk", sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        font-weight: bold;
+    }
+    h2{
+        font-family: "Space Grotesk", sans-serif;
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        font-weight: bold;
+    }
+    .breadcrumb {
+        font-size: 14px;
+        color: #333;
+    }
+    .breadcrumb a {
+        text-decoration: none;
+        color: #373737;
+    }
+    .breadcrumb a:hover {
+        text-decoration: none;
+    }
+</style>

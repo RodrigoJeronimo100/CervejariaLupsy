@@ -3,6 +3,7 @@
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\Breadcrumbs;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -14,8 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <?php $this->registerCssFile("@web/css/view_cerveja.css"); ?>
-<div class="cerveja-view custom-view">
 
+<?= Breadcrumbs::widget([
+    'homeLink' => ['label' => 'Home', 'url' => ['/site/index']],
+    'links' => [
+        ['label' => 'Cervejas', 'url' => Yii::$app->request->referrer],
+        ['label' => 'Detalhes da Cerveja', 'url' => null],
+    ],
+    'options' => ['class' => 'breadcrumb', 'style' => 'background-color: #f7f5f0; margin-bottom: -30px;'],
+    'itemTemplate' => "<li style='display: inline-block; margin-right: 5px;'>{link}</li> &nbsp; > &nbsp; ",
+    'activeItemTemplate' => "<li style='display: inline-block; margin-right: 5px; font-weight: bold;'>{link}</li>",
+]); ?>
+<div class="cerveja-view custom-view">
     <div class="details-container">
         <div class="detail-item">
             <div class="detail-nome"><?= Html::encode($model->nome) ?></div>
@@ -23,10 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::img('@web/img/beer.png', ['style' => 'width: 300px; height:300px; margin-left: -5px;']) ?>
             <div class="detail-item-notop">
                 <div class="detail-content"><?= Html::encode($model->descricao) ?></div>
-                <div class="detail-content"><?= Html::encode($model->teor_alcoolico) ?>% Álcool</div>
             </div>
         </div>
-        
+
+
         <div class="detail-item">
             <!-- Botao para favoritar / desfavoritar  -->
             <div class="favoritar">
@@ -82,6 +93,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php else: ?>
                         <p class="text-center">Esta cerveja ainda não foi avaliada.</p>
                     <?php endif; ?>
+                </div>
+                <div class="card-alcohol">
+                    <div class="detail-content-middle"><?= Html::encode($model->teor_alcoolico) ?>% Álcool</div>
                 </div>
             </div>
 
@@ -254,3 +268,16 @@ function addToHistoricoBebi(utilizadorId, cervejaId) {
 }
 
 </script>
+<style>
+    .breadcrumb {
+        font-size: 14px;
+        color: #333;
+    }
+    .breadcrumb a {
+        text-decoration: none;
+        color: #373737;
+    }
+    .breadcrumb a:hover {
+        text-decoration: none;
+    }
+</style>

@@ -9,20 +9,19 @@
 .table tbody tr td:first-child {
     background-color: rgba(255, 255, 255, 0);
     color: #1e1e1e;
-    font-weight: bold;
     display: flex;
     justify-content: center;
 }
 
-.table > thead a {
+.table > thead a{
     text-decoration: none;
     text-underline: none;
-    color: black;
+    color: white;
 }
 
 .table {
     width: 100%; +
-    border-collapse: collapse;
+border-collapse: collapse;
 }
 
 .table th,

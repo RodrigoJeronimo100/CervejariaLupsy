@@ -8,6 +8,10 @@
 
     <style name="Theme.LupsyApp" parent="Base.Theme.LupsyApp" />
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+    </style>
+
 
     <style name="Theme.LupsyApp.NoActionBar" parent="Base.Theme.LupsyApp">
 
