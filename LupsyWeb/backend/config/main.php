@@ -11,10 +11,25 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [],
+    'modules' => [
+        'api' => [
+            'class' => 'backend\modules\api\ModuleAPI',
+        ],
+    ],
     'components' => [
+        // 'response' => [
+        //     'formatters' => [
+        //         \yii\web\Response::FORMAT_JSON => [
+        //             'class' => 'yii\web\JsonResponseFormatter',
+        //         ],
+        //     ],
+        //     'format' => yii\web\Response::FORMAT_HTML, // Formato padrão
+        // ],
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+            'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'view' => [
          'theme' => [
@@ -44,13 +59,13 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*'urlManager' => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'cerveja'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/cerveja',  'extraPatterns' => [],],
             ],
-        ],*/
+        ],
     ],
     'params' => $params,
 ];
