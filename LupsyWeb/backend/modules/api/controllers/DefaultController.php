@@ -3,25 +3,35 @@
 namespace backend\modules\api\controllers;
 
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 use yii\web\Controller;
 use yii\web\Response;
 
 class DefaultController extends Controller
 {
+    // public function behaviors()
+    // {
+    //     return [
+    //         'access' => [
+    //         'class' => \yii\filters\AccessControl::class,
+    //         'only' => ['index', 'view'], // Aplica-se às ações especificadas
+    //         'rules' => [
+    //             [
+    //                 'allow' => true,
+    //                 'roles' => ['@'], // Apenas usuários autenticados têm acesso
+    //             ],
+    //         ],
+    //     ],
+    // ];
+    // }
+
     public function behaviors()
     {
-        return [
-            'access' => [
-            'class' => \yii\filters\AccessControl::class,
-            'only' => ['index', 'view'], // Aplica-se às ações especificadas
-            'rules' => [
-                [
-                    'allow' => true,
-                    'roles' => ['@'], // Apenas usuários autenticados têm acesso
-                ],
-            ],
-        ],
-    ];
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+        ];
+        return $behaviors;
     }
 
     public function actionIndex()

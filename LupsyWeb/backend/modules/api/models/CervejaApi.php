@@ -4,6 +4,7 @@ namespace backend\modules\api\models;
 use backend\models\Fornecedor;
 use backend\models\Categoria;
 use common\models\Cerveja as BaseCerveja;
+use Yii;
 
 class CervejaApi extends BaseCerveja
 {
@@ -58,6 +59,16 @@ class CervejaApi extends BaseCerveja
                 }
             }
 
+            $estado = Yii::$app->request->post('estado', $this->estado);
+            if ($estado === 'ATIVO') {
+                $this->estado = 1;
+            } elseif ($estado === 'INATIVO') {
+                $this->estado = 0;
+            }else{
+                $this->addError('estado', 'estado inválido utilize ATIVO ou INATIVO');
+                return false;
+            }
+
             return true;
         }
         return false;
@@ -72,7 +83,16 @@ class CervejaApi extends BaseCerveja
             [['nome', 'descricao', 'teor_alcoolico', 'preco', 'estado'], 'required'],
             [['teor_alcoolico', 'preco'], 'number', 'min' => 0],
             [['estado'], 'string', 'max' => 20],
-            [['nome', 'descricao'], 'string', 'max' => 255],
+            [['nome', 'descricao', 'categoria_nome', 'fornecedor_nome'], 'string', 'max' => 255],
         ];
+    }
+    public static function getCategorias()
+    {
+        return Categoria::find()->all();
+    }
+
+    public static function getFornecedores()
+    {
+        return Fornecedor::find()->all();
     }
 }
