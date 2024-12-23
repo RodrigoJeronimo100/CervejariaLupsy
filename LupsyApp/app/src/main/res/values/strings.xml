@@ -32,5 +32,10 @@
     <string name="tvFav">Favoritas</string>
     <string name="tvLoja">Loja</string>
     <string name="tvCar">O teu Carrinho</string>
+    <string name="nome"> Nome 1 </string>
+    <string name="descricao"> Descrição 1 </string>
+    <string name="teor_alcool"> 1.5 </string>
+    <string name="preco"> 1.5 </string>
+    <string name="save_content">  </string>
 
 </resources>
