@@ -19,7 +19,7 @@ public class BarraInferior extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        
+
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -39,13 +39,12 @@ public class BarraInferior extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_perfil) {
                 loadFragment(new PerfilFragment());
                 return true;
+
             }
+
             return false;
         });
 
-            if (savedInstanceState == null) {
-                loadFragment(new HomeFragment());
-            }
     }
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
@@ -57,4 +56,5 @@ public class BarraInferior extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
+
 }
