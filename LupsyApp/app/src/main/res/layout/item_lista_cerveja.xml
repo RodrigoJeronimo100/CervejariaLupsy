@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="0.7"
         android:ems="10"
         android:orientation="vertical">
@@ -23,7 +23,7 @@
         <View
             android:id="@+id/vSuperior"
             android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:layout_height="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,11 +44,11 @@
         <View
             android:id="@+id/vMeio"
             android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:layout_height="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -57,6 +57,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:text="" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvPreco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tvTeorAlcool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
         </LinearLayout>
 
 
