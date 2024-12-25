@@ -37,5 +37,7 @@
     <string name="teor_alcool"> 1.5 </string>
     <string name="preco"> 1.5 </string>
     <string name="save_content">  </string>
+    <string name="teor_alcoolico">Teor Alcoólico</string>
+    <string name="precos">Preço</string>
 
 </resources>

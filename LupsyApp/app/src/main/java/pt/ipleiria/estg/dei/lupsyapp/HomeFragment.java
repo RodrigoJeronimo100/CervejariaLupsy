@@ -66,9 +66,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getContext(),livros.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
                 // codigo para ir para o detalhes livro
-                //Intent intent = new Intent(getContext(), DetalhesCervejaActivity.class);
-                //intent.putExtra(DetalhesCervejaActivity.ID_LIVRO, (int) id);
-                //startActivity(intent);
+                Intent intent = new Intent(getContext(), CervejaDetailsActivity.class);
+                intent.putExtra(CervejaDetailsActivity.ID_CERVEJA, (int) id);
+                startActivity(intent);
             }
         });
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);

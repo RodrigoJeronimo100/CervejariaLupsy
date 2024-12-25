@@ -24,7 +24,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String UrlAPICervejas = "http://localhost:8080/api/cerveja";
+    private static final String UrlAPICervejas = "http://192.168.56.1:8080/api/cerveja";
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
@@ -59,6 +59,19 @@ public class Singleton {
         for (Cerveja c : cervejas){
             adicionarCervejaBD(c);
         }
+    }
+
+    public ArrayList<Cerveja> getCervejas() {
+        return new ArrayList<>(cervejas);
+    }
+
+    public Cerveja getCerveja(int id) {
+        for (Cerveja c : cervejas) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
     }
 
     private void adicionarCervejaBD(Cerveja c) {

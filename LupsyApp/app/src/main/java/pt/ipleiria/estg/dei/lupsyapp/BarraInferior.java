@@ -11,6 +11,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BarraInferior extends AppCompatActivity {
 
+    public static final int ADD = 100, EDIT = 200, DELETE = 300;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
