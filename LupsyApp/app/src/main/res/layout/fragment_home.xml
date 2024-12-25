@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:backgroundTint="@color/fundo_amarelo_seco"
-    android:divider="@color/white"
     android:orientation="vertical"
+    android:backgroundTint="@color/fundo_amarelo_seco"
     tools:context=".HomeFragment">
 
     <!-- LinearLayout principal que contém os widgets do fragment -->
@@ -138,8 +137,8 @@
             android:id="@+id/lv_cervejas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@color/fundo_amarelo_seco"
-            android:dividerHeight="5dp" />
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

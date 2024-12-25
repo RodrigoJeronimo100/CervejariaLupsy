@@ -24,7 +24,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String UrlAPICervejas = "http://localhost:8080/api/cerveja";
+    private static final String UrlAPICervejas = "http://192.168.1.68:8080/api/cerveja";
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
