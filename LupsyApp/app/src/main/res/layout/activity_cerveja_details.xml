@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -15,57 +16,150 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/nome"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                android:textSize="25dp"
+                tools:ignore="VisualLintTextFieldSize" />
 
             <ImageView
-                android:id="@+id/iv_cover"
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                app:srcCompat="@drawable/ic_sepline" />
+
+            <ImageView
+                android:id="@+id/imgCapa"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/beer" />
 
-            <EditText
-                android:id="@+id/et_nome"
+            <ImageView
+                android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/nome"
-                android:inputType="text"
-                android:minHeight="48dp"
-                tools:ignore="VisualLintTextFieldSize" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                app:srcCompat="@drawable/ic_sepline" />
 
-            <EditText
-                android:id="@+id/et_descricao"
+            <TextView
+                android:id="@+id/tv_descricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
                 android:ems="10"
+                android:gravity="center"
                 android:hint="@string/descricao"
                 android:inputType="text"
                 android:minHeight="48dp"
+                android:singleLine="true"
+                android:textSize="20sp"
                 tools:ignore="VisualLintTextFieldSize" />
 
-            <EditText
-                android:id="@+id/et_teor_alcool"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:hint="@string/teor_alcool"
-                android:inputType="numberDecimal"
-                android:minHeight="48dp"
-                tools:ignore="VisualLintTextFieldSize" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:padding="8dp">
 
-            <EditText
-                android:id="@+id/et_preco"
-                android:layout_width="match_parent"
+            <!-- Container for Teor Alcool -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:autofillHints="year"
-                android:ems="10"
-                android:hint="@string/preco"
-                android:inputType="numberDecimal"
-                tools:ignore="VisualLintTextFieldSize" />
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="36dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/grey">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tv_teor_alcool"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/teor_alcool"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvTeorAlcool"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:autofillHints=""
+                        android:background="@android:color/transparent"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:minHeight="48dp"
+                        android:padding="8dp"
+                        android:text="@string/teor_alcoolico"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Container for Preco -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="36dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/grey">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tv_preco"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/preco"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvPreco"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:autofillHints=""
+                        android:background="@android:color/transparent"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="@string/precos"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
@@ -73,17 +167,5 @@
                 android:layout_weight="0.5" />
         </LinearLayout>
     </ScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/save_content"
-        android:focusable="true"
-        android:backgroundTint="@color/preto_fosco"
-        android:src="@drawable/ic_save"
-        app:tint="@color/white"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

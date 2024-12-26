@@ -61,6 +61,19 @@ public class Singleton {
         }
     }
 
+    public ArrayList<Cerveja> getCervejas() {
+        return new ArrayList<>(cervejas);
+    }
+
+    public Cerveja getCerveja(int id) {
+        for (Cerveja c : cervejas) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     private void adicionarCervejaBD(Cerveja c) {
         cervejaDBHelper.adicionarCervejaBD(c);
     }
