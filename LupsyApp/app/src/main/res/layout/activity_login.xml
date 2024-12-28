@@ -40,6 +40,7 @@
         android:background="@drawable/editborder"
         android:ems="10"
         android:hint="@string/EtHUsername"
+        android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="10dp" />
 
