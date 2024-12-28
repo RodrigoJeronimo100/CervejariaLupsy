@@ -1,8 +1,8 @@
 package pt.ipleiria.estg.dei.lupsyapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,10 +14,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LoginActivity extends AppCompatActivity {
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.LoginListener;
+
+public class LoginActivity extends AppCompatActivity implements LoginListener {
 
 
-    private EditText etEmail;
+    private EditText etUsername;
     private EditText etPassword;
 
 
@@ -32,24 +36,21 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
-        etEmail = findViewById(R.id.etEmail);
+        etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         
         // Temporario apenas para facilitar o login de teste
-        etEmail.setText("email@email.pt");
-        etPassword.setText("12345678");
+       //etUsername.setText("adm");
+        //etPassword.setText("12345678");
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        setContentView(R.layout.activity_login);
-
     }
 
-    private boolean isEmailValido(String email) {
-        if (email == null)
+    private boolean isUsernameValido(String username) {
+        if (username == null)
             return false;
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
-
+        return true;
     }
 
     private boolean isPasswordValida(String password) {
@@ -60,12 +61,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onClickLogin(View view) {
-        String email = etEmail.getText().toString();
+        System.out.println("click");
+        String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        //System.out.println(etUsername.getText().toString() + " : " + password);
 
         // Validar email e senha
-        if (!isEmailValido(email)) {
-            etEmail.setError(getString(R.string.email_invalido));
+        if (!isUsernameValido(username)) {
+            etUsername.setError(getString(R.string.email_invalido));
             return;
         }
 
@@ -74,11 +77,23 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LoginActivity.this, BarraInferior.class);
-        startActivity(intent);
-        finish();
+        Singleton.getInstance(this).login(username, password, this,this);
+    }
 
+    public void onValidateLogin(Utilizador utilizador, Context context) {
+        System.out.println("onValidateLogin "+ utilizador);
+        if (utilizador == null) {
+            // Login falhou
+            System.out.println("Erro no login");
+            //Toast.makeText(this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
+            etPassword.setError("Credenciais invalidas");
+        } else {
+            // Login bem-sucedido
+            Toast.makeText(this, "Login bem-sucedido", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this, BarraInferior.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void onClickCadastro(View view) {

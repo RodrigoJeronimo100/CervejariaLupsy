@@ -3,6 +3,7 @@
 namespace common\models;
 
 use frontend\models\Avaliacao;
+use Yii;
 
 /**
  * This is the model class for table "utilizador".
@@ -108,6 +109,17 @@ class Utilizador extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'id_user']);
+    }
+    public function getRole(){
+        $auth = Yii::$app->authManager;
+        $roles = $auth->getRolesByUser($this->id);
+        $roleUser = "null";
+        foreach ($roles as $role) {
+            //Type 1 = Roles, Type 2 = Permission (documentaçao do YII2)
+            if($role->type == 1)
+                $roleUser = $role->name;
+        }
+        return $roleUser;
     }
 
 }

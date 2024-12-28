@@ -39,5 +39,11 @@
     <string name="save_content">  </string>
     <string name="teor_alcoolico">Teor Alcoólico</string>
     <string name="precos">Preço</string>
+    <string name="tchim_tchim_icon">TCHIM-TCHIM Icon</string>
+    <string name="tchim_tchim">TCHIM-TCHIM</string>
+    <string name="favoritos_icon">favoritos</string>
+    <string name="favoritar">Favoritar</string>
+    <string name="tvUsername">Username</string>
+    <string name="EtHUsername">Username</string>
 
 </resources>

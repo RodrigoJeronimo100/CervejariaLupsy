@@ -12,25 +12,38 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.util.Util;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.LoginListener;
 import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
     private static final String UrlAPICervejas = "http://192.168.1.68:8080/api/cerveja";
+    private static final String UrlAPILogin = "http://192.168.1.68:8080/api/utilizador/auth";
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
     private CervejaDBHelper cervejaDBHelper;
+    private UtilizadorDBHelper utilizadorDBHelper;
     private CervejasListener cervejasListener;
     private CervejaListener cervejaListener;
+    private Utilizador utilizador;
+    private LoginListener loginListener;
+    private Context context; // Variável de instância para o context
 
     public static synchronized Singleton getInstance(Context context){
         if(instance==null){
@@ -44,6 +57,7 @@ public class Singleton {
         // gerarDadosDinamico();
         cervejas = new ArrayList<>();
         cervejaDBHelper = new CervejaDBHelper(context);
+        utilizadorDBHelper = new UtilizadorDBHelper(context);
     }
 
     // Registro dos listeners
@@ -52,6 +66,12 @@ public class Singleton {
     }
     public void setCervejaListener(CervejaListener cervejaListener) {
         this.cervejaListener = cervejaListener;
+    }
+    public void setLoginListener(LoginListener loginListener) {
+        this.loginListener = loginListener;
+    }
+    public LoginListener getLoginListener() {
+        return loginListener;
     }
     public void adicionarCervejasBD(ArrayList<Cerveja> cervejas){
         cervejaDBHelper.removerallCervejasdb();
@@ -77,7 +97,9 @@ public class Singleton {
     private void adicionarCervejaBD(Cerveja c) {
         cervejaDBHelper.adicionarCervejaBD(c);
     }
-
+    private void adicionarUtilizadorBD(Utilizador u) {
+        utilizadorDBHelper.insertOrUpdateUtilizador(u);
+    }
     public void getAllCervejasAPI(final Context context){
         if (!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
@@ -149,4 +171,68 @@ public class Singleton {
             volleyQueue.add(request);
         }
     }
+
+    public void login(final String email, final String password,LoginListener loginListener, Context context) {
+        this.loginListener = loginListener;
+        this.context = context;
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                UrlAPILogin,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            utilizador = JsonParser.parseJsonLogin(response);
+                        } catch (JSONException e) {
+                            System.out.println("---> erro no jsonParseLogin");
+                            throw new RuntimeException(e);
+                        }
+                        if (utilizador != null) {
+                            // Armazene os dados do usuário nas SharedPreferences
+                                //singleton.putString("id", String.valueOf(utilizador.getId()));
+//                                putString("name", utilizador.getName());
+//                                putString("email", utilizador.getEmail());
+                            loginListener.onValidateLogin(utilizador, context);
+                            utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
+                            System.out.println("---> utilizador existe: " + utilizador.getNome());
+                        } else {
+                            // Lidar com erro de autenticação
+                            System.out.println("---> erro de autenticacao");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Lidar com erro na requisição
+                        if (error instanceof VolleyError && error.networkResponse != null && error.networkResponse.statusCode == 403) {
+
+                            if (loginListener != null) {
+                                loginListener.onValidateLogin(null,context);
+                                System.out.println("---> erro 403 "+error.getMessage());
+                            }
+                        } else {
+                            // Outro tipo de erro
+                            System.out.println("---> erro na requisição "+error.getMessage());
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", email);
+                params.put("password", password);
+                System.out.println("---> params: " + params);
+                return params;
+            }
+        };
+
+        volleyQueue.add(request);
+    }
+
+    public void logout() {
+        utilizador = null;
+    }
+
 }
