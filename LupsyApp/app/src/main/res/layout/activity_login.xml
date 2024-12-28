@@ -24,23 +24,22 @@
         app:srcCompat="@drawable/logotipo" />
 
     <TextView
-        android:id="@+id/tvEmail"
+        android:id="@+id/tvUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tvEmail"
+        android:text="@string/tvUsername"
         android:textColor="@color/preto_fosco"
         android:layout_marginLeft="15dp"/>
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/editborder"
         android:ems="10"
-        android:hint="@string/etE_mail"
-        android:inputType="textEmailAddress"
+        android:hint="@string/EtHUsername"
         android:minHeight="48dp"
         android:paddingStart="10dp" />
 
