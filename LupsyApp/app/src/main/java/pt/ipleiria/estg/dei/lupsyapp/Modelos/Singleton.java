@@ -38,6 +38,7 @@ public class Singleton {
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
     private CervejaDBHelper cervejaDBHelper;
+    private UtilizadorDBHelper utilizadorDBHelper;
     private CervejasListener cervejasListener;
     private CervejaListener cervejaListener;
     private Utilizador utilizador;
@@ -56,6 +57,7 @@ public class Singleton {
         // gerarDadosDinamico();
         cervejas = new ArrayList<>();
         cervejaDBHelper = new CervejaDBHelper(context);
+        utilizadorDBHelper = new UtilizadorDBHelper(context);
     }
 
     // Registro dos listeners
@@ -95,7 +97,9 @@ public class Singleton {
     private void adicionarCervejaBD(Cerveja c) {
         cervejaDBHelper.adicionarCervejaBD(c);
     }
-
+    private void adicionarUtilizadorBD(Utilizador u) {
+        utilizadorDBHelper.insertOrUpdateUtilizador(u);
+    }
     public void getAllCervejasAPI(final Context context){
         if (!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
@@ -189,6 +193,7 @@ public class Singleton {
 //                                putString("name", utilizador.getName());
 //                                putString("email", utilizador.getEmail());
                             loginListener.onValidateLogin(utilizador, context);
+                            utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
                             System.out.println("---> utilizador existe: " + utilizador.getNome());
                         } else {
                             // Lidar com erro de autenticação
