@@ -12,15 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
 import pt.ipleiria.estg.dei.lupsyapp.R;
 
-public class ListaCervejasAdaptador extends BaseAdapter {
+public class ListaCervejasPerfilAdaptador extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<Cerveja> cervejas;
+    private ArrayList<CervejaHistorico> cervejas;
 
-    public ListaCervejasAdaptador(Context context, ArrayList<Cerveja> cervejas) {
+    public ListaCervejasPerfilAdaptador(Context context, ArrayList<CervejaHistorico> cervejas) {
         this.context = context;
         this.cervejas = cervejas;
     }
@@ -46,7 +47,7 @@ public class ListaCervejasAdaptador extends BaseAdapter {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_lista_cerveja,null);
+            convertView = inflater.inflate(R.layout.item_lista_cerveja_perfil,null);
         }
         ViewHolderLista viewHolderLista = (ViewHolderLista) convertView.getTag();
         if(viewHolderLista == null){
@@ -58,21 +59,21 @@ public class ListaCervejasAdaptador extends BaseAdapter {
         return convertView;
     }
     private class ViewHolderLista{
-        private TextView tvTitulo,tvDescricao,tvPreco,tvTeorAlcool;
+        private TextView tvTitulo,tvDescricao,tvOutro,tvTeorAlcool;
         private ImageView imgCapa;
 
         public ViewHolderLista(View view){
             tvTitulo = view.findViewById(R.id.tvNomeCev);
             tvDescricao = view.findViewById(R.id.tvDescCev);
-            tvPreco = view.findViewById(R.id.tvOutro);
+            tvOutro = view.findViewById(R.id.tvOutro);
             tvTeorAlcool = view.findViewById(R.id.tvTeorAlcool);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");
         }
 
-        public void update(Cerveja cerveja){
+        public void update(CervejaHistorico cerveja){
             tvTitulo.setText(cerveja.getNome());
-            tvPreco.setText(""+cerveja.getPreco());
+            tvOutro.setText(cerveja.getData());
             tvTeorAlcool.setText(""+cerveja.getTeor_alcoolico());
             tvDescricao.setText(cerveja.getDescricao() );
             imgCapa.setImageResource(R.drawable.beer);
@@ -89,7 +90,7 @@ public class ListaCervejasAdaptador extends BaseAdapter {
         cervejas.clear();
         notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }
-    public void addAll(List<Cerveja> cervejas) {
+    public void addAll(List<CervejaHistorico> cervejas) {
         this.cervejas.addAll(cervejas);
         notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }

@@ -3,15 +3,32 @@ package pt.ipleiria.estg.dei.lupsyapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.UtilizadorDBHelper;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasAdaptador;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasPerfilAdaptador;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasPerfilTop3Adaptador;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +38,8 @@ import pt.ipleiria.estg.dei.lupsyapp.Modelos.UtilizadorDBHelper;
 public class PerfilFragment extends Fragment {
 
     private TextView username, nome, telefone, morada;
+    private ListView lvHistorico,lvTop3;
+    private ListaCervejasPerfilAdaptador listaCervejasAdaptador;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -43,6 +62,39 @@ public class PerfilFragment extends Fragment {
         telefone.setText(String.valueOf(utilizador.getTelefone()));
         morada.setText(utilizador.getMorada());
 
+        lvHistorico = view.findViewById(R.id.lvHistorico);
+        listaCervejasAdaptador = new ListaCervejasPerfilAdaptador(getContext(), new ArrayList<>()); // Inicializa o adaptador com uma lista vazia
+        lvHistorico.setAdapter(listaCervejasAdaptador);
+        lvTop3 = view.findViewById(R.id.lvTop3);
+
+        buscarHistorico();
+
         return view;
     }
+
+    private void buscarHistorico() {
+        Singleton.getInstance(getContext()).buscarHistorico(
+                new Response.Listener<List<CervejaHistorico>>() {
+                    @Override
+                    public void onResponse(List<CervejaHistorico> cervejas) {
+                        // Atualiza o adaptador com a lista de cervejas favoritas
+                        listaCervejasAdaptador.clear(); // Limpa a lista atual do adaptador
+                        listaCervejasAdaptador.addAll(cervejas); // Adiciona as cervejas favoritas
+                        listaCervejasAdaptador.notifyDataSetChanged();
+                        List<CervejaHistorico> top3Cervejas = CervejaHistorico.getTop3CervejasFromList(cervejas);
+                        ArrayList<CervejaHistorico> top3CervejasArrayList = new ArrayList<>(top3Cervejas);
+                        ListaCervejasPerfilTop3Adaptador top3Adaptador = new ListaCervejasPerfilTop3Adaptador(getContext(), top3CervejasArrayList,cervejas);
+                        lvTop3.setAdapter(top3Adaptador);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Exibe uma mensagem de erro ao usuário
+                        Toast.makeText(getContext(), "Erro ao buscar favoritas: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+    }
+
 }

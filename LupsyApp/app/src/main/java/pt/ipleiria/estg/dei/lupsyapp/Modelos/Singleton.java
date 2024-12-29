@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasHistoricoListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.LoginListener;
 import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
@@ -38,6 +39,7 @@ public class Singleton {
     private static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
+    private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
 
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
@@ -46,6 +48,7 @@ public class Singleton {
     private UtilizadorDBHelper utilizadorDBHelper;
     private CervejasListener cervejasListener;
     private CervejaListener cervejaListener;
+    private CervejasHistoricoListener cervejasHistoricoListener;
     private Utilizador utilizador;
     private LoginListener loginListener;
     private Context context; // Variável de instância para o context
@@ -109,7 +112,7 @@ public class Singleton {
         if (!JsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
             System.out.println("---> Nao tem net");
-            //TODO: carregar livros da db atraves do metodo getalllivrosdb *FEITO*
+            //TODO: carregar cervejas da db atraves do metodo *FEITO*
             if(cervejasListener != null){
                 cervejasListener.onRefreshListaCervejas(cervejaDBHelper.getAllCervejasBD());
                 System.out.println("---> cervejas listener != null");
@@ -127,11 +130,11 @@ public class Singleton {
                     //TODO: implementar listeners *FEITO*
                     if(cervejasListener != null){
                         cervejasListener.onRefreshListaCervejas(cervejas);
-                        System.out.println("---> Lista de cervejas:");
-                        for (Cerveja cerveja : cervejas) {
-                            System.out.println("Nome: " + cerveja.getNome() + ", Descrição: " + cerveja.getDescricao() +
-                                    ", Teor Alcoólico: " + cerveja.getTeor_alcoolico() + ", Preço: " + cerveja.getPreco());
-                        }
+//                        System.out.println("---> Lista de cervejas:");
+//                        for (Cerveja cerveja : cervejas) {
+//                            System.out.println("Nome: " + cerveja.getNome() + ", Descrição: " + cerveja.getDescricao() +
+//                                    ", Teor Alcoólico: " + cerveja.getTeor_alcoolico() + ", Preço: " + cerveja.getPreco());
+//                        }
                     }
                 }
             }, new Response.ErrorListener() {
@@ -263,8 +266,7 @@ public class Singleton {
 
                             // Verifica se a lista está vazia
                             if (cervejasFavoritas.isEmpty()) {
-                                // Lidar com a lista vazia (ex: não mostrar nada no fragmento)
-                                // ...
+                                // não mostrar nada no fragmento)
                             } else {
                                 listener.onResponse(cervejasFavoritas);
                             }
@@ -283,6 +285,55 @@ public class Singleton {
         } else {
             // Lidar com o caso em que nenhum usuário está logado
             // ...
+        }
+    }
+    public void buscarHistorico(final Response.Listener<List<CervejaHistorico>> listener, final Response.ErrorListener errorListener) {
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
+            System.out.println("---> Nao tem net");
+            if (cervejasHistoricoListener != null) {
+                cervejasHistoricoListener.onRefreshListaCervejas(cervejaDBHelper.getAllCervejasHistorico());
+                System.out.println("---> cervejas listener != null");
+            }
+            System.out.println("---> outro");
+        } else {
+            int userId = getUserId(context);
+
+            if (userId != -1) {
+                String url = UrlAPIHistorico + userId;
+
+                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                List<CervejaHistorico> historicoCervejas = JsonParser.parserJsonCervejasHistorico(response); // Envia o response diretamente
+
+                                // Verifica se a lista está vazia
+                                if (historicoCervejas.isEmpty()) {
+                                    //retorna nada
+                                } else {
+                                    cervejaDBHelper.removerallCervejasHistorico(); // Limpa o histórico anterior
+                                    for (CervejaHistorico cerveja : historicoCervejas) {
+                                        cervejaDBHelper.adicionarCervejaHistoricoBD(cerveja);
+                                    }
+                                    listener.onResponse(historicoCervejas);
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                errorListener.onErrorResponse(error);
+                            }
+                        }
+                );
+
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                requestQueue.add(jsonArrayRequest);
+            } else {
+                // Lidar com o caso em que nenhum usuário está logado
+                // ...
+            }
         }
     }
 }
