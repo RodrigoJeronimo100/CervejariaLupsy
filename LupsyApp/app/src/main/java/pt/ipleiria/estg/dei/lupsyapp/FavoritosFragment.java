@@ -42,6 +42,8 @@ public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.On
         lvFavoritos.setAdapter(listaCervejasAdaptador);
 
         buscarFavoritas();
+
+        // Configuração do listener para o clique em um item da lista
         lvFavoritos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

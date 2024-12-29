@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 
 public class JsonParser {
@@ -63,6 +64,34 @@ public class JsonParser {
         }
 
     }
+
+    public static ArrayList<CervejaHistorico> parserJsonCervejasHistorico(JSONArray response){
+        ArrayList<CervejaHistorico> cervejas = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < response.length();i++)
+            {
+                JSONObject cerveja = (JSONObject) response.get(i);
+                int id = cerveja.getInt("id");
+                String nome = cerveja.getString("nome");
+                String descricao = cerveja.getString("descricao");
+                float teor_alcoolico = (float) cerveja.getDouble("teor_alcoolico");
+                float preco = (float) cerveja.getDouble("preco");
+                String estado = cerveja.getString("estado");
+                String categoria_nome = cerveja.getString("categoria_nome");
+                String fornecedor_nome = cerveja.getString("fornecedor_nome");
+                String data = cerveja.getString("data");
+
+                CervejaHistorico auxLivro = new CervejaHistorico(id,nome,descricao,teor_alcoolico,preco,fornecedor_nome,categoria_nome,estado,data);
+                cervejas.add(auxLivro);
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return cervejas;
+    }
+
     public static boolean isConnectionInternet(Context context){
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
