@@ -1,6 +1,7 @@
 package pt.ipleiria.estg.dei.lupsyapp.Modelos;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -23,6 +24,7 @@ import org.json.JSONException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
@@ -32,8 +34,11 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String UrlAPICervejas = "http://192.168.1.84:8080/api/cerveja";
-    private static final String UrlAPILogin = "http://192.168.1.84:8080/api/utilizador/auth";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
+    private static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
+    private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
+    private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
+
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
@@ -189,9 +194,13 @@ public class Singleton {
                         }
                         if (utilizador != null) {
                             // Armazene os dados do usuário nas SharedPreferences
-                                //singleton.putString("id", String.valueOf(utilizador.getId()));
-//                                putString("name", utilizador.getName());
-//                                putString("email", utilizador.getEmail());
+                            SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt("userId", utilizador.getId());
+                            editor.putString("username", utilizador.getUsername());
+                            editor.putString("nome", utilizador.getNome());
+                            editor.putString("role", utilizador.getRole());
+                            editor.apply();
                             loginListener.onValidateLogin(utilizador, context);
                             utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
                             System.out.println("---> utilizador existe: " + utilizador.getNome());
@@ -235,4 +244,45 @@ public class Singleton {
         utilizador = null;
     }
 
+    private int getUserId(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("userId", -1); // -1 indica que nenhum usuário está logado
+    }
+
+    public void buscarFavoritas(final Response.Listener<List<Cerveja>> listener, final Response.ErrorListener errorListener) {
+        int userId = getUserId(context);
+
+        if (userId != -1) {
+            String url = UrlAPIFavoritas + userId;
+
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            List<Cerveja> cervejasFavoritas = JsonParser.parserJsonCervejas(response); // Envia o response diretamente
+
+                            // Verifica se a lista está vazia
+                            if (cervejasFavoritas.isEmpty()) {
+                                // Lidar com a lista vazia (ex: não mostrar nada no fragmento)
+                                // ...
+                            } else {
+                                listener.onResponse(cervejasFavoritas);
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorListener.onErrorResponse(error);
+                        }
+                    }
+            );
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(jsonArrayRequest);
+        } else {
+            // Lidar com o caso em que nenhum usuário está logado
+            // ...
+        }
+    }
 }
