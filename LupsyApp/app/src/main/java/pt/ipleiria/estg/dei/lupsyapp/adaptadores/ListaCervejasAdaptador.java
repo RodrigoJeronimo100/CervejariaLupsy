@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.R;
@@ -86,5 +87,13 @@ public class ListaCervejasAdaptador extends BaseAdapter {
             System.out.println("--> passou no update");
 
         }
+    }
+    public void clear() {
+        cervejas.clear();
+        notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
+    }
+    public void addAll(List<Cerveja> cervejas) {
+        this.cervejas.addAll(cervejas);
+        notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }
 }

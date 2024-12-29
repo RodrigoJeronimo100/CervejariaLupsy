@@ -45,5 +45,7 @@
     <string name="favoritar">Favoritar</string>
     <string name="tvUsername">Username</string>
     <string name="EtHUsername">Username</string>
+    <string name="carrinho_icon" />
+
 
 </resources>

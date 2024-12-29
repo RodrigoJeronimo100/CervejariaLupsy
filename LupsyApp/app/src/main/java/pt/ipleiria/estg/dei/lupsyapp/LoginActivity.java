@@ -38,10 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        
-        // Temporario apenas para facilitar o login de teste
-       //etUsername.setText("adm");
-        //etPassword.setText("12345678");
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -66,7 +63,6 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         String password = etPassword.getText().toString();
         //System.out.println(etUsername.getText().toString() + " : " + password);
 
-        // Validar email e senha
         if (!isUsernameValido(username)) {
             etUsername.setError(getString(R.string.email_invalido));
             return;
