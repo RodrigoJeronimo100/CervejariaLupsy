@@ -93,6 +93,9 @@ public class JsonParser {
     }
 
     public static boolean isConnectionInternet(Context context){
+        if(context == null)
+            return false;
+
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 

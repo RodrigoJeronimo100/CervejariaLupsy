@@ -1,5 +1,8 @@
 package pt.ipleiria.estg.dei.lupsyapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +11,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +45,7 @@ public class PerfilFragment extends Fragment {
     private TextView username, nome, telefone, morada;
     private ListView lvHistorico,lvTop3;
     private ListaCervejasPerfilAdaptador listaCervejasAdaptador;
+    private ImageButton botaoLogout;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -56,6 +62,7 @@ public class PerfilFragment extends Fragment {
         nome = view.findViewById(R.id.tvNome);
         telefone = view.findViewById(R.id.tvTelefone);
         morada = view.findViewById(R.id.tvMorada);
+        botaoLogout = view.findViewById(R.id.botaoLogout);
 
         username.setText(utilizador.getUsername());
         nome.setText(utilizador.getNome());
@@ -66,6 +73,14 @@ public class PerfilFragment extends Fragment {
         listaCervejasAdaptador = new ListaCervejasPerfilAdaptador(getContext(), new ArrayList<>()); // Inicializa o adaptador com uma lista vazia
         lvHistorico.setAdapter(listaCervejasAdaptador);
         lvTop3 = view.findViewById(R.id.lvTop3);
+
+        botaoLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chamar o método para realizar o logout
+                realizarLogout();
+            }
+        });
 
         buscarHistorico();
 
@@ -95,6 +110,18 @@ public class PerfilFragment extends Fragment {
                     }
                 }
         );
+    }
+    private void realizarLogout() {
+        //Limpar dados do usuário das SharedPreferences
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        Singleton.getInstance(getContext()).logout();
+
+        Intent intent = new Intent(requireActivity(), LoginActivity.class);
+        startActivity(intent);
+        requireActivity().finish(); // Finalizar a BarraInferior
     }
 
 }

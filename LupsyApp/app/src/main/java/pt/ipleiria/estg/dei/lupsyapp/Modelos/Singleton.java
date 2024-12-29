@@ -200,8 +200,11 @@ public class Singleton {
                             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putInt("userId", utilizador.getId());
-                            editor.putString("username", utilizador.getUsername());
                             editor.putString("nome", utilizador.getNome());
+                            editor.putString("username", utilizador.getUsername());
+                            editor.putInt("nif", utilizador.getNif());
+                            editor.putInt("telefone", utilizador.getTelefone());
+                            editor.putString("morada", utilizador.getMorada());
                             editor.putString("role", utilizador.getRole());
                             editor.apply();
                             loginListener.onValidateLogin(utilizador, context);
@@ -250,6 +253,28 @@ public class Singleton {
     private int getUserId(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getInt("userId", -1); // -1 indica que nenhum usuário está logado
+    }
+    public Utilizador getUtilizadorGuardado(Context context) {
+        this.context = context;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", null);
+
+        int id = sharedPreferences.getInt("userId", -1);
+        String nome = sharedPreferences.getString("nome", null);
+        int nif = sharedPreferences.getInt("nif", -1);
+        int telefone = sharedPreferences.getInt("telefone", -1);
+        String morada = sharedPreferences.getString("morada", null);
+        String role = sharedPreferences.getString("role", null);
+        System.out.println("Utilizador guardado: "+ username+" " +id+" "+nome+" "+nif+" "+telefone+" "+morada+" "+role);
+        if (username != null && id != -1 && nome != null && nif != -1 && telefone != -1 && morada != null && role != null) {
+            // Crie um objeto Utilizador com os dados guardados
+            utilizador = new Utilizador(id, nome, username, nif, telefone, morada, role);
+            utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
+            System.out.println("Utilizador guardado classe: "+ utilizador);
+            return utilizador;
+        } else {
+            return null; // Nenhum utilizador guardado
+        }
     }
 
     public void buscarFavoritas(final Response.Listener<List<Cerveja>> listener, final Response.ErrorListener errorListener) {
