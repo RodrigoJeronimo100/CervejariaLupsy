@@ -47,6 +47,12 @@
     <string name="EtHUsername">Username</string>
     <string name="carrinho_icon" />
     <string name="top_3_bebidas_que_mais_bebeste">Top 3 Bebidas que mais bebeste</string>
+    <string name="et_NomeCev">Nome da Cerveja…</string>
+    <string name="etDescricao">Descrição da Cerveja…</string>
+    <string name="etTeor_Alcool">Teor Alcóolico%…</string>
+    <string name="etPreco">Preço€…</string>
+    <string name="save">Save Content</string>
+    <string name="txt_adicionar" />
 
 
 </resources>

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,6 +34,10 @@ public class CervejaDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cerveja_details);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         tv_nome = findViewById(R.id.tv_nome);
         tv_descricao = findViewById(R.id.tv_descricao);
@@ -138,5 +143,15 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             return super.onCreateOptionsMenu(menu);
         }
         return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            // Handle the back arrow click
+            onBackPressed(); // This will navigate to the previous activity
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

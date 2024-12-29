@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CervejaDetailsActivityADM">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imgCapa"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:src="@drawable/beer" />
+
+            <EditText
+                android:id="@+id/etNomeCev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/et_NomeCev" />
+
+            <EditText
+                android:id="@+id/etDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:hint="@string/etDescricao" />
+
+            <EditText
+                android:id="@+id/etTeor_Alcool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/etTeor_Alcool" />
+
+            <EditText
+                android:id="@+id/etPreco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/etPreco"
+                android:inputType="number" />
+
+            <View
+                android:id="@+id/Space"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/amarelo_seco"
+        android:contentDescription="@string/save"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_save"
+        android:tint="@android:color/white"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
