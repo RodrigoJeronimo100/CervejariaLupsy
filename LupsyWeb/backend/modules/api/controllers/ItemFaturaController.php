@@ -5,12 +5,22 @@ namespace backend\modules\api\controllers;
 use common\models\Fatura;
 use common\models\ItemFatura;
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 
 
 class ItemFaturaController extends ActiveController
 {
     public $modelClass = 'common\models\ItemFatura';
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+        ];
+        return $behaviors;
+    }
 
     public function actions()
     {

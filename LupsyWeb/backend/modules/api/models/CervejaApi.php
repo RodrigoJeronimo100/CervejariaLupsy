@@ -5,13 +5,13 @@ use backend\models\Fornecedor;
 use backend\models\Categoria;
 use common\models\Cerveja as BaseCerveja;
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 
 class CervejaApi extends BaseCerveja
 {
     // Campos personalizados para a API
     public $fornecedor_nome;
     public $categoria_nome; 
-
 
     public function fields()
     {

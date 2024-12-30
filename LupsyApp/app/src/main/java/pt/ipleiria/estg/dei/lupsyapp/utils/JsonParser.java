@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import androidx.core.util.Pair;
+
 import com.bumptech.glide.util.Util;
 
 import org.json.JSONArray;
@@ -43,7 +45,7 @@ public class JsonParser {
         return cervejas;
     }
 
-    public static Utilizador parseJsonLogin(String response) throws JSONException {
+    public static Pair<Utilizador, String> parseJsonLogin(String response) throws JSONException {
         try {
             JSONObject jsonResponse = new JSONObject(response);
 
@@ -54,10 +56,11 @@ public class JsonParser {
             int telefone = jsonResponse.getInt("telefone");
             String morada = jsonResponse.getString("morada");
             String role = jsonResponse.getString("role");
+            String token = jsonResponse.getString("token");
 
             Utilizador user = new Utilizador(id, nome, username, nif, telefone, morada, role);
 
-            return user;
+            return new Pair<>(user, token);
         } catch (JSONException e) {
             System.out.println("-->Erro ao processar o JSON: " + e.getMessage());
             throw e; // Relance a exceção

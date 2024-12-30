@@ -14,6 +14,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
 
@@ -52,12 +56,12 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         cerveja = Singleton.getInstance(this).getCerveja(id);
 
         carregarDetalhes();
-        toggleFavorite();
+        isFavorite(id);
 
         // Click listener for heartContainer
         heartContainer.setOnClickListener(v -> {
             isFavorited = !isFavorited;
-            toggleFavorite();
+            toggleFavorite(id);
         });
 
         // Click listener for Tchim-Tchim button
@@ -93,7 +97,7 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void toggleFavorite() {
+    private void toggleFavorite(int id) {
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(heartImageView, "alpha", 1f, 0f);
         fadeOut.setDuration(100);
 
@@ -102,10 +106,12 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             public void onAnimationEnd(Animator animation) {
                 if (isFavorited) {
                     heartImageView.setImageResource(R.drawable.heart_full);
-                    Toast.makeText(CervejaDetailsActivity.this, "Cerveja Adicionada aos Favoritos", Toast.LENGTH_SHORT).show();
+                    Singleton.getInstance(CervejaDetailsActivity.this).togglefavoriteAPI(id);
+                    //Toast.makeText(CervejaDetailsActivity.this, "Cerveja Adicionada aos Favoritos", Toast.LENGTH_SHORT).show();
                 } else {
                     heartImageView.setImageResource(R.drawable.heart_blank);
-                    Toast.makeText(CervejaDetailsActivity.this, "Cerveja Removida dos Favoritos", Toast.LENGTH_SHORT).show();
+                    Singleton.getInstance(CervejaDetailsActivity.this).togglefavoriteAPI(id);
+                    //Toast.makeText(CervejaDetailsActivity.this, "Cerveja Removida dos Favoritos", Toast.LENGTH_SHORT).show();
                 }
 
                 ObjectAnimator fadeIn = ObjectAnimator.ofFloat(heartImageView, "alpha", 0f, 1f);
@@ -153,5 +159,26 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void isFavorite(int id) {
+        System.out.println("Isfavorited = " + id );
+        Singleton.getInstance(this).isFavorito(id, new Response.Listener<Boolean>() {
+            @Override
+            public void onResponse(Boolean isFavorito) {
+                System.out.println("isFavorito = " + isFavorito);
+                if (isFavorito){
+                    heartImageView.setImageResource(R.drawable.heart_full);
+                    isFavorited = true;
+                } else {
+                    heartImageView.setImageResource(R.drawable.heart_blank);
+                    isFavorited = false;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Erro ao verificar favorito");
+            }
+        });
     }
 }

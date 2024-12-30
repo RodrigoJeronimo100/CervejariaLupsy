@@ -51,7 +51,9 @@ class UtilizadorController extends ActiveController
 
         if ($user && $user->validatePassword($password)) {
             $utilizador = Utilizador::findOne(['id' => $user->id]);
-
+            // Gerar um novo token de autenticação
+            $user->generateAuthKey();
+            $user->save();
             if ($utilizador) {
                 $auth = Yii::$app->authManager;
 
@@ -63,7 +65,8 @@ class UtilizadorController extends ActiveController
                     'morada' => $utilizador->morada,
                     'telefone' => $utilizador->telefone,
                     'role' => $utilizador->getRole(),
-                    'nif' => $utilizador->nif
+                    'nif' => $utilizador->nif,
+                    'token' => $user->auth_key,
                 ];
             }
         }
