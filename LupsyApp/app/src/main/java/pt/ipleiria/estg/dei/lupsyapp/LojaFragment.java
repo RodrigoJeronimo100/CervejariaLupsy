@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     private ListView lv_cervejas;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Button btn_add;
 
     public LojaFragment() {
         // Required empty public constructor
@@ -53,6 +55,18 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         System.out.println("--> on create view homefragment");
         Singleton.getInstance(getContext()).setCervejasListener(this);
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());
+
+        btn_add = view.findViewById(R.id.btn_add);
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CervejaDetailsActivityADM.class);
+                //startActivity(intent);
+                //STARTACTIVITY
+                startActivityForResult(intent,BarraInferior.ADD);
+            }
+        });
+
         return view;
     }
 
