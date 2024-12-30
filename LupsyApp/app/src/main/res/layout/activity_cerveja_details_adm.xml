@@ -16,6 +16,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <View
+                android:id="@+id/view5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
             <ImageView
                 android:id="@+id/imgCapa"
                 android:layout_width="match_parent"
@@ -56,7 +62,7 @@
                 android:id="@+id/Space"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.8" />
+                android:layout_weight="0.4" />
         </LinearLayout>
     </ScrollView>
 
@@ -65,12 +71,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="100dp"
         android:backgroundTint="@color/amarelo_seco"
-        android:contentDescription="@string/save"
         android:clickable="true"
+        android:contentDescription="@string/save"
         android:focusable="true"
         android:src="@drawable/ic_save"
-        android:tint="@android:color/white"/>
+        android:tint="@android:color/white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

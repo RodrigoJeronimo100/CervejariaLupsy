@@ -35,11 +35,7 @@ import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasPerfilAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasPerfilTop3Adaptador;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class PerfilFragment extends Fragment {
 
     private TextView username, nome, telefone, morada;

@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/fundo_amarelo_seco"
-            android:dividerHeight="1dp" />
+            android:dividerHeight="5dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
