@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
-import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasAdaptador;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
 
 
@@ -79,7 +79,7 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onRefreshListaCervejas(ArrayList<Cerveja> listaCervejas) {
         if(listaCervejas != null) {
-            lv_cervejas.setAdapter(new ListaCervejasAdaptador(getContext(), listaCervejas));
+            lv_cervejas.setAdapter(new ListaCervejasLojaAdaptador(getContext(), listaCervejas));
         }
     }
 }
