@@ -10,17 +10,11 @@
     android:orientation="vertical"
     tools:context=".SignUpActivity">
 
-    <View
-        android:id="@+id/vSpacing"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="0.2" />
-
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.1"
         app:srcCompat="@drawable/logotipo" />
 
     <TextView
@@ -48,7 +42,7 @@
         android:id="@+id/vSpacing4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.05" />
+        android:layout_weight="0.01" />
 
     <TextView
         android:id="@+id/tvEmailCad"
@@ -75,7 +69,7 @@
         android:id="@+id/vSpacing2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.05" />
+        android:layout_weight="0.01" />
 
     <TextView
         android:id="@+id/tvPasswordCad"
@@ -95,6 +89,87 @@
         android:ems="10"
         android:hint="@string/etPalavra_passe"
         android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/vSpacing5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
+
+        <TextView
+        android:id="@+id/tvNIFCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvNIF"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
+    <EditText
+        android:id="@+id/etNIFCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etNIF"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/vSpacing6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
+
+    <TextView
+        android:id="@+id/tvTELECad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvTELE"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
+    <EditText
+        android:id="@+id/etTELECad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etTELE"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:paddingStart="10dp" />
+
+    <View
+        android:id="@+id/vSpacing7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.01" />
+
+    <TextView
+        android:id="@+id/tvMoradaCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tvMorada"
+        android:textColor="@color/preto_fosco"
+        android:layout_marginLeft="15dp"/>
+
+    <EditText
+        android:id="@+id/etMoradaCad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/editborder"
+        android:ems="10"
+        android:hint="@string/etMorada"
+        android:inputType="text"
         android:minHeight="48dp"
         android:paddingStart="10dp" />
 
@@ -119,6 +194,6 @@
         android:id="@+id/vSpacing3"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.05" />
 
 </LinearLayout>
