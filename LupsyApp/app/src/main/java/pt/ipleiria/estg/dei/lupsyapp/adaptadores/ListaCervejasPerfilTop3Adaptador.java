@@ -11,18 +11,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
 import pt.ipleiria.estg.dei.lupsyapp.R;
 
-public class ListaCervejasAdaptador extends BaseAdapter {
+public class ListaCervejasPerfilTop3Adaptador extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<Cerveja> cervejas;
+    private ArrayList<CervejaHistorico> cervejas;
+    private List<CervejaHistorico> allCervejas;
 
-    public ListaCervejasAdaptador(Context context, ArrayList<Cerveja> cervejas) {
+    public ListaCervejasPerfilTop3Adaptador(Context context, ArrayList<CervejaHistorico> cervejas, List<CervejaHistorico> allCervejas) {
         this.context = context;
         this.cervejas = cervejas;
+        this.allCervejas = allCervejas;
     }
 
     @Override
@@ -42,14 +44,14 @@ public class ListaCervejasAdaptador extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (inflater == null) {
+        if(inflater == null){
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_lista_cerveja, null);
+        if(convertView == null){
+            convertView = inflater.inflate(R.layout.item_lista_cerveja_perfil,null);
         }
         ViewHolderLista viewHolderLista = (ViewHolderLista) convertView.getTag();
-        if (viewHolderLista == null) {
+        if(viewHolderLista == null){
             viewHolderLista = new ViewHolderLista(convertView);
             convertView.setTag(viewHolderLista);
         }
@@ -57,25 +59,26 @@ public class ListaCervejasAdaptador extends BaseAdapter {
         System.out.println("--> passou no getview adaptador");
         return convertView;
     }
-
-    private class ViewHolderLista {
-        private TextView tvTitulo, tvDescricao, tvPreco, tvTeorAlcool;
+    private class ViewHolderLista{
+        private TextView tvTitulo,tvDescricao,tvOutro,tvTeorAlcool;
         private ImageView imgCapa;
 
-        public ViewHolderLista(View view) {
+        public ViewHolderLista(View view){
             tvTitulo = view.findViewById(R.id.tvNomeCev);
             tvDescricao = view.findViewById(R.id.tvDescCev);
-            tvPreco = view.findViewById(R.id.tvOutro);
+            tvOutro = view.findViewById(R.id.tvOutro);
             tvTeorAlcool = view.findViewById(R.id.tvTeorAlcool);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");
         }
 
-        public void update(Cerveja cerveja) {
+        public void update(CervejaHistorico cerveja){
+            int frequencia = CervejaHistorico.contarFrequenciaCerveja(allCervejas,cerveja);
+
             tvTitulo.setText(cerveja.getNome());
-            tvPreco.setText(String.format("%s €", cerveja.getPreco()));
-            tvTeorAlcool.setText(String.format("%s %%", cerveja.getTeor_alcoolico()));
-            tvDescricao.setText(cerveja.getDescricao());
+            tvOutro.setText(""+frequencia);
+            tvTeorAlcool.setText(""+cerveja.getTeor_alcoolico());
+            tvDescricao.setText(cerveja.getDescricao() );
             imgCapa.setImageResource(R.drawable.beer);
 //            Glide.with(context)
 //                    .load(cerveja.getCapa())
@@ -86,13 +89,11 @@ public class ListaCervejasAdaptador extends BaseAdapter {
 
         }
     }
-
     public void clear() {
         cervejas.clear();
         notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }
-
-    public void addAll(List<Cerveja> cervejas) {
+    public void addAll(List<CervejaHistorico> cervejas) {
         this.cervejas.addAll(cervejas);
         notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }

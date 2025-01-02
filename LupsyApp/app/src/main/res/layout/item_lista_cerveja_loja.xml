@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imgCapa"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:layout_weight="0.3"
         app:srcCompat="@drawable/imgspacer" />
 
@@ -41,24 +41,12 @@
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/vMeio"
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvDescCev"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:text="" />
-
-        </LinearLayout>
+            app:srcCompat="@drawable/middle_img"
+            app:tint="@color/amarelo_seco_ff" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,17 +55,40 @@
 
             <TextView
                 android:id="@+id/tvOutro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textAlignment="gravity"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvTeorAlcool"
+                android:id="@+id/tvRate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/rate"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                app:srcCompat="@drawable/star_rating"
+                app:tint="#FFC107" />
+
+            <View
+                android:id="@+id/view4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="3" />
+
         </LinearLayout>
 
 
     </LinearLayout>
+
 </LinearLayout>

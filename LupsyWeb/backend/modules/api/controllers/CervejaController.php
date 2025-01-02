@@ -9,6 +9,7 @@ use backend\modules\api\models\CervejaApi;
 use common\models\Cerveja;
 use common\models\Favorita;
 use common\models\Nota;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
@@ -19,10 +20,12 @@ class CervejaController extends ActiveController
     public $modelClass = CervejaApi::class;
     //public $modelClass = 'common\models\Cerveja';
 
-   // Método para permitir POST (criação) ou PUT (atualização)
-   public function behaviors()
+    public function behaviors()
     {
         $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+        ];
         return $behaviors;
     }
 
@@ -56,7 +59,7 @@ class CervejaController extends ActiveController
         $id_user = Yii::$app->user->id;
 
         // Verifica se a cerveja já está nos favoritos
-        $favorito = Favorita::findOne(['id_user' => $id_user, 'id_cerveja' => $id]);
+        $favorito = Favorita::findOne(['id_utilizador' => $id_user, 'id_cerveja' => $id]);
 
         if ($favorito) {
             // Se já estiver nos favoritos, remove
@@ -68,7 +71,7 @@ class CervejaController extends ActiveController
         } else {
             // Adiciona como favorito
             $novoFavorito = new Favorita();
-            $novoFavorito->id_user = $id_user;
+            $novoFavorito->id_utilizador = $id_user;
             $novoFavorito->id_cerveja = $id;
             if ($novoFavorito->save()) {
                 return ['success' => 'Cerveja adicionada aos favoritos!'];
@@ -83,10 +86,10 @@ class CervejaController extends ActiveController
     }
     public function actionVotar($id)
     {
-        // Verifica se o usuário está logado
-        // if (Yii::$app->user->isGuest) {
-        //     return ['error' => 'Usuário não autenticado.'];
-        // }
+       // Verifica se o usuário está logado
+        if (Yii::$app->user->isGuest) {
+            return ['error' => 'Usuário não autenticado.'];
+        }
 
         // Busca a cerveja
         $cerveja = Cerveja::findOne($id);
@@ -102,11 +105,11 @@ class CervejaController extends ActiveController
 
         // Salva ou atualiza a nota do usuário
         $notaModel = Nota::findOne([
-            'id_user' => Yii::$app->user->id,
+            'id_utilizador' => Yii::$app->user->id,
             'id_cerveja' => $id,
         ]) ?? new Nota();
 
-        $notaModel->id_user = Yii::$app->user->id;
+        $notaModel->id_utilizador = Yii::$app->user->id;
         $notaModel->id_cerveja = $id;
         $notaModel->nota = $nota;
 
@@ -155,9 +158,9 @@ class CervejaController extends ActiveController
         $favorito = Favorita::findOne(['id_utilizador' => $id_user, 'id_cerveja' => $id]);
 
         if ($favorito) {
-            return ['is_favorito' => true];
+            return true;
         } else {
-            return ['is_favorito' => false];
+            return false;
         }
     }
 }

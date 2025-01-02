@@ -1,5 +1,7 @@
 package pt.ipleiria.estg.dei.lupsyapp.Modelos;
 
+import java.util.Objects;
+
 public class Cerveja {
         private int id;
         private String nome, descricao, fornecedor_nome, categoria_nome, estado;
@@ -14,6 +16,7 @@ public class Cerveja {
             this.fornecedor_nome = fornecedor_nome;
             this.categoria_nome = categoria_nome;
             this.estado = estado;
+
         }
 
     public String getNome() {
@@ -80,5 +83,16 @@ public class Cerveja {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cerveja cerveja = (Cerveja) o;
+        return id == cerveja.id; // Compara as cervejas pelo ID
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id); // Gera o hashCode com base no ID
+    }
 }

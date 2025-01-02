@@ -38,12 +38,19 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvSpacing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/tvSpacing" />
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="0.5"
+                android:clickable="true"
+                android:contentDescription="@string/txt_adicionar"
+                android:padding="1dp"
+                android:src="@drawable/ic_add"
+                android:text="Criar"
+                android:tint="@color/grey" />
+
         </LinearLayout>
 
         <!-- Linha separadora -->
@@ -72,8 +79,9 @@
         <ListView
             android:id="@+id/lv_cervejas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/fundo_amarelo_seco" />
+            android:layout_height="wrap_content"
+            android:divider="@color/fundo_amarelo_seco"
+            android:dividerHeight="5dp"></ListView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -56,89 +56,61 @@
                 android:id="@+id/tvMorada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/botaoLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_lock_power_off" />
         </LinearLayout>
     </LinearLayout>
 
     <!-- History Section -->
-    <TextView
-        android:id="@+id/tvTituloHistorico"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:text="@string/hist_rico_de_bebidas"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="8dp"
-                android:scaleType="centerCrop"
-                />
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="8dp"
-                android:scaleType="centerCrop"
-                 />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                />
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <!-- Favorites Section -->
-    <TextView
-        android:id="@+id/TituloBebidasMaisBebeste"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:text="Bebidas que mais bebeste"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvCerveja1"
+            android:id="@+id/tvTituloHistorico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Cerveja 1" />
+            android:paddingBottom="8dp"
+            android:text="@string/hist_rico_de_bebidas"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/lvHistorico"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+
+    <!-- Favorites Section -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.7"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvCerveja2"
+            android:id="@+id/TituloBebidasMaisBebeste"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="4dp"
-            android:text="Cerveja 2" />
+            android:paddingBottom="8dp"
+            android:text="@string/top_3_bebidas_que_mais_bebeste"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvCerveja3"
+        <ListView
+            android:id="@+id/lvTop3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cerveja 3" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 

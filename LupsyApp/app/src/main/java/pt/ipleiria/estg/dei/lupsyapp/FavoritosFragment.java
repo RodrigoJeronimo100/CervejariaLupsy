@@ -21,13 +21,13 @@ import java.util.List;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
-import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasAdaptador;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasFavAdaptador;
 
 public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ListView lvFavoritos;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ListaCervejasAdaptador listaCervejasAdaptador;
+    private ListaCervejasFavAdaptador listaCervejasFavAdaptador;
 
     public FavoritosFragment() {
         // Required empty public constructor
@@ -38,10 +38,12 @@ public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.On
 
 
         lvFavoritos = view.findViewById(R.id.lv_favoritos);
-        listaCervejasAdaptador = new ListaCervejasAdaptador(getContext(), new ArrayList<>()); // Inicializa o adaptador com uma lista vazia
-        lvFavoritos.setAdapter(listaCervejasAdaptador);
+        listaCervejasFavAdaptador = new ListaCervejasFavAdaptador(getContext(), new ArrayList<>()); // Inicializa o adaptador com uma lista vazia
+        lvFavoritos.setAdapter(listaCervejasFavAdaptador);
 
         buscarFavoritas();
+
+        // Configuração do listener para o clique em um item da lista
         lvFavoritos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,9 +71,9 @@ public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.On
                     @Override
                     public void onResponse(List<Cerveja> cervejasFavoritas) {
                         // Atualiza o adaptador com a lista de cervejas favoritas
-                        listaCervejasAdaptador.clear(); // Limpa a lista atual do adaptador
-                        listaCervejasAdaptador.addAll(cervejasFavoritas); // Adiciona as cervejas favoritas
-                        listaCervejasAdaptador.notifyDataSetChanged();
+                        listaCervejasFavAdaptador.clear(); // Limpa a lista atual do adaptador
+                        listaCervejasFavAdaptador.addAll(cervejasFavoritas); // Adiciona as cervejas favoritas
+                        listaCervejasFavAdaptador.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {

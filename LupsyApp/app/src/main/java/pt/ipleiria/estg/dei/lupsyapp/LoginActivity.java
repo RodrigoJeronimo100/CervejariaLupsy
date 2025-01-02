@@ -39,9 +39,14 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
 
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        Utilizador utilizadorGuardado = Singleton.getInstance(this).getUtilizadorGuardado(this);
+        System.out.println("Utilizador guardado oncreate: "+ utilizadorGuardado);
+        if (utilizadorGuardado != null) {
+            // Utilizador encontrado, faça o login automático
+            onValidateLogin(utilizadorGuardado, this);
+        }
     }
 
     private boolean isUsernameValido(String username) {
@@ -77,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
     }
 
     public void onValidateLogin(Utilizador utilizador, Context context) {
-        System.out.println("onValidateLogin "+ utilizador);
+        System.out.println("onValidateLogin "+ utilizador + " "+context);
         if (utilizador == null) {
             // Login falhou
             System.out.println("Erro no login");
