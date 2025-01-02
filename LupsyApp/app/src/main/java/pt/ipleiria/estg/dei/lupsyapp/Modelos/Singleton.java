@@ -38,7 +38,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.84:8080";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
     private static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
