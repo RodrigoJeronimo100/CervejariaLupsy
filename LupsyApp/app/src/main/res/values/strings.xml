@@ -54,6 +54,12 @@
     <string name="save">Save Content</string>
     <string name="txt_adicionar" />
     <string name="rate">X.X</string>
+    <string name="tvNIF">NIF</string>
+    <string name="etNIF">NIF(9 digitos)</string>
+    <string name="tvTELE">Telefone</string>
+    <string name="etTELE">Telefone</string>
+    <string name="tvMorada">Morada</string>
+    <string name="etMorada">Morada</string>
 
 
 </resources>
