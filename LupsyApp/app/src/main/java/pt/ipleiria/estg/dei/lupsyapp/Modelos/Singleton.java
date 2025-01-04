@@ -38,14 +38,15 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.68:8080";
+    private static final String BASE_URL = "http://192.168.1.84:8080";
     private static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
     private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
     private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
-    public static final String UrlAPIIsCreateUser = BASE_URL + "/api/utilizador/create";
+    public static final String UrlAPIIsCreateUser = BASE_URL + "/api/utilizador";
+    public static final String UrlAPIIsCreateCerveja = BASE_URL + "/api/cervejas";
 
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
@@ -480,4 +481,5 @@ public class Singleton {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(request);
     }
+
 }
