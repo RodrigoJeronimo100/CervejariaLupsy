@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -147,15 +148,18 @@ public class CervejaDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (cerveja != null) {
             return super.onCreateOptionsMenu(menu);
+
         }
         return false;
+
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == android.R.id.home) {
-            // Handle the back arrow click
-            onBackPressed(); // This will navigate to the previous activity
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -181,4 +185,5 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             }
         });
     }
+
 }
