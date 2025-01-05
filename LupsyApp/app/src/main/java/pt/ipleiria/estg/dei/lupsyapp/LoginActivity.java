@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             return insets;
         });
 
-        etUsername = findViewById(R.id.etUsername);
+        etUsername = findViewById(R.id.etUsernameCad);
         etPassword = findViewById(R.id.etPassword);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

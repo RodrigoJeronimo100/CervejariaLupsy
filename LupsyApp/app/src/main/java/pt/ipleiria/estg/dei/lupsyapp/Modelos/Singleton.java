@@ -45,7 +45,7 @@ public class Singleton {
     private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
     private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
-    public static final String UrlAPIIsCreateUser = BASE_URL + "/api/utilizador/create";
+    public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
 
     private static Singleton instance=null;
     private static RequestQueue volleyQueue = null;
