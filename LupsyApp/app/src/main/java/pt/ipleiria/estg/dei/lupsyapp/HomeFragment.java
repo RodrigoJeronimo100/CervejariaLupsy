@@ -3,6 +3,9 @@ package pt.ipleiria.estg.dei.lupsyapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -59,6 +62,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         }
 
+
         lv_cervejas = view.findViewById(R.id.lv_cervejas);
 
         lv_cervejas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -77,6 +81,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Singleton.getInstance(getContext()).setCervejasListener(this);
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());
         return view;
+
+
     }
 
     public void onClickFunil(View view) {
@@ -95,4 +101,29 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             lv_cervejas.setAdapter(new ListaCervejasAdaptador(getContext(), listaCervejas));
         }
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_carrinho, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_cart) {
+
+            CarrinhoFragment carrinhoFragment = new CarrinhoFragment();
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, carrinhoFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
 }

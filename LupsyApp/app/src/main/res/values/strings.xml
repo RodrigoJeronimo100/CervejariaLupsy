@@ -60,6 +60,12 @@
     <string name="etTELE">Telefone</string>
     <string name="tvMorada">Morada</string>
     <string name="etMorada">Morada</string>
+    <string name="error_nome">O nome da Cerveja não é válido</string>
+    <string name="error_descricao">A descrição da Cerveja não é válida</string>
+    <string name="error_teor_alcoolico">Teor de Alcóol com valor inválido</string>
+    <string name="error_preco">Preço com valor inválido</string>
+    <string name="beer_added">Cerveja Adicionada com Sucesso</string>
+    <string name="cart">Carrinho</string>
 
 
 </resources>
