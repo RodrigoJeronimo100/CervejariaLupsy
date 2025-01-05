@@ -23,6 +23,7 @@ import com.bumptech.glide.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasHistoricoListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
@@ -38,8 +40,8 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.98:8080";
-    private static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
+    public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
     private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
@@ -481,4 +483,40 @@ public class Singleton {
         requestQueue.add(request);
     }
 
+    public void getRate(int id, final ListaCervejasLojaAdaptador.RateCallback callback) {
+        String url = UrlAPICervejas + "/" + id + "/nota";
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String notaMedia = jsonObject.getString("nota_media");
+                            callback.onRateReceived(notaMedia);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            callback.onRateError(null);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onRateError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(request);
+    }
 }

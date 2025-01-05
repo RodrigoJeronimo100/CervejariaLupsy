@@ -51,7 +51,7 @@ public class CervejaDetailsActivityADM extends AppCompatActivity {
         new Thread(() -> {
             try {
                 // API URL
-                URL url = new URL(Singleton.UrlAPIIsCreateCerveja);
+                URL url = new URL(Singleton.UrlAPICervejas);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 // Setup connection

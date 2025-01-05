@@ -8,10 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
 import pt.ipleiria.estg.dei.lupsyapp.R;
 
 public class ListaCervejasLojaAdaptador extends BaseAdapter {
@@ -24,7 +27,10 @@ public class ListaCervejasLojaAdaptador extends BaseAdapter {
         this.context = context;
         this.cervejas = cervejas;
     }
-
+    public interface RateCallback {
+        void onRateReceived(String rate);
+        void onRateError(VolleyError error);
+    }
     @Override
     public int getCount() {
         return cervejas.size();
@@ -59,17 +65,29 @@ public class ListaCervejasLojaAdaptador extends BaseAdapter {
     }
 
     private class ViewHolderLista {
-        private TextView tvTitulo, tvDescricao, tvPreco;
+        private TextView tvTitulo, tvDescricao, tvPreco, tvRate;
         private ImageView imgCapa;
 
         public ViewHolderLista(View view) {
             tvTitulo = view.findViewById(R.id.tvNomeCev);
             tvPreco = view.findViewById(R.id.tvOutro);
+            tvRate = view.findViewById(R.id.tvRate);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");
         }
 
         public void update(Cerveja cerveja) {
+            Singleton.getInstance(context).getRate(cerveja.getId(), new RateCallback() {
+                @Override
+                public void onRateReceived(String rate) {
+                    tvRate.setText(rate);
+                }
+
+                @Override
+                public void onRateError(VolleyError error) {
+                    tvRate.setText("Erro ao obter a nota");
+                }
+            });
             tvTitulo.setText(cerveja.getNome());
             tvPreco.setText(String.format("%s €", cerveja.getPreco()));
             imgCapa.setImageResource(R.drawable.beer);
