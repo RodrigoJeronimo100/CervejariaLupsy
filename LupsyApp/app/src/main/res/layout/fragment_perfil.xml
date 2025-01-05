@@ -67,6 +67,13 @@
 
     <!-- History Section -->
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tint="@color/amarelo_seco"
+        app:srcCompat="@drawable/ic_sepline" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -91,6 +98,13 @@
     </LinearLayout>
 
     <!-- Favorites Section -->
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tint="@color/amarelo_seco"
+        app:srcCompat="@drawable/ic_sepline" />
 
     <LinearLayout
         android:layout_width="match_parent"

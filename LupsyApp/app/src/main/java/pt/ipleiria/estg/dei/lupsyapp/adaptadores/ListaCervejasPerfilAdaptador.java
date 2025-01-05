@@ -74,7 +74,7 @@ public class ListaCervejasPerfilAdaptador extends BaseAdapter {
         public void update(CervejaHistorico cerveja){
             tvTitulo.setText(cerveja.getNome());
             tvOutro.setText(cerveja.getData());
-            tvTeorAlcool.setText(""+cerveja.getTeor_alcoolico());
+            tvTeorAlcool.setText(cerveja.getTeor_alcoolico() + "%");
             tvDescricao.setText(cerveja.getDescricao() );
             imgCapa.setImageResource(R.drawable.beer);
 //            Glide.with(context)

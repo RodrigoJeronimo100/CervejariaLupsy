@@ -76,8 +76,12 @@ public class ListaCervejasPerfilTop3Adaptador extends BaseAdapter {
             int frequencia = CervejaHistorico.contarFrequenciaCerveja(allCervejas,cerveja);
 
             tvTitulo.setText(cerveja.getNome());
-            tvOutro.setText(""+frequencia);
-            tvTeorAlcool.setText(""+cerveja.getTeor_alcoolico());
+            if (frequencia == 1) {
+                tvOutro.setText(frequencia + " consumida");
+            } else {
+                tvOutro.setText(frequencia + " consumidas");
+            }
+            tvTeorAlcool.setText(cerveja.getTeor_alcoolico() + "%");
             tvDescricao.setText(cerveja.getDescricao() );
             imgCapa.setImageResource(R.drawable.beer);
 //            Glide.with(context)
