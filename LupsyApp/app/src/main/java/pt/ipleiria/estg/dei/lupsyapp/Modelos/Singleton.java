@@ -1,7 +1,9 @@
 package pt.ipleiria.estg.dei.lupsyapp.Modelos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.util.Pair;
@@ -25,12 +27,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import pt.ipleiria.estg.dei.lupsyapp.BarraInferior;
+import pt.ipleiria.estg.dei.lupsyapp.CervejaDetailsActivityADM;
+import pt.ipleiria.estg.dei.lupsyapp.LoginActivity;
+import pt.ipleiria.estg.dei.lupsyapp.SignUpActivity;
 import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasHistoricoListener;
@@ -40,7 +52,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.68:8080";
+    private static final String BASE_URL = "http://192.168.1.84:8080";
     public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
@@ -48,8 +60,9 @@ public class Singleton {
     private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
     public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
+    public static final String UrlAPICreateCervejas = BASE_URL + "/api/cerveja/create";
 
-    private static Singleton instance=null;
+    private static Singleton instance;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
     private CervejaDBHelper cervejaDBHelper;
@@ -61,10 +74,21 @@ public class Singleton {
     private LoginListener loginListener;
     private Context context; // Variável de instância para o context
 
+    public Singleton() {
+        //Construtor vazio
+    }
+
     public static synchronized Singleton getInstance(Context context){
         if(instance==null){
             instance=new Singleton(context);
             volleyQueue = Volley.newRequestQueue(context);
+        }
+        return instance;
+    }
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
         }
         return instance;
     }
@@ -76,6 +100,9 @@ public class Singleton {
         cervejaDBHelper = new CervejaDBHelper(context);
         utilizadorDBHelper = new UtilizadorDBHelper(context);
     }
+
+
+
 
     // Registro dos listeners
     public void setCervejasListener(CervejasListener cervejasListener) {
@@ -518,5 +545,139 @@ public class Singleton {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(request);
+    }
+
+    public void createUser(Context context, String nome, String email, String password, String nif, String tele, String morada, String username) {
+        new Thread(() -> {
+            try {
+                URL url = new URL(UrlAPICreateUser);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                JSONObject jsonPayload = new JSONObject();
+                jsonPayload.put("nome", nome);
+                jsonPayload.put("username", username);
+                jsonPayload.put("email", email);
+                jsonPayload.put("password", password);
+                jsonPayload.put("nif", nif);
+                jsonPayload.put("telefone", tele);
+                jsonPayload.put("morada", morada);
+
+
+                OutputStream os = conn.getOutputStream();
+                os.write(jsonPayload.toString().getBytes("UTF-8"));
+                os.close();
+
+                int responseCode = conn.getResponseCode();
+                System.out.println("response code: " + responseCode);
+                System.out.println("response message: " + conn.getResponseMessage());
+
+                if (responseCode == 200) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    reader.close();
+                    String responseMessage = response.toString();
+
+
+                    if (responseMessage.contains("success")) {
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    } else if (responseMessage.contains("error")) {
+                        handleErrorResponse(context, responseMessage);
+                    }
+                } else {
+                    showErrorMessage(context, "Falha ao Criar Utilizador!");
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                showErrorMessage(context, "Erro: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void handleErrorResponse(Context context, String responseMessage) {
+        try {
+            JSONObject errorJson = new JSONObject(responseMessage);
+            JSONObject errorObject = errorJson.getJSONObject("error");
+            Iterator<String> keys = errorObject.keys();
+            StringBuilder errorMessage = new StringBuilder();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                JSONArray fieldErrors = errorObject.getJSONArray(key);
+
+                for (int i = 0; i < fieldErrors.length(); i++) {
+                    errorMessage.append(fieldErrors.getString(i)).append("\n");
+                }
+            }
+
+            showErrorMessage(context, errorMessage.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            showErrorMessage(context, "Erro ao processar a resposta do servidor");
+        }
+    }
+
+    private void showErrorMessage(Context context, String message) {
+        ((SignUpActivity) context).runOnUiThread(() ->
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        );
+    }
+
+
+    public static void createCerveja(Context context, String nome, String descricao, String teorAlcool, String preco,
+                                     String fornecedor, String categoria, int estado) {
+        new Thread(() -> {
+            try {
+                URL url = new URL(UrlAPICreateCervejas);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setDoOutput(true);
+
+                JSONObject jsonPayload = new JSONObject();
+                jsonPayload.put("nome", nome);
+                jsonPayload.put("descricao", descricao);
+                jsonPayload.put("teor_alcoolico", teorAlcool);
+                jsonPayload.put("preco", preco);
+                jsonPayload.put("fornecedor_nome", fornecedor);
+                jsonPayload.put("categoria_nome", categoria);
+                jsonPayload.put("estado", estado);
+
+                OutputStream os = conn.getOutputStream();
+                os.write(jsonPayload.toString().getBytes("UTF-8"));
+                os.close();
+
+
+                int responseCode = conn.getResponseCode();
+                Log.d("API_RESPONSE", "Response Code: " + responseCode);
+
+                if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                    ((CervejaDetailsActivityADM) context).runOnUiThread(() -> {
+                        Toast.makeText(context, "Cerveja Criada com Sucesso.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, BarraInferior.class);
+                        context.startActivity(intent);
+                    });
+                } else {
+                    ((CervejaDetailsActivityADM) context).runOnUiThread(() ->
+                            Toast.makeText(context, "Falha ao Criar Cerveja! Response Code: " + responseCode, Toast.LENGTH_SHORT).show());
+                }
+                conn.disconnect();
+            } catch (Exception e) {
+                ((CervejaDetailsActivityADM) context).runOnUiThread(() ->
+                        Toast.makeText(context, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                Log.e("API_ERROR", "Error: " + e.getMessage());
+            }
+        }).start();
     }
 }

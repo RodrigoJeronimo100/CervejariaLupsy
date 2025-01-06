@@ -3,6 +3,8 @@ package pt.ipleiria.estg.dei.lupsyapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -52,6 +54,14 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 startActivity(intent);
             }
         });
+
+        // Configura o ActionBar (se necessário)
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.show(); // Exibe a ActionBar
+            }
+        }
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);

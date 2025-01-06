@@ -3,21 +3,20 @@ package pt.ipleiria.estg.dei.lupsyapp.Modelos;
 import java.util.Objects;
 
 public class Cerveja {
-        private int id;
-        private String nome, descricao, fornecedor_nome, categoria_nome, estado;
-        private Float teor_alcoolico, preco;
+    private int id;
+    private String nome, descricao, fornecedor_nome, categoria_nome, estado;
+    private Float teor_alcoolico, preco;
 
-        public Cerveja(int id, String nome, String descricao, Float teor_alcoolico, Float preco, String fornecedor_nome, String categoria_nome, String estado) {
-            this.id = id;
-            this.nome = nome;
-            this.descricao = descricao;
-            this.teor_alcoolico = teor_alcoolico;
-            this.preco = preco;
-            this.fornecedor_nome = fornecedor_nome;
-            this.categoria_nome = categoria_nome;
-            this.estado = estado;
-
-        }
+    public Cerveja(int id, String nome, String descricao, Float teor_alcoolico, Float preco, String fornecedor_nome, String categoria_nome, String estado) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.teor_alcoolico = teor_alcoolico;
+        this.preco = preco;
+        this.fornecedor_nome = fornecedor_nome;
+        this.categoria_nome = categoria_nome;
+        this.estado = estado;
+    }
 
     public String getNome() {
         return nome;
@@ -88,11 +87,11 @@ public class Cerveja {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cerveja cerveja = (Cerveja) o;
-        return id == cerveja.id; // Compara as cervejas pelo ID
+        return id == cerveja.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id); // Gera o hashCode com base no ID
+        return Objects.hash(id);
     }
 }

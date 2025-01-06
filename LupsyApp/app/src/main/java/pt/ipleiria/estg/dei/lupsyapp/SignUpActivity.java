@@ -1,28 +1,14 @@
 package pt.ipleiria.estg.dei.lupsyapp;
 
-import static pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton.UrlAPICreateUser;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Iterator;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -100,89 +86,6 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        createUser(nome, email, password, nif, tele, morada, username);
-    }
-
-    private void createUser(String nome, String email, String password, String nif, String tele, String morada, String username) {
-        new Thread(() -> {
-            try {
-                URL url = new URL(UrlAPICreateUser);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setDoOutput(true);
-
-                JSONObject jsonPayload = new JSONObject();
-                jsonPayload.put("nome", nome);
-                jsonPayload.put("username", username);
-                jsonPayload.put("email", email);
-                jsonPayload.put("password", password);
-                jsonPayload.put("nif", nif);
-                jsonPayload.put("telefone", tele);
-                jsonPayload.put("morada", morada);
-
-                // Write data to request body
-                OutputStream os = conn.getOutputStream();
-                os.write(jsonPayload.toString().getBytes("UTF-8"));
-                os.close();
-
-                int responseCode = conn.getResponseCode();
-                System.out.println("response code: " + responseCode);
-                System.out.println("response message: " + conn.getResponseMessage());
-
-                if (responseCode == 200) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-
-                    reader.close();
-
-                    String responseMessage = response.toString();
-
-                    if (responseMessage.contains("success")) {
-                        System.out.println("success");
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    } else if (responseMessage.contains("error")) {
-                        System.out.println("error: "+ responseMessage);
-                        try {
-                            JSONObject errorJson = new JSONObject(responseMessage);
-                            JSONObject errorObject = errorJson.getJSONObject("error");
-                            Iterator<String> keys = errorObject.keys();
-                            StringBuilder errorMessage = new StringBuilder();
-
-                            while (keys.hasNext()) {
-                                String key = keys.next();
-                                JSONArray fieldErrors = errorObject.getJSONArray(key);
-
-                                for (int i = 0; i < fieldErrors.length(); i++) {
-                                    errorMessage.append(fieldErrors.getString(i)).append("\n");
-                                }
-                            }
-
-                            runOnUiThread(() -> Toast.makeText(this, errorMessage.toString(), Toast.LENGTH_LONG).show());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            runOnUiThread(() -> Toast.makeText(this, "Erro ao processar a resposta do servidor", Toast.LENGTH_SHORT).show());
-                        }
-
-                    }
-                } else {
-                    runOnUiThread(() -> Toast.makeText(this, "Falha ao Criar Utilizador!", Toast.LENGTH_SHORT).show());
-                    System.out.println("--> Falha ao Criar Utilizador");
-                }
-                conn.disconnect();
-            } catch (Exception e) {
-                runOnUiThread(() -> Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                System.out.println("Erro: " + e.getMessage());
-            }
-        }).start();
+        Singleton.getInstance().createUser(this, nome, email, password, nif, tele, morada, username);
     }
 }

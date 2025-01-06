@@ -20,13 +20,13 @@
                 android:id="@+id/view5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
+                android:layout_weight="0.1" />
 
             <ImageView
                 android:id="@+id/imgCapa"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:src="@drawable/beer" />
 
             <EditText
@@ -58,6 +58,62 @@
                 android:hint="@string/etPreco"
                 android:inputType="numberDecimal" />
 
+            <CheckBox
+                android:id="@+id/checkBoxEstado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.01"
+                android:text="@string/ativa_para_clientes" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.1"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/grey"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+
+                    <Spinner
+                        android:id="@+id/spinnerFornecedor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:padding="20dp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/grey"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="0dp">
+
+                    <Spinner
+                        android:id="@+id/spinnerCategoria"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:padding="20dp" />
+
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+
             <View
                 android:id="@+id/Space"
                 android:layout_width="match_parent"
@@ -72,7 +128,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="100dp"
+        android:onClick="onClickAddCerveja"
+        android:layout_marginBottom="30dp"
         android:backgroundTint="@color/amarelo_seco"
         android:clickable="true"
         android:contentDescription="@string/save"

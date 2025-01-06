@@ -33,7 +33,7 @@ public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.On
     private ListaCervejasFavAdaptador listaCervejasFavAdaptador;
 
     public FavoritosFragment() {
-        // Required empty public constructor
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class FavoritosFragment extends Fragment implements SwipeRefreshLayout.On
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Exibe uma mensagem de erro ao usuário
+                        // Exibe uma mensagem de erro ao utilizador
                         Toast.makeText(getContext(), "Erro ao buscar favoritas: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
