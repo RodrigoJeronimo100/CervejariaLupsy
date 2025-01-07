@@ -33,10 +33,13 @@ import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import pt.ipleiria.estg.dei.lupsyapp.BarraInferior;
@@ -60,7 +63,7 @@ public class Singleton {
     private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
     public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
-    public static final String UrlAPICreateCervejas = BASE_URL + "/api/cerveja/create";
+    public static final String UrlAPICreateFatura = BASE_URL + "/api/fatura";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -73,6 +76,8 @@ public class Singleton {
     private Utilizador utilizador;
     private LoginListener loginListener;
     private Context context; // Variável de instância para o context
+    private List<Cerveja> carrinho;
+    private RequestQueue requestQueue;
 
     public Singleton() {
         //Construtor vazio
@@ -99,9 +104,16 @@ public class Singleton {
         cervejas = new ArrayList<>();
         cervejaDBHelper = new CervejaDBHelper(context);
         utilizadorDBHelper = new UtilizadorDBHelper(context);
+        this.context = context;
+        this.requestQueue = getRequestQueue();
     }
 
-
+    public RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        }
+        return requestQueue;
+    }
 
 
     // Registro dos listeners
@@ -638,7 +650,7 @@ public class Singleton {
                                      String fornecedor, String categoria, int estado) {
         new Thread(() -> {
             try {
-                URL url = new URL(UrlAPICreateCervejas);
+                URL url = new URL(UrlAPICervejas);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("POST");
@@ -679,5 +691,48 @@ public class Singleton {
                 Log.e("API_ERROR", "Error: " + e.getMessage());
             }
         }).start();
+    }
+
+    public void adicionarAoCarrinho(Cerveja cerveja) {
+        carrinho.add(cerveja);
+    }
+
+
+    public void addToInvoice(int idUtilizador, Cerveja cerveja, int quantity, final Response.Listener<JSONObject> listener, final Response.ErrorListener errorListener) {
+        double total = cerveja.getPreco() * quantity; // Calculando o total
+
+        // Criando os dados para enviar para a API
+        JSONObject faturaData = new JSONObject();
+        try {
+            faturaData.put("id_utilizador", idUtilizador);
+            faturaData.put("data_fatura", getCurrentDateTime());
+            faturaData.put("total", String.format("%.2f", total));
+            faturaData.put("estado", "aberta");
+
+            // Adicionando o item à fatura
+            JSONArray itemsArray = new JSONArray();
+            JSONObject item = new JSONObject();
+            item.put("id_cerveja", cerveja.getId());
+            item.put("quantidade", quantity);
+            item.put("preco", cerveja.getPreco());
+            itemsArray.put(item);
+
+            faturaData.put("itens", itemsArray);
+
+            // Enviar para a API (POST)
+            String url = UrlAPICreateFatura;
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, faturaData, listener, errorListener);
+            getRequestQueue().add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            errorListener.onErrorResponse(new VolleyError("Erro ao criar JSON"));
+        }
+    }
+
+    // Função para pegar a data e hora atual
+    private String getCurrentDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
     }
 }

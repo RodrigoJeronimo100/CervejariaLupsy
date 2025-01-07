@@ -4,14 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -19,19 +20,22 @@ import androidx.cardview.widget.CardView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONObject;
+
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.UtilizadorDBHelper;
 
 public class CervejaDetailsActivity extends AppCompatActivity {
 
-    private TextView tv_nome, tv_descricao, tv_teor_alcool, tv_preco;
+    private TextView tv_nome, tv_descricao, tv_teor_alcool, tv_preco, tvQuantity;
     private ImageView imgCapa, heartImageView;
-    private CardView heartContainer, tchimTchimButton;
+    private CardView heartContainer, tchimTchimButton, btnAddToCart;
+    private Button btnPlus, btnMinus;
     private Cerveja cerveja;
     private boolean isFavorited = false;
-    private TextView tvQuantity;
-    private Button btnPlus, btnMinus;
-    private int quantity = 1;  // Valor inicial
+    private int quantity = 1; // Valor inicial
 
     public static final String ID_CERVEJA = "ID_CERVEJA";
 
@@ -52,41 +56,82 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         heartImageView = findViewById(R.id.heartImageView);
         heartContainer = findViewById(R.id.btn_favoritos);
         tchimTchimButton = findViewById(R.id.btn_tchim_tchim);
+        tvQuantity = findViewById(R.id.tv_quantity);
+        btnPlus = findViewById(R.id.btn_plus);
+        btnMinus = findViewById(R.id.btn_minus);
+        btnAddToCart = findViewById(R.id.btn_carrinho);
+
 
         int id = getIntent().getIntExtra(ID_CERVEJA, 0);
         cerveja = Singleton.getInstance(this).getCerveja(id);
 
-        carregarDetalhes();
+        if (cerveja == null) {
+            Toast.makeText(this, "Cerveja não encontrada", Toast.LENGTH_SHORT).show();
+            finish(); // Fecha a atividade caso a cerveja não seja encontrada
+        } else {
+            carregarDetalhes();
+        }
+
         isFavorite(id);
 
-        // Click listener for heartContainer
+        // Listener para o botão de favoritos
         heartContainer.setOnClickListener(v -> {
             isFavorited = !isFavorited;
             toggleFavorite(id);
         });
 
-        // Click listener for Tchim-Tchim button
+        // Listener para o botão Tchim-Tchim
         tchimTchimButton.setOnClickListener(v -> showMessageBox());
 
-        tvQuantity = findViewById(R.id.tv_quantity);
-        btnPlus = findViewById(R.id.btn_plus);
-        btnMinus = findViewById(R.id.btn_minus);
-
-        // Listener for the "+" button
+        // Listener para o botão "+"
         btnPlus.setOnClickListener(v -> {
-            if (quantity < 10) {
+            if (quantity < 100) {
                 quantity++;
                 tvQuantity.setText(String.valueOf(quantity));
             }
         });
 
-        // Listener for the "-" button
+        // Listener para o botão "-"
         btnMinus.setOnClickListener(v -> {
             if (quantity > 1) {
                 quantity--;
                 tvQuantity.setText(String.valueOf(quantity));
             }
         });
+
+        btnAddToCart.setOnClickListener(v -> addToCart());
+    }
+
+    public void carrinhoClicado(View view) {
+        // Obtendo o utilizador logado
+        UtilizadorDBHelper dbHelper = new UtilizadorDBHelper(this);
+        Utilizador utilizador = dbHelper.getUtilizador(this);
+
+        if (utilizador != null) {
+            int idUtilizador = utilizador.getId();  // Obtendo o ID do utilizador logado
+            int quantity = Integer.parseInt(tvQuantity.getText().toString());  // Obtendo a quantidade da interface
+
+            // Calculando o total com a quantidade de cervejas
+            double total = cerveja.getPreco() * quantity;
+
+            // Chamando o método do Singleton para adicionar a cerveja à fatura
+            Singleton.getInstance(this).addToInvoice(idUtilizador, cerveja, quantity, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Sucesso! A cerveja foi adicionada à fatura
+                    Toast.makeText(CervejaDetailsActivity.this, "Cerveja adicionada ao carrinho!", Toast.LENGTH_SHORT).show();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Erro ao fazer o pedido
+                    Toast.makeText(CervejaDetailsActivity.this, "Erro ao adicionar cerveja ao carrinho", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Caso não tenha um utilizador logado
+            Toast.makeText(this, "Nenhum utilizador logado", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void carregarDetalhes() {
@@ -95,6 +140,8 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             tv_descricao.setText(cerveja.getDescricao());
             tv_teor_alcool.setText(String.format("%.1f %%", cerveja.getTeor_alcoolico()));
             tv_preco.setText(String.format("%.2f €", cerveja.getPreco()));
+        } else {
+            Toast.makeText(this, "Erro ao carregar os detalhes da cerveja", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -108,11 +155,9 @@ public class CervejaDetailsActivity extends AppCompatActivity {
                 if (isFavorited) {
                     heartImageView.setImageResource(R.drawable.heart_full);
                     Singleton.getInstance(CervejaDetailsActivity.this).togglefavoriteAPI(id);
-                    //Toast.makeText(CervejaDetailsActivity.this, "Cerveja Adicionada aos Favoritos", Toast.LENGTH_SHORT).show();
                 } else {
                     heartImageView.setImageResource(R.drawable.heart_blank);
                     Singleton.getInstance(CervejaDetailsActivity.this).togglefavoriteAPI(id);
-                    //Toast.makeText(CervejaDetailsActivity.this, "Cerveja Removida dos Favoritos", Toast.LENGTH_SHORT).show();
                 }
 
                 ObjectAnimator fadeIn = ObjectAnimator.ofFloat(heartImageView, "alpha", 0f, 1f);
@@ -133,8 +178,10 @@ public class CervejaDetailsActivity extends AppCompatActivity {
                 .show();
     }
 
-
-    public void carrinhoClicado(View view) {
+    private void addToCart() {
+        for (int i = 0; i < quantity; i++) {
+            Singleton.getInstance(this).adicionarAoCarrinho(cerveja);
+        }
         String message = quantity + " cervejas foram adicionadas ao teu carrinho";
         new AlertDialog.Builder(this)
                 .setTitle("Carrinho")
@@ -142,6 +189,27 @@ public class CervejaDetailsActivity extends AppCompatActivity {
                 .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
+    }
+
+    public void isFavorite(int id) {
+        Singleton.getInstance(this).isFavorito(id, new Response.Listener<Boolean>() {
+            @Override
+            public void onResponse(Boolean isFavorito) {
+                if (isFavorito) {
+                    heartImageView.setImageResource(R.drawable.heart_full);
+                    isFavorited = true;
+                } else {
+                    heartImageView.setImageResource(R.drawable.heart_blank);
+                    isFavorited = false;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("CervejaDetailsActivity", "Erro ao verificar favorito: " + error.getMessage());
+                Toast.makeText(CervejaDetailsActivity.this, "Erro ao verificar favorito", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -163,27 +231,6 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    public void isFavorite(int id) {
-        System.out.println("Isfavorited = " + id );
-        Singleton.getInstance(this).isFavorito(id, new Response.Listener<Boolean>() {
-            @Override
-            public void onResponse(Boolean isFavorito) {
-                System.out.println("isFavorito = " + isFavorito);
-                if (isFavorito){
-                    heartImageView.setImageResource(R.drawable.heart_full);
-                    isFavorited = true;
-                } else {
-                    heartImageView.setImageResource(R.drawable.heart_blank);
-                    isFavorited = false;
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Erro ao verificar favorito");
-            }
-        });
     }
 
 }
