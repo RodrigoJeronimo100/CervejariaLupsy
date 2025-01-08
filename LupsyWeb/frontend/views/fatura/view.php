@@ -14,6 +14,7 @@ use yii\helpers\Url;
 $this->params['breadcrumbs'][] = ['label' => 'Faturas', 'url' => ['index']];
 \yii\web\YiiAsset::register($this);
 ?>
+
 <div class="fatura-view">
     <?php $this->registerCssFile("@web/css/view_fatura.css"); ?>
 
@@ -43,9 +44,22 @@ $this->params['breadcrumbs'][] = ['label' => 'Faturas', 'url' => ['index']];
                 'value' => $model->getTotalFatura(),
                 'format' => ['decimal', 2],
             ],
+            [
+                'label' => 'Estado',
+                'value' => $model->estado,
+            ],
         ],
     ]) ?>
-
+    <?php if ($model->estado === 'aberta'): ?>
+        <?= Html::a('<i class="fas fa-check"></i> Pagar', ['fatura/pagar', 'id' => $model->id], [
+                'class' => 'btn btn-outline-success',
+                'style' => 'background-color: #28a745; border-color: #28a745; color: white;',
+                'data' => [
+                    'confirm' => 'Tem certeza que deseja marcar esta fatura como paga?',
+                    'method' => 'post',
+                ],
+            ]) ?>
+    <?php endif; ?>
     <h2>Itens da Fatura</h2>
     <?= GridView::widget([
         'dataProvider' => new yii\data\ArrayDataProvider([

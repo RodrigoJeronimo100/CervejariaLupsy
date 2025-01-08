@@ -15,9 +15,10 @@ class ItemFaturaController extends ActiveController
 
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
+       $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
+            'except' => ['create'], 
         ];
         return $behaviors;
     }
@@ -50,7 +51,7 @@ class ItemFaturaController extends ActiveController
             $fatura = new Fatura();
             $fatura->id_utilizador = $idUtilizador;
             $fatura->estado = 'aberta';
-            $fatura->data_criacao = date('Y-m-d H:i:s'); // Definir data de criação
+            $fatura->data_fatura = date('Y-m-d H:i:s'); // Definir data de criação
             if (!$fatura->save()) {
                 return ['errors' => 'Não foi possível criar uma fatura.'];
             }
@@ -75,7 +76,10 @@ class ItemFaturaController extends ActiveController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->load(Yii::$app->getRequest()->getBodyParams(), '');
+        
+        $params = Yii::$app->getRequest()->getBodyParams();
+        unset($params['id_fatura']); // Não permitir alterar a fatura associada
+        $model->load($params, '');
         if ($model->save()) {
             // Atualizar o total da fatura associada
             if ($model->fatura) {

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Favorita;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,6 +23,21 @@ class FavoritaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index', 'view'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                        [
+                            'actions' => ['create', 'update', 'delete'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -78,6 +94,10 @@ class FavoritaController extends Controller
      */
     public function actionCreate($id_cerveja)
     {
+        if (Yii::$app->user->isGuest || !Yii::$app->user->id) {
+            return $this->redirect(['site/login']);
+        }
+
         $model = new Favorita();
         $model->id_cerveja = $id_cerveja;
         $model->id_utilizador = Yii::$app->user->id; // Define o valor de id_utilizador com o ID do usuário autenticado

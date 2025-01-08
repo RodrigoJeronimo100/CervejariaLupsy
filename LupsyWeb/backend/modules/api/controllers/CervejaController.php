@@ -33,10 +33,6 @@ class CervejaController extends ActiveController
     public function actions()
     {
         $actions = parent::actions();
-        // $actions['update'] = [
-        //     'class' => 'backend\modules\api\controllers\CervejaController', // Define uma classe customizada para a ação
-        //     'method' => 'actionUpdate', // Define o método a ser chamado para a ação de update
-        // ];
         return $actions;
     }
     public function actionCategorias()

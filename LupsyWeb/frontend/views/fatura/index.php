@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'data_fatura',
             'total',
+            'estado',	
             [
                 'class' => yii\grid\ActionColumn::className(),
                 'template' => '{view} {delete}',

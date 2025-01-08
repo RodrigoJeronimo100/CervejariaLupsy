@@ -44,13 +44,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php if ($isFavoritada): ?>
                     <?= Html::a('<i class="fa fa-heart-broken "></i>', ['favorita/create', 'id_cerveja' => $model->id], [
                         'class' => 'btn btn-danger',
-                        'data-method' => 'post', // Evita GET para alterar estado
+                        'data-method' => 'post', 
                         'data-confirm' => 'Tem certeza de que deseja remover esta cerveja dos favoritos?',
                     ]) ?>
                 <?php else: ?>
                     <?= Html::a('<i class="fa fa-heart"></i>', ['favorita/create', 'id_cerveja' => $model->id], [
                         'class' => 'btn btn-success',
-                        'data-method' => 'post', // Evita GET para alterar estado
+                        'data-method' => 'post', 
                     ]) ?>
                 <?php endif; ?>
             </div>
