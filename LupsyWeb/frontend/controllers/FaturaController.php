@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Fatura;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,6 +23,21 @@ class FaturaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index', 'view'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                        [
+                            'actions' => ['create', 'update', 'delete'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -155,5 +171,16 @@ class FaturaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionPagar($id)
+    {
+        $model = $this->findModel($id);
+        $model->estado = 'paga';
+        if ($model->save()) {
+            Yii::$app->session->setFlash('success', 'Fatura paga com sucesso.');
+        } else {
+            Yii::$app->session->setFlash('error', 'Erro ao pagar a fatura.');
+        }
+        return $this->redirect(['view', 'id' => $model->id]);
     }
 }
