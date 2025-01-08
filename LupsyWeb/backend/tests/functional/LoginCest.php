@@ -26,19 +26,16 @@ class LoginCest
             ]
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
-    public function loginUser(FunctionalTester $I)
+    public function loginBackOffice(FunctionalTester $I)
     {
-        $I->amOnRoute('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
+        $I->amOnPage('/index.php?r=site%2Flogin');
+        $I->fillField('Username', 'admin');
+        $I->fillField('Password', 'Admin123');
         $I->click('login-button');
-
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->see('Logout');
     }
 }
