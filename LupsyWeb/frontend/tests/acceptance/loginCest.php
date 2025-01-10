@@ -10,8 +10,8 @@ class loginCest
     public function tchimCerverja(AcceptanceTester $I)
     {
         $I->amOnPage('/index.php?r=site%2Flogin');
-        $I->fillField('Username', 'cliente');
-        $I->fillField('Password', 'Cliente123');
+        $I->fillField('#loginform-username', 'cliente2');
+        $I->fillField('#loginform-password', 'Cliente123');
         $I->see('Entrar');
         $I->click('login-button');
         $I->wait(2);
@@ -27,9 +27,12 @@ class loginCest
         $I->click('TCHIM-TCHIM');
         $I->wait(5);
         $I->acceptPopup(); // Aceita o alerta (ou use $I->dismissPopup() para dispensar o alerta)
-        $I->wait(10);
+        $I->wait(5);
         $I->see('Favoritos');
         $I->click('Favoritos');
         $I->wait(5);
+        $I->see('Historico');
+        $I->click('Historico');
+        $I->wait(2);
     }
 }

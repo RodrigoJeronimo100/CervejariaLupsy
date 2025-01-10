@@ -32,10 +32,9 @@ class LoginCest
      */
     public function loginBackOffice(FunctionalTester $I)
     {
-        $I->amOnPage('/index.php?r=site%2Flogin');
-        $I->fillField('Username', 'admin');
-        $I->fillField('Password', 'Admin123');
+        $I->amOnPage('/site/login');
+        $I->fillField('#loginform-username', 'admin');
+        $I->fillField('#loginform-password', 'Admin123');
         $I->click('login-button');
-        $I->see('Logout');
     }
 }

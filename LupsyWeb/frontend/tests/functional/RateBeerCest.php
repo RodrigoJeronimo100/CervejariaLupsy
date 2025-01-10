@@ -9,8 +9,8 @@ class RateBeerCest
     public function rateBeer(FunctionalTester $I)
     {
         $I->amOnPage('/index.php?r=site%2Flogin');
-        $I->fillField('LoginForm[username]', 'cliente');
-        $I->fillField('LoginForm[password]', 'Cliente123');
+        $I->fillField('#loginform-username', 'cliente2');
+        $I->fillField('#loginform-password', 'Cliente123');
         $I->click('login-button');
         $I->click('Cerveja');
         $I->click('Sagres');
