@@ -699,7 +699,7 @@ public class Singleton {
 
 
     public void addToInvoice(int idUtilizador, Cerveja cerveja, int quantity, final Response.Listener<JSONObject> listener, final Response.ErrorListener errorListener) {
-        double total = cerveja.getPreco() * quantity; // Calculando o total
+        double total = cerveja.getPreco() * quantity; // Calcular o total
 
         // Criando os dados para enviar para a API
         JSONObject faturaData = new JSONObject();

@@ -33,6 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'cerveja.nome',
                 'label' => 'Nome da Cerveja',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->cerveja) {
+                        return Html::a(
+                            Html::encode($model->cerveja->nome),
+                            Url::to(['/cerveja/view', 'id' => $model->cerveja->id]),
+                            ['title' => 'Ver detalhes da cerveja', 'style' => 'color: #007bff; text-decoration: none;']
+                        );
+                    }
+                    return 'Cerveja não encontrada';
+                },
             ],
             [
                 'attribute' => 'cerveja.descricao',
