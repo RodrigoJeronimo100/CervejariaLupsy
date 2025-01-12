@@ -67,6 +67,7 @@
     <string name="beer_added">Cerveja Adicionada com Sucesso</string>
     <string name="cart">Carrinho</string>
     <string name="ativa_para_clientes">Ativa para Clientes</string>
+    <string name="pagar">Pagar</string>
 
 
 </resources>

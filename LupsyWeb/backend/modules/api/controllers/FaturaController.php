@@ -2,9 +2,10 @@
 
 namespace backend\modules\api\controllers;
 
+use common\models\Fatura;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
-
+use yii\web\NotFoundHttpException;
 
 class FaturaController extends ActiveController
 {
@@ -16,6 +17,23 @@ class FaturaController extends ActiveController
             'class' => HttpBearerAuth::className(),
         ];
         return $behaviors;
+    }
+    public function actionPagar($id)
+    {
+        $model = $this->findModel($id);
+        $model->estado = 'paga';
+        if ($model->save()) {
+            return ['success' => 'Fatura paga com sucesso.'];
+        } else {
+            return ['error'=> 'Erro ao pagar a fatura.'];
+        }
+    }
+    protected function findModel($id)
+    {
+        if (($model = Fatura::findOne($id)) !== null) {
+            return $model;
+        }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
    
 }

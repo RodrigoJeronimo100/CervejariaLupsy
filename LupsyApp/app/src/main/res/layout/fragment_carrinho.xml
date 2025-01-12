@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fundo_amarelo_seco"
+    android:onClick="onClickPagar"
     android:orientation="vertical"
     tools:context=".CarrinhoFragment">
 
@@ -40,14 +41,29 @@
                 android:id="@+id/tvTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="end"
                 android:padding="8dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
                 android:textColor="@color/preto_fosco"
-                android:gravity="end"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <!-- Linha separadora -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnPagar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onClickPagar"
+                android:text="@string/pagar" />
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -74,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/fundo_amarelo_seco"
-            android:dividerHeight="5dp"/>
+            android:dividerHeight="5dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -1,12 +1,15 @@
 package pt.ipleiria.estg.dei.lupsyapp;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +34,8 @@ public class CarrinhoFragment extends Fragment {
     private List<ItemFatura> itensFatura = new ArrayList<>();
     private TextView tvTotal;
     private double total = 0;
+    private Button btnPagar;
+    private int idFatura;
 
     public CarrinhoFragment() {
         // Required empty public constructor
@@ -46,11 +51,33 @@ public class CarrinhoFragment extends Fragment {
         adapter = new ListaCarrinhoAdaptador(getContext(), itensFatura);
         lvcarrinho.setAdapter(adapter);
         tvTotal = view.findViewById(R.id.tvTotal);
-
+        btnPagar = view.findViewById(R.id.btnPagar);
 
         getItensFatura();
-
+        btnPagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickPagar(v);
+            }
+        });
         return view;
+    }
+
+    public void onClickPagar(View view) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirmação")
+                .setMessage("Deseja pagar essa fatura?")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Singleton.getInstance().PagarFatura(idFatura);
+                        itensFatura.clear();
+                        getItensFatura();
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     public void getItensFatura() {
@@ -70,28 +97,25 @@ public class CarrinhoFragment extends Fragment {
                                         itemJson.getDouble("preco_unitario")
                                 );
                                 itensFatura.add(item);
+                                idFatura = itemJson.getInt("id_fatura");
                                 total += item.getPreco() * item.getQuantidade();
                             }
                             tvTotal.setText(String.format("%.2f€", total));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            // Lidar com a exceção JSONException
-                            // ...
+                            System.out.println("Erro JSONException getItemFatura");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Lidar com o erro
-                        // ...
+                        System.out.println("Erro: " + error.getMessage());
                     }
                 });
     }
 
-    private void atualizarUI(List<ItemFatura> itensFatura) {
 
-    }
 
 }

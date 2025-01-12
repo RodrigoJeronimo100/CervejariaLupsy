@@ -61,7 +61,7 @@ public class Singleton {
     private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
     public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
-    public static final String UrlAPICreateFatura = BASE_URL + "/api/fatura";
+    public static final String UrlAPIFatura = BASE_URL + "/api/fatura";
     public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
     public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
 
@@ -829,5 +829,37 @@ public class Singleton {
     private String getCurrentDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
+    }
+
+    public void PagarFatura(int id) {
+        String url = UrlAPIFatura + "/pagar?id=" + id;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Trate a resposta da API (sucesso)
+                        // ...
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Trate o erro da API
+                        // ...
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(request);
     }
 }
