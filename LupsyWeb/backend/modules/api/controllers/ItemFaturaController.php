@@ -18,7 +18,6 @@ class ItemFaturaController extends ActiveController
        $behaviors = parent::behaviors();
         $behaviors['authenticator'] = [
             'class' => HttpBearerAuth::className(),
-            'except' => ['create'], 
         ];
         return $behaviors;
     }
@@ -28,7 +27,7 @@ class ItemFaturaController extends ActiveController
         $actions = parent::actions();
 
         // Desabilitar ações desnecessárias
-        unset($actions['delete'], $actions['create'], $actions['update']);
+        unset($actions['create'], $actions['update'], $actions['delete']);
 
         return $actions;
     }
@@ -67,7 +66,7 @@ class ItemFaturaController extends ActiveController
         if ($model->save()) {
             // Atualizar o total da fatura associada
             $fatura->updateTotal();
-            return $model;
+            return ['success' => 'Cerveja adicionada ao carrinho !'];
         }
 
         return ['errors' => $model->errors];
@@ -91,6 +90,27 @@ class ItemFaturaController extends ActiveController
         return ['errors' => $model->errors];
     }
 
+    public function actionGetItemFatura()
+    {
+        $idUtilizador = Yii::$app->user->id;
+
+        // Verificar se existe uma fatura com estado 'aberta' para este utilizador
+        $fatura = Fatura::find()
+            ->where(['id_utilizador' => $idUtilizador, 'estado' => 'aberta'])
+            ->one();
+
+        if (!$fatura) {
+            return ['vazia' => 'Não existe uma fatura aberta para este utilizador.'];
+        }
+
+        // Obter todos os ItemFatura vinculados à fatura aberta
+        $items = ItemFatura::find()
+            ->where(['id_fatura' => $fatura->id])
+            ->all();
+
+        return $items;
+    }
+
     protected function findModel($id)
     {
         if (($model = ItemFatura::findOne($id)) !== null) {
@@ -98,6 +118,21 @@ class ItemFaturaController extends ActiveController
         }
 
         throw new \yii\web\NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionDelete($id)
+    {
+        $model = $this->findModel($id);
+        $fatura = $model->fatura;
+
+        if ($model->delete()) {
+            // Atualizar o total da fatura associada
+            if ($fatura) {
+                $fatura->updateTotal();
+            }
+            return  $this->asJson(['success' => 'Item removido da fatura.']);
+        }
+
+        return $this->asJson(['errors' => $model->errors]);
     }
    
 }

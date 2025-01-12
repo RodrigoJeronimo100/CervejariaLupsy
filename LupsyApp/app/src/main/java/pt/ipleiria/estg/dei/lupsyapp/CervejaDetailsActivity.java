@@ -20,6 +20,7 @@ import androidx.cardview.widget.CardView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
@@ -63,14 +64,15 @@ public class CervejaDetailsActivity extends AppCompatActivity {
 
 
         int id = getIntent().getIntExtra(ID_CERVEJA, 0);
+        Singleton.getInstance(this).getAllCervejasAPI(this);
         cerveja = Singleton.getInstance(this).getCerveja(id);
 
-        if (cerveja == null) {
-            Toast.makeText(this, "Cerveja não encontrada", Toast.LENGTH_SHORT).show();
-            finish(); // Fecha a atividade caso a cerveja não seja encontrada
-        } else {
+        if (cerveja != null) {
             carregarDetalhes();
+        } else {
+            System.out.println("Erro ao carregar os detalhes da cerveja");
         }
+
 
         isFavorite(id);
 
@@ -110,24 +112,37 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         if (utilizador != null) {
             int idUtilizador = utilizador.getId();  // Obtendo o ID do utilizador logado
             int quantity = Integer.parseInt(tvQuantity.getText().toString());  // Obtendo a quantidade da interface
+            int idCerveja = cerveja.getId();
+            double preco = cerveja.getPreco();
 
             // Calculando o total com a quantidade de cervejas
             double total = cerveja.getPreco() * quantity;
 
             // Chamando o método do Singleton para adicionar a cerveja à fatura
-            Singleton.getInstance(this).addToInvoice(idUtilizador, cerveja, quantity, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // Sucesso! A cerveja foi adicionada à fatura
-                    Toast.makeText(CervejaDetailsActivity.this, "Cerveja adicionada ao carrinho!", Toast.LENGTH_SHORT).show();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // Erro ao fazer o pedido
-                    Toast.makeText(CervejaDetailsActivity.this, "Erro ao adicionar cerveja ao carrinho", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Singleton.getInstance(this).adicionarAoCarrinhoAPI(this,idCerveja,quantity,preco,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.has("success")) {
+                                    String successMessage = response.getString("success");
+                                    Toast.makeText(CervejaDetailsActivity.this, successMessage, Toast.LENGTH_SHORT).show();
+                                    }
+                                else if (response.has("errors")) { // Verifica se a chave "errors" existe
+                                    // Erro ao adicionar ao carrinho
+                                    JSONObject errors = response.getJSONObject("errors");
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
         } else {
             // Caso não tenha um utilizador logado
             Toast.makeText(this, "Nenhum utilizador logado", Toast.LENGTH_SHORT).show();

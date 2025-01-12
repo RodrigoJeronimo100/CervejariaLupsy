@@ -65,8 +65,8 @@ public class ListaCervejasPerfilTop3Adaptador extends BaseAdapter {
 
         public ViewHolderLista(View view){
             tvTitulo = view.findViewById(R.id.tvNomeCev);
-            tvDescricao = view.findViewById(R.id.tvDescCev);
-            tvOutro = view.findViewById(R.id.tvOutro);
+            tvDescricao = view.findViewById(R.id.tvQuantidade);
+            tvOutro = view.findViewById(R.id.tvPrecoUnitario);
             tvTeorAlcool = view.findViewById(R.id.tvTeorAlcool);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");

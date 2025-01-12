@@ -155,7 +155,7 @@
                             android:translationX="5dp" />
 
                         <TextView
-                            android:id="@+id/tvOutro"
+                            android:id="@+id/tvPrecoUnitario"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:autofillHints=""

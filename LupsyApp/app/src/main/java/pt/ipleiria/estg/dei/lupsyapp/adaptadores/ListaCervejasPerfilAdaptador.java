@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
 import pt.ipleiria.estg.dei.lupsyapp.R;
 
@@ -64,8 +63,8 @@ public class ListaCervejasPerfilAdaptador extends BaseAdapter {
 
         public ViewHolderLista(View view){
             tvTitulo = view.findViewById(R.id.tvNomeCev);
-            tvDescricao = view.findViewById(R.id.tvDescCev);
-            tvOutro = view.findViewById(R.id.tvOutro);
+            tvDescricao = view.findViewById(R.id.tvQuantidade);
+            tvOutro = view.findViewById(R.id.tvPrecoUnitario);
             tvTeorAlcool = view.findViewById(R.id.tvTeorAlcool);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");

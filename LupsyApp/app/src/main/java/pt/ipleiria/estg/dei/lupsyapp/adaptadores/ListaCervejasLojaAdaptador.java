@@ -70,7 +70,7 @@ public class ListaCervejasLojaAdaptador extends BaseAdapter {
 
         public ViewHolderLista(View view) {
             tvTitulo = view.findViewById(R.id.tvNomeCev);
-            tvPreco = view.findViewById(R.id.tvOutro);
+            tvPreco = view.findViewById(R.id.tvPrecoUnitario);
             tvRate = view.findViewById(R.id.tvRate);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");

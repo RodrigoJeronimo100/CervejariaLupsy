@@ -150,4 +150,34 @@ public class CervejaDBHelper extends SQLiteOpenHelper {
         this.db.delete(TABLE_NAME_HISTORICO, null, null);
     }
 
+    public Cerveja getCerveja(int id) {
+        Cerveja cerveja = null;
+
+        Cursor cursor = this.db.query(
+                TABLE_NAME,
+                new String[]{ID, NOME, DESCRICAO, TEOR_ALCOOLICO, FORNECEDOR_NOME, ESTADO, PRECO, CATEGORIA_NOME},
+                ID + " = ?", // Cláusula WHERE
+                new String[]{String.valueOf(id)}, // Valores para a cláusula WHERE
+                null,
+                null,
+                null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            cerveja = new Cerveja(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getFloat(3),
+                    cursor.getFloat(6),
+                    cursor.getString(4),
+                    cursor.getString(7),
+                    cursor.getString(5)
+            );
+            cursor.close();
+        }
+
+        return cerveja;
+    }
+
 }

@@ -63,7 +63,7 @@ public class ListaCervejasFavAdaptador extends BaseAdapter {
 
         public ViewHolderLista(View view){
             tvTitulo = view.findViewById(R.id.tvNomeCev);
-            tvDescricao = view.findViewById(R.id.tvDescCev);
+            tvDescricao = view.findViewById(R.id.tvQuantidade);
             imgCapa = view.findViewById(R.id.imgCapa);
             System.out.println("--> passou no viewHolderLista");
         }

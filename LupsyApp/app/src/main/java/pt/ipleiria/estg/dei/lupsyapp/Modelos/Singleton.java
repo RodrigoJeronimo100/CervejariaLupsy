@@ -21,7 +21,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +29,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -55,7 +53,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.84:8080";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
     public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
@@ -64,6 +62,8 @@ public class Singleton {
     private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
     public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
     public static final String UrlAPICreateFatura = BASE_URL + "/api/fatura";
+    public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
+    public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -140,7 +140,10 @@ public class Singleton {
     public ArrayList<Cerveja> getCervejas() {
         return new ArrayList<>(cervejas);
     }
-
+    public Cerveja getCervejaDB(int id) {
+        Cerveja c = cervejaDBHelper.getCerveja(id);
+        return c;
+    }
     public Cerveja getCerveja(int id) {
         for (Cerveja c : cervejas) {
             if (c.getId() == id) {
@@ -357,6 +360,11 @@ public class Singleton {
     public void buscarFavoritas(final Response.Listener<List<Cerveja>> listener, final Response.ErrorListener errorListener) {
         int userId = getUserId(context);
 
+        if (!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
+            System.out.println("---> Nao tem net");
+        }
+        else {
         if (userId != -1) {
             String url = UrlAPIFavoritas + userId;
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -396,7 +404,7 @@ public class Singleton {
         } else {
             // Lidar com o caso em que nenhum utilizador está logado
             // ...
-        }
+        }}
     }
     public void buscarHistorico(final Response.Listener<List<CervejaHistorico>> listener, final Response.ErrorListener errorListener) {
         if (!JsonParser.isConnectionInternet(context)) {
@@ -698,35 +706,122 @@ public class Singleton {
     }
 
 
-    public void addToInvoice(int idUtilizador, Cerveja cerveja, int quantity, final Response.Listener<JSONObject> listener, final Response.ErrorListener errorListener) {
-        double total = cerveja.getPreco() * quantity; // Calcular o total
+    public void adicionarAoCarrinhoAPI(final Context context, int idCerveja, int quantidade, double precoUnitario, final Response.Listener<JSONObject> listener, final Response.ErrorListener errorListener) {
+        int userId = getUserId(context);
 
-        // Criando os dados para enviar para a API
-        JSONObject faturaData = new JSONObject();
-        try {
-            faturaData.put("id_utilizador", idUtilizador);
-            faturaData.put("data_fatura", getCurrentDateTime());
-            faturaData.put("total", String.format("%.2f", total));
-            faturaData.put("estado", "aberta");
+        if (userId != -1) {
+            String url = UrlAPIItemFatura;
+            SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
 
-            // Adicionando o item à fatura
-            JSONArray itemsArray = new JSONArray();
-            JSONObject item = new JSONObject();
-            item.put("id_cerveja", cerveja.getId());
-            item.put("quantidade", quantity);
-            item.put("preco", cerveja.getPreco());
-            itemsArray.put(item);
+            try {
+                JSONObject jsonBody = new JSONObject();
+                jsonBody.put("id_utilizador", userId);
+                jsonBody.put("id_cerveja", idCerveja);
+                jsonBody.put("quantidade", quantidade);
+                jsonBody.put("preco_unitario", precoUnitario);
 
-            faturaData.put("itens", itemsArray);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                listener.onResponse(response);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                errorListener.onErrorResponse(error);
+                            }
+                        }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", "Bearer " + token);
+                        return headers;
+                    }
+                };
 
-            // Enviar para a API (POST)
-            String url = UrlAPICreateFatura;
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, faturaData, listener, errorListener);
-            getRequestQueue().add(request);
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+                requestQueue.add(jsonObjectRequest);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                System.out.println("Erro ao criar objeto JSON: " + e.getMessage());
+            }
+        }
+    }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-            errorListener.onErrorResponse(new VolleyError("Erro ao criar JSON"));
+    public void buscarAllItemFaturaAPI(final Context context, final Response.Listener<JSONArray> listener, final Response.ErrorListener errorListener) {
+        int userId = getUserId(context);
+
+        if (userId != -1) {
+            String url = UrlAPIGetAllItemFatura;
+            SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            listener.onResponse(response);
+                            System.out.println("-->Buscar lista: " + response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            errorListener.onErrorResponse(error);
+                            System.out.println("-->Falha ao Buscar lista carrinho: " + error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(jsonArrayRequest);
+        } else {
+            System.out.println("Nenhum utilizador logado");
+        }
+    }
+
+    public void removerItemFaturaAPI(final Context context, int itemId, final Response.Listener<JSONObject> listener, final Response.ErrorListener errorListener) {
+        int userId = getUserId(context);
+
+        if (userId != -1) {
+            String url = UrlAPIItemFatura + "/" + itemId;
+            SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println("-->Successo ao remover: " + response);
+                            listener.onResponse(response);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("-->Falha ao remover item carrinho: " + error);
+                            errorListener.onErrorResponse(error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(jsonObjectRequest);
         }
     }
 

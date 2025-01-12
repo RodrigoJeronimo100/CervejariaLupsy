@@ -7,6 +7,7 @@ use common\models\User;
 use common\models\Utilizador;
 use Yii;
 use yii\base\Controller;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -15,25 +16,15 @@ class UtilizadorController extends ActiveController
 {
     public $modelClass = 'common\models\Utilizador'; 
 
-    // public function behaviors()
-    // {
-    //     $behaviors = parent::behaviors();
-    //     $behaviors['access'] = [
-    //         'class' => \yii\filters\AccessControl::class,
-    //         'rules' => [
-    //             [
-    //                 'allow' => true,
-    //                 'actions' => ['update','view','create','index'], 
-    //                 'roles' => ['?'],
-    //             ],
-    //             [
-    //                 'allow' => false,
-    //                 'actions' => ['delete'],  // Bloquear delete para todos
-    //             ],
-    //         ],
-    //     ];
-    //     return $behaviors;
-    // }
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => HttpBearerAuth::className(),
+            'except' => ['auth'], 
+        ];
+        return $behaviors;
+    }
     // public function actions()
     // {
     //     $actions = parent::actions();

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@drawable/editborderitem"
+    android:gravity="center_horizontal"
     android:orientation="horizontal">
 
     <ImageView
@@ -69,15 +71,17 @@
                 android:id="@+id/tvPrecoUnitario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textStyle="bold" />
+                android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/tvTeorAlcool"
+            <ImageButton
+                android:id="@+id/btnRemoverItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textStyle="bold" />
+                android:layout_gravity="end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_delete" />
+
         </LinearLayout>
 
 
