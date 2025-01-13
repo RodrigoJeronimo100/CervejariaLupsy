@@ -3,6 +3,7 @@
 namespace backend\modules\api\controllers;
 
 use common\models\Fatura;
+use Yii;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\ActiveController;
 use yii\web\NotFoundHttpException;
@@ -35,5 +36,9 @@ class FaturaController extends ActiveController
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-   
+    public function actionHistorico(){
+        $id_user = Yii::$app->user->id;    
+        $faturas = Fatura::findOne(['id_utilizador' => $id_user]);
+        return $faturas;
+   }
 }
