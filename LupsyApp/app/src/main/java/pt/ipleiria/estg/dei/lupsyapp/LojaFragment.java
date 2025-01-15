@@ -41,6 +41,7 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_loja, container, false);
+        setHasOptionsMenu(true);
 
         lv_cervejas = view.findViewById(R.id.lv_cervejas);
 

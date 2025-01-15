@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.lupsyapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,6 @@ public class BarraInferior extends AppCompatActivity {
 
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
 
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -49,6 +49,9 @@ public class BarraInferior extends AppCompatActivity {
         });
 
     }
+
+
+
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(

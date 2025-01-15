@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.CervejaHistorico;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Fatura;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 
 public class JsonParser {
@@ -93,6 +94,30 @@ public class JsonParser {
         }
 
         return cervejas;
+    }
+
+    public static ArrayList<Fatura> parserJsonFaturas(JSONArray response) {
+        ArrayList<Fatura> faturas = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < response.length(); i++) {
+                JSONObject fatura = (JSONObject) response.get(i);
+
+                // Parsing the fields from the JSON response
+                int id = fatura.getInt("id");
+                int id_utilizador = fatura.getInt("id_utilizador");
+                String data_fatura = fatura.getString("data_fatura");
+                Double total = fatura.getDouble("total");
+                String estado = fatura.getString("estado");
+
+                Fatura auxFatura = new Fatura(id, id_utilizador, data_fatura, total, estado);
+                faturas.add(auxFatura);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return faturas;
     }
 
     public static boolean isConnectionInternet(Context context){

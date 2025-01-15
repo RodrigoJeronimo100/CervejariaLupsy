@@ -48,12 +48,15 @@ import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejaListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasHistoricoListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.FaturaHistoricoListener;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.FaturaListener;
+import pt.ipleiria.estg.dei.lupsyapp.listeners.FaturasListener;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.LoginListener;
 import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.68:8080";
+    private static final String BASE_URL = "http://192.168.1.84:8080";
     public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
@@ -64,15 +67,21 @@ public class Singleton {
     public static final String UrlAPIFatura = BASE_URL + "/api/fatura";
     public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
     public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
+    public static final String UrlAPIGetHistoricoFatura = BASE_URL + "/api/fatura/historico";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
     private ArrayList<Cerveja> cervejas;
+    private ArrayList<Fatura> faturas;
     private CervejaDBHelper cervejaDBHelper;
     private UtilizadorDBHelper utilizadorDBHelper;
+    private FaturaDBHelper faturaDBHelper;
     private CervejasListener cervejasListener;
     private CervejaListener cervejaListener;
+    private FaturaListener faturaListener;
+    private FaturasListener faturasListener;
     private CervejasHistoricoListener cervejasHistoricoListener;
+    private FaturaHistoricoListener faturasHistoricoListener;
     private Utilizador utilizador;
     private LoginListener loginListener;
     private Context context; // Variável de instância para o context
@@ -104,6 +113,7 @@ public class Singleton {
         cervejas = new ArrayList<>();
         cervejaDBHelper = new CervejaDBHelper(context);
         utilizadorDBHelper = new UtilizadorDBHelper(context);
+        faturaDBHelper = new FaturaDBHelper(context);
         this.context = context;
         this.requestQueue = getRequestQueue();
     }
@@ -136,18 +146,47 @@ public class Singleton {
             adicionarCervejaBD(c);
         }
     }
+    public void setFaturasListener(FaturasListener faturasListener) {
+        this.faturasListener = faturasListener;
+    }
+
+    public void setFaturaListener(FaturaListener faturaListener) {
+        this.faturaListener = faturaListener;
+    }
+
+    public void adicionarFaturasBD(ArrayList<Fatura> faturas){
+
+        for (Fatura f : faturas){
+            adicionarFaturaBD(f);
+        }
+    }
 
     public ArrayList<Cerveja> getCervejas() {
         return new ArrayList<>(cervejas);
+    }
+    public ArrayList<Fatura> getFaturas() {
+        return new ArrayList<>(faturas);
     }
     public Cerveja getCervejaDB(int id) {
         Cerveja c = cervejaDBHelper.getCerveja(id);
         return c;
     }
+    public Fatura getFaturaDB(int id) {
+        Fatura f = faturaDBHelper.getFatura(id);
+        return f;
+    }
     public Cerveja getCerveja(int id) {
         for (Cerveja c : cervejas) {
             if (c.getId() == id) {
                 return c;
+            }
+        }
+        return null;
+    }
+    public Fatura getFatura(int id) {
+        for (Fatura f : faturas) {
+            if (f.getId() == id) {
+                return f;
             }
         }
         return null;
@@ -167,6 +206,10 @@ public class Singleton {
         cervejas.add(cerveja);
         adicionarCervejaBD(cerveja);
     }
+    public void adicionarFaturas(Fatura fatura) {
+        faturas.add(fatura);
+        adicionarFaturaBD(fatura);
+    }
 
 
     private void adicionarCervejaBD(Cerveja c) {
@@ -174,6 +217,9 @@ public class Singleton {
     }
     private void adicionarUtilizadorBD(Utilizador u) {
         utilizadorDBHelper.insertOrUpdateUtilizador(u);
+    }
+    private void adicionarFaturaBD(Fatura f) {
+        faturaDBHelper.adicionarFaturaBD(f);
     }
     public void getAllCervejasAPI(final Context context){
         if (!JsonParser.isConnectionInternet(context)){
@@ -256,6 +302,90 @@ public class Singleton {
             volleyQueue.add(request);
         }
     }
+
+    public void getAllFaturasAPI(final Context context){
+        if (!JsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "Nao tem internet", Toast.LENGTH_SHORT).show();
+            System.out.println("---> Nao tem net");
+            //TODO: carregar cervejas da db atraves do metodo *FEITO*
+            if(faturasListener != null){
+                faturasListener.onRefreshListaFaturas(faturaDBHelper.getAllFaturasBD());
+                System.out.println("---> cervejas listener != null");
+            }
+            System.out.println("---> outro");
+        }
+        else {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "");
+
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, UrlAPIFatura, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    System.out.println("---> GETAPI"+ response);
+                    faturas = JsonParser.parserJsonFaturas(response);
+                    adicionarFaturasBD(faturas);
+
+                    //TODO: implementar listeners *FEITO*
+                    if(faturasListener != null){
+                        faturasListener.onRefreshListaFaturas(faturas);
+//                        System.out.println("---> Lista de cervejas:");
+//                        for (Cerveja cerveja : cervejas) {
+//                            System.out.println("Nome: " + cerveja.getNome() + ", Descrição: " + cerveja.getDescricao() +
+//                                    ", Teor Alcoólico: " + cerveja.getTeor_alcoolico() + ", Preço: " + cerveja.getPreco());
+//                        }
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    String errorMessage;
+                    if (error.networkResponse != null) {
+                        // Obter o código de status HTTP da resposta
+                        int statusCode = error.networkResponse.statusCode;
+
+                        // Exibir mensagem baseada no código de status
+                        errorMessage = "Erro do servidor: Código " + statusCode;
+
+                        // (Opcional) Converter a resposta em string se for um erro com conteúdo
+                        try {
+                            String responseBody = new String(error.networkResponse.data, "utf-8");
+                            errorMessage += "\nDetalhes: " + responseBody;
+                        } catch (Exception e) {
+                            errorMessage += "\nErro ao processar resposta.";
+                        }
+                    } else if (error instanceof TimeoutError) {
+                        // Erro de timeout
+                        errorMessage = "Erro de timeout: O servidor não respondeu a tempo.";
+                    } else if (error instanceof NoConnectionError) {
+                        // Erro de conexão
+                        errorMessage = "Erro de conexão: Não foi possível se conectar ao servidor.";
+                    } else {
+                        // Outros tipos de erro
+                        errorMessage = "Erro desconhecido: " + error.getMessage();
+                    }
+
+                    // Exibir mensagem de erro no Toast e no console
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    System.out.println("---> erro: " + errorMessage);
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+            // Adicionar política de timeout
+            int timeout = 10000; // 10 segundos
+            RetryPolicy policy = new DefaultRetryPolicy(timeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            request.setRetryPolicy(policy);
+            volleyQueue.add(request);
+        }
+    }
+
+
 
     public void login(final String email, final String password,LoginListener loginListener, Context context) {
         this.loginListener = loginListener;

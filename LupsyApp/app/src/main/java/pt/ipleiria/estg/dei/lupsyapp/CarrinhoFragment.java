@@ -7,6 +7,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -46,6 +49,7 @@ public class CarrinhoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_carrinho, container, false);
+        setHasOptionsMenu(true);
 
         lvcarrinho = view.findViewById(R.id.lv_carrinho);
         adapter = new ListaCarrinhoAdaptador(getContext(), itensFatura);
@@ -116,6 +120,28 @@ public class CarrinhoFragment extends Fragment {
                 });
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
 
+        inflater.inflate(R.menu.menu_historico, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_history) {
+
+            HistoricoFaturaFragment historicoCevFragment = new HistoricoFaturaFragment();
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, historicoCevFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
