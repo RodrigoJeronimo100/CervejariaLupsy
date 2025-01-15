@@ -56,18 +56,18 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static String baseUrl = "http://192.168.1.68:8080";
-    public static final String UrlAPICervejas = "/api/cerveja";
-    private static final String UrlAPILogin = "/api/utilizador/auth";
-    private static final String UrlAPIFavoritas = "/api/favorita/get-favoritas?id_utilizador=";
-    private static final String UrlAPIHistorico = "/api/historico/get-historico?id_utilizador=";
-    private static final String UrlAPIToogleFavorite = "/api/cerveja/favoritar?id=";
-    private static final String UrlAPIIsFavorito = "/api/cerveja/is-favorito?id=";
-    public static final String UrlAPICreateUser = "/api/signup/create";
-    public static final String UrlAPIFatura = "/api/fatura";
-    public static final String UrlAPIItemFatura ="/api/item-fatura";
-    public static final String UrlAPIGetAllItemFatura ="/api/item-fatura/get-item-fatura";
-    public static final String UrlAPIGetHistoricoFatura = "/api/fatura/historico";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
+    public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
+    private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
+    private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
+    private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
+    private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
+    private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
+    public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
+    public static final String UrlAPIFatura = BASE_URL + "/api/fatura";
+    public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
+    public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
+    public static final String UrlAPIGetHistoricoFatura = BASE_URL + "/api/fatura/historico";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -87,7 +87,6 @@ public class Singleton {
     private Context context; // Variável de instância para o context
     private List<Cerveja> carrinho;
     private RequestQueue requestQueue;
-    private SharedPreferences sharedPreferencesIP;
 
     public Singleton() {
         //Construtor vazio
@@ -115,7 +114,6 @@ public class Singleton {
         cervejaDBHelper = new CervejaDBHelper(context);
         utilizadorDBHelper = new UtilizadorDBHelper(context);
         faturaDBHelper = new FaturaDBHelper(context);
-        ;
 //        this.context = context;
 //        this.requestQueue = getRequestQueue();
     }
@@ -127,15 +125,6 @@ public class Singleton {
 //        return requestQueue;
 //    }
 
-
-    public static String getBaseUrl() {
-        return baseUrl;
-    }
-
-    public static void setBaseUrl(String baseUrl) {
-        System.out.println(baseUrl);
-        Singleton.baseUrl = baseUrl;
-    }
 
     // Registro dos listeners
     public void setCervejasListener(CervejasListener cervejasListener) {
@@ -249,7 +238,7 @@ public class Singleton {
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, getBaseUrl()+UrlAPICervejas, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, UrlAPICervejas, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("---> GETAPI"+ response);
@@ -331,7 +320,7 @@ public class Singleton {
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, getBaseUrl()+UrlAPIGetHistoricoFatura, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, UrlAPIGetHistoricoFatura, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("---> GETAPI"+ response);
@@ -404,10 +393,9 @@ public class Singleton {
     public void login(final String email, final String password,LoginListener loginListener, Context context) {
         this.loginListener = loginListener;
         this.context = context;
-        System.out.println(getBaseUrl()+UrlAPILogin);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                getBaseUrl()+UrlAPILogin,
+                UrlAPILogin,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -431,7 +419,6 @@ public class Singleton {
                                 loginListener.onValidateLogin(utilizador, context);
                                 utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
                                 System.out.println("---> utilizador existe: " + utilizador.getNome());
-                                System.out.println("---> Role: " + utilizador.getRole());
                             } else {
                                 // Lidar com erro de autenticação
                                 System.out.println("---> erro de autenticacao");
@@ -512,7 +499,7 @@ public class Singleton {
         }
         else {
         if (userId != -1) {
-            String url = getBaseUrl()+UrlAPIFavoritas + userId;
+            String url = UrlAPIFavoritas + userId;
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
@@ -565,7 +552,7 @@ public class Singleton {
             int userId = getUserId(context);
 
             if (userId != -1) {
-                String url = getBaseUrl()+UrlAPIHistorico + userId;
+                String url = UrlAPIHistorico + userId;
                 SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "");
 
@@ -612,7 +599,7 @@ public class Singleton {
     }
 
     public void togglefavoriteAPI(int id){
-        String url = getBaseUrl()+UrlAPIToogleFavorite + id;
+        String url = UrlAPIToogleFavorite + id;
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
 
@@ -643,7 +630,7 @@ public class Singleton {
         requestQueue.add(request);
     }
     public void isFavorito(int cervejaId, final Response.Listener<Boolean> listener, final Response.ErrorListener errorListener) {
-        String url = getBaseUrl()+UrlAPIIsFavorito + cervejaId;
+        String url = UrlAPIIsFavorito + cervejaId;
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
 
@@ -677,7 +664,7 @@ public class Singleton {
     }
 
     public void getRate(int id, final ListaCervejasLojaAdaptador.RateCallback callback) {
-        String url = getBaseUrl()+UrlAPICervejas + "/" + id + "/nota";
+        String url = UrlAPICervejas + "/" + id + "/nota";
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
 
@@ -716,7 +703,7 @@ public class Singleton {
     public void createUser(Context context, String nome, String email, String password, String nif, String tele, String morada, String username) {
         new Thread(() -> {
             try {
-                URL url = new URL(getBaseUrl()+UrlAPICreateUser);
+                URL url = new URL(UrlAPICreateUser);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("POST");
@@ -804,7 +791,7 @@ public class Singleton {
                                      String fornecedor, String categoria, int estado) {
         new Thread(() -> {
             try {
-                URL url = new URL(getBaseUrl()+UrlAPICervejas);
+                URL url = new URL(UrlAPICervejas);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 conn.setRequestMethod("POST");
@@ -856,7 +843,7 @@ public class Singleton {
         int userId = getUserId(context);
 
         if (userId != -1) {
-            String url = getBaseUrl()+UrlAPIItemFatura;
+            String url = UrlAPIItemFatura;
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
@@ -901,7 +888,7 @@ public class Singleton {
         int userId = getUserId(context);
 
         if (userId != -1) {
-            String url = getBaseUrl()+UrlAPIGetAllItemFatura;
+            String url = UrlAPIGetAllItemFatura;
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
@@ -939,7 +926,7 @@ public class Singleton {
         int userId = getUserId(context);
 
         if (userId != -1) {
-            String url = getBaseUrl()+UrlAPIItemFatura + "/" + itemId;
+            String url = UrlAPIItemFatura + "/" + itemId;
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
@@ -978,7 +965,7 @@ public class Singleton {
     }
 
     public void PagarFatura(int id) {
-        String url = getBaseUrl()+UrlAPIFatura + "/pagar?id=" + id;
+        String url = UrlAPIFatura + "/pagar?id=" + id;
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString("token", "");
 
