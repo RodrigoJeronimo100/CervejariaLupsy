@@ -19,7 +19,8 @@ public class BarraInferior extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barra_inferior);
-
+        // Iniciar na Home
+        loadFragment(new HomeFragment());
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
