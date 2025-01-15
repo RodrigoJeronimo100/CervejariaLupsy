@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.lupsyapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private EditText etUsername;
     private EditText etPassword;
+    private EditText tvIP;
 
 
     @Override
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        tvIP = findViewById(R.id.tvIP);
         etUsername = findViewById(R.id.etUsernameCad);
         etPassword = findViewById(R.id.etPassword);
 
@@ -66,6 +68,9 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         System.out.println("click");
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        String ip = tvIP.getText().toString();
+        Singleton.setBaseUrl("http://" + ip);
+
         //System.out.println(etUsername.getText().toString() + " : " + password);
 
         if (!isUsernameValido(username)) {
