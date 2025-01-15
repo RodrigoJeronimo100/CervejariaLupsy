@@ -74,7 +74,7 @@ public class CarrinhoFragment extends Fragment {
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Singleton.getInstance().PagarFatura(idFatura);
+                        Singleton.getInstance(getContext()).PagarFatura(idFatura);
                         itensFatura.clear();
                         getItensFatura();
                         adapter.notifyDataSetChanged();

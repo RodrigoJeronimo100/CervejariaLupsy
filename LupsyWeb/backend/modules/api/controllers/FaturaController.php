@@ -38,7 +38,8 @@ class FaturaController extends ActiveController
     }
     public function actionHistorico(){
         $id_user = Yii::$app->user->id;    
-        $faturas = Fatura::findOne(['id_utilizador' => $id_user]);
+        $faturas = Fatura::find()
+        ->where(['id_utilizador' => $id_user])->all();
         return $faturas;
    }
 }

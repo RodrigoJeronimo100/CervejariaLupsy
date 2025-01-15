@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class FaturaDBHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "db";
+    public static final String DB_NAME = "dbFaturas";
     private static final int DB_VERSION = 1;
     private static final String TABLE_NAME = "faturas";
     private final SQLiteDatabase db;
@@ -30,6 +30,7 @@ public class FaturaDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println("Criando DBfatura");
         String createFaturaTable = "CREATE TABLE " + TABLE_NAME + " (" +
                 ID + " INTEGER PRIMARY KEY, " +
                 ID_UTILIZADOR + " INTEGER NOT NULL, " +
@@ -42,11 +43,13 @@ public class FaturaDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        System.out.println("onUpgrade db fatura");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         this.onCreate(db);
     }
 
     public void adicionarFaturaBD(Fatura f) {
+        System.out.println("adicionarFaturaBDhelper "+ f);
         ContentValues values = new ContentValues();
         values.put(ID, f.getId());
         values.put(ID_UTILIZADOR, f.getId_utilizador());
@@ -59,21 +62,26 @@ public class FaturaDBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Fatura> getAllFaturasBD() {
         ArrayList<Fatura> faturas = new ArrayList<>();
-
+        System.out.println("GetAllFaturasDB() " +faturas);
         Cursor cursor = this.db.query(TABLE_NAME, new String[]{ID, ID_UTILIZADOR, DATA_FATURA, TOTAL, ESTADO},
                 null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Fatura fatura = new Fatura(
-                        cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getString(2),
-                        cursor.getDouble(3),
-                        cursor.getString(4)
-                );
-                faturas.add(fatura);
-            } while (cursor.moveToNext());
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    Fatura fatura = new Fatura(
+                            cursor.getInt(0),
+                            cursor.getInt(1),
+                            cursor.getString(2),
+                            cursor.getDouble(3),
+                            cursor.getString(4)
+                    );
+                    faturas.add(fatura);
+                } while (cursor.moveToNext());
+            }
+        }finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
         return faturas;
@@ -82,7 +90,7 @@ public class FaturaDBHelper extends SQLiteOpenHelper {
 
     public Fatura getFatura(int id) {
         Fatura fatura = null;
-
+        System.out.println("GetFatura()");
         Cursor cursor = this.db.query(
                 TABLE_NAME,
                 new String[]{ID, ID_UTILIZADOR, DATA_FATURA, TOTAL, ESTADO},
@@ -105,5 +113,8 @@ public class FaturaDBHelper extends SQLiteOpenHelper {
         }
 
         return fatura;
+    }
+    public void removeAllFaturasdb(){
+        this.db.delete(TABLE_NAME, null,null);
     }
 }

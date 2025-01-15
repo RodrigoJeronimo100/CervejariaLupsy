@@ -86,6 +86,6 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        Singleton.getInstance().createUser(this, nome, email, password, nif, tele, morada, username);
+        Singleton.getInstance(getApplicationContext()).createUser(this, nome, email, password, nif, tele, morada, username);
     }
 }

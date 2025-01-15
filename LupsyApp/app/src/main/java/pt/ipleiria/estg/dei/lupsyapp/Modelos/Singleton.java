@@ -56,7 +56,7 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.84:8080";
+    private static final String BASE_URL = "http://192.168.1.68:8080";
     public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
     private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
     private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
@@ -100,12 +100,12 @@ public class Singleton {
         return instance;
     }
 
-    public static Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
+//    public static Singleton getInstance() {
+//        if (instance == null) {
+//            instance = new Singleton();
+//        }
+//        return instance;
+//    }
 
 
     private Singleton(Context context){
@@ -114,16 +114,16 @@ public class Singleton {
         cervejaDBHelper = new CervejaDBHelper(context);
         utilizadorDBHelper = new UtilizadorDBHelper(context);
         faturaDBHelper = new FaturaDBHelper(context);
-        this.context = context;
-        this.requestQueue = getRequestQueue();
+//        this.context = context;
+//        this.requestQueue = getRequestQueue();
     }
 
-    public RequestQueue getRequestQueue() {
-        if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-        }
-        return requestQueue;
-    }
+//    public RequestQueue getRequestQueue() {
+//        if (requestQueue == null) {
+//            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+//        }
+//        return requestQueue;
+//    }
 
 
     // Registro dos listeners
@@ -155,7 +155,8 @@ public class Singleton {
     }
 
     public void adicionarFaturasBD(ArrayList<Fatura> faturas){
-
+        faturaDBHelper.removeAllFaturasdb();
+        System.out.println("adicionarFaturasBD " + faturas);
         for (Fatura f : faturas){
             adicionarFaturaBD(f);
         }
@@ -219,6 +220,7 @@ public class Singleton {
         utilizadorDBHelper.insertOrUpdateUtilizador(u);
     }
     private void adicionarFaturaBD(Fatura f) {
+        System.out.println("adicionarFaturaBD " + f);
         faturaDBHelper.adicionarFaturaBD(f);
     }
     public void getAllCervejasAPI(final Context context){
@@ -318,11 +320,12 @@ public class Singleton {
             SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "");
 
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, UrlAPIFatura, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, UrlAPIGetHistoricoFatura, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("---> GETAPI"+ response);
                     faturas = JsonParser.parserJsonFaturas(response);
+                    System.out.println("---> faturas:"+ response);
                     adicionarFaturasBD(faturas);
 
                     //TODO: implementar listeners *FEITO*
