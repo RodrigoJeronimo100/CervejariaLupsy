@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/fundo_amarelo_seco"
-        android:backgroundTint="@color/fundo_amarelo_seco"
         android:orientation="vertical">
 
         <View
@@ -50,7 +49,6 @@
                 android:src="@drawable/ic_add"
                 android:text="Criar"
                 android:tint="@color/grey" />
-
         </LinearLayout>
 
         <!-- Linha separadora -->
@@ -66,8 +64,6 @@
             android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
-
-
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -81,9 +77,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/fundo_amarelo_seco"
-            android:dividerHeight="5dp"></ListView>
-
+            android:dividerHeight="5dp" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab_action"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/amarelo_seco"
+        android:visibility="gone" />
 
 </LinearLayout>

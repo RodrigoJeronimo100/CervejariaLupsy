@@ -70,7 +70,8 @@
     <string name="pagar">Pagar</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="tvHistoricoFatura">Histórico de Faturas</string>
+    <string name="tvHistoricoFatura">Histórico de Compras</string>
+    <string name="fab_action" />
 
 
 </resources>
