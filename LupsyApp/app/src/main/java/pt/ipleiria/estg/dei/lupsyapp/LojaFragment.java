@@ -18,19 +18,22 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
+import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 import pt.ipleiria.estg.dei.lupsyapp.listeners.CervejasListener;
-
 
 public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, CervejasListener {
 
     private ListView lv_cervejas;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Button btn_add;
+    private FloatingActionButton fabAction;
 
     public LojaFragment() {
         // Required empty public constructor
@@ -49,8 +52,6 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         lv_cervejas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getContext(),livros.get(position).getTitulo(), Toast.LENGTH_SHORT).show();
-                // codigo para ir para o detalhes livro
                 Intent intent = new Intent(getContext(), CervejaDetailsActivity.class);
                 intent.putExtra(CervejaDetailsActivity.ID_CERVEJA, (int) id);
                 startActivity(intent);
@@ -67,7 +68,6 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        System.out.println("--> on create view homefragment");
         Singleton.getInstance(getContext()).setCervejasListener(this);
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());
 
@@ -76,14 +76,44 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), CervejaDetailsActivityADM.class);
-                //startActivity(intent);
-                //STARTACTIVITY
-                startActivityForResult(intent,BarraInferior.ADD);
+                startActivityForResult(intent, BarraInferior.ADD);
+            }
+        });
+
+        // Configuração do FloatingActionButton
+        fabAction = view.findViewById(R.id.fab_action);
+        verificarPermissaoUtilizador();
+
+        fabAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ação do botão
+                Intent intent = new Intent(getContext(), CervejaDetailsActivityADM.class);
+                startActivity(intent);
             }
         });
 
         return view;
     }
+
+    /**
+     * Método para verificar o papel do utilizador e configurar a visibilidade do FAB.
+     */
+    private void verificarPermissaoUtilizador() {
+        Utilizador utilizadorGuardado = Singleton.getInstance(getContext()).getUtilizadorGuardado(getContext());
+
+        if (utilizadorGuardado != null) {
+            String role = utilizadorGuardado.getRole();
+            if (role.equalsIgnoreCase("cliente")) {
+                fabAction.setVisibility(View.GONE); // Esconde o FAB para clientes
+            } else {
+                fabAction.setVisibility(View.VISIBLE); // Mostra o FAB para admin/funcionario
+            }
+        } else {
+            fabAction.setVisibility(View.GONE);
+        }
+    }
+
 
     @Override
     public void onRefresh() {
@@ -93,7 +123,7 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefreshListaCervejas(ArrayList<Cerveja> listaCervejas) {
-        if(listaCervejas != null) {
+        if (listaCervejas != null) {
             lv_cervejas.setAdapter(new ListaCervejasLojaAdaptador(getContext(), listaCervejas));
         }
     }
@@ -101,25 +131,19 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
         inflater.inflate(R.menu.menu_carrinho, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if (item.getItemId() == R.id.action_cart) {
-
             CarrinhoFragment carrinhoFragment = new CarrinhoFragment();
-
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, carrinhoFragment)
                     .addToBackStack(null)
                     .commit();
-
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }
