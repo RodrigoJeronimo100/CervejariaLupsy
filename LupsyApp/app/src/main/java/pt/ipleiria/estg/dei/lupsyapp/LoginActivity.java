@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
     private EditText etUsername;
     private EditText etPassword;
-
+    private EditText etIP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
 
         etUsername = findViewById(R.id.etUsernameCad);
         etPassword = findViewById(R.id.etPassword);
+        etIP = findViewById(R.id.etIP);
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -66,6 +67,8 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
         System.out.println("click");
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
+        String ip = etIP.getText().toString();
+        Singleton.getInstance(this).setIP(ip);
         //System.out.println(etUsername.getText().toString() + " : " + password);
 
         if (!isUsernameValido(username)) {
@@ -78,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements LoginListener {
             return;
         }
 
-        Singleton.getInstance(this).login(username, password, this,this);
+        Singleton.getInstance(this).login(username, password, ip,this,this);
     }
 
     public void onValidateLogin(Utilizador utilizador, Context context) {

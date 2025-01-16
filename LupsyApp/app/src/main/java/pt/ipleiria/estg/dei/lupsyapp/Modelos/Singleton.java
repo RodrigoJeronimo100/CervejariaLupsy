@@ -56,20 +56,20 @@ import pt.ipleiria.estg.dei.lupsyapp.utils.JsonParser;
 
 public class Singleton {
 
-    private static final String BASE_URL = "http://192.168.1.84:8080";
-    public static final String UrlAPICervejas = BASE_URL + "/api/cerveja";
-    private static final String UrlAPILogin = BASE_URL + "/api/utilizador/auth";
-    private static final String UrlAPIFavoritas = BASE_URL + "/api/favorita/get-favoritas?id_utilizador=";
-    private static final String UrlAPIHistorico = BASE_URL + "/api/historico/get-historico?id_utilizador=";
-    private static final String UrlAPIToogleFavorite = BASE_URL + "/api/cerveja/favoritar?id=";
-    private static final String UrlAPIIsFavorito = BASE_URL + "/api/cerveja/is-favorito?id=";
-    public static final String UrlAPICreateUser = BASE_URL + "/api/signup/create";
-    public static final String UrlAPIFatura = BASE_URL + "/api/fatura";
-    public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
-    public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
-    public static final String UrlAPIGetHistoricoFatura = BASE_URL + "/api/fatura/historico";
-    public static final String UrlAPIBeber = BASE_URL + "/api/historico/beber";
-    public static final String UrlAPIVotar = BASE_URL + "/api/cerveja/votar";
+    private static String baseURL ;//= "http://192.168.1.68:8080";
+    public static String UrlAPICervejas; // Não é mais final
+    private static String UrlAPILogin; // Não é mais final
+    private static String UrlAPIFavoritas; // Não é mais final
+    private static String UrlAPIHistorico; // Não é mais final
+    private static String UrlAPIToogleFavorite; // Não é mais final
+    private static String UrlAPIIsFavorito; // Não é mais final
+    public static String UrlAPICreateUser; // Não é mais final
+    private static String UrlAPIFatura; // Não é mais final
+    private static String UrlAPIItemFatura; // Não é mais final
+    private static String UrlAPIGetAllItemFatura; // Não é mais final
+    private static String UrlAPIGetHistoricoFatura; // Não é mais final
+    public static String UrlAPIBeber; // Não é mais final
+    public static String UrlAPIVotar; // Não é mais final
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -98,6 +98,20 @@ public class Singleton {
         if(instance==null){
             instance=new Singleton(context);
             volleyQueue = Volley.newRequestQueue(context);
+            baseURL = getBaseUrl(context);
+            UrlAPICervejas = baseURL + "/api/cerveja";
+            UrlAPILogin = baseURL + "/api/utilizador/auth";
+            UrlAPIFavoritas = baseURL + "/api/favorita/get-favoritas?id_utilizador=";
+            UrlAPIHistorico = baseURL + "/api/historico/get-historico?id_utilizador=";
+            UrlAPIToogleFavorite = baseURL + "/api/cerveja/favoritar?id=";
+            UrlAPIIsFavorito = baseURL + "/api/cerveja/is-favorito?id=";
+            UrlAPICreateUser = baseURL + "/api/signup/create";
+            UrlAPIFatura = baseURL + "/api/fatura";
+            UrlAPIItemFatura = baseURL + "/api/item-fatura";
+            UrlAPIGetAllItemFatura = baseURL + "/api/item-fatura/get-item-fatura";
+            UrlAPIGetHistoricoFatura = baseURL + "/api/fatura/historico";
+            UrlAPIBeber = baseURL + "/api/historico/beber";
+            UrlAPIVotar = baseURL + "/api/cerveja/votar";
         }
         return instance;
     }
@@ -127,7 +141,33 @@ public class Singleton {
 //        return requestQueue;
 //    }
 
-
+    public static String getBaseUrl(Context context) {
+        SharedPreferences ipPrefs = context.getSharedPreferences("IpPrefs", Context.MODE_PRIVATE);
+        String ipAddress = ipPrefs.getString("ip_address", null);
+        return ipAddress;
+    }
+    public void setIP(String ip) {
+        baseURL = "http://" + ip;
+        SharedPreferences ipPrefs = context.getSharedPreferences("IpPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = ipPrefs.edit();
+        editor.putString("ip_address", baseURL);
+        editor.apply();
+    }
+    private void atualizarUrls() {
+        UrlAPICervejas = baseURL + "/api/cerveja";
+        UrlAPILogin = baseURL + "/api/utilizador/auth";
+        UrlAPIFavoritas = baseURL + "/api/favorita/get-favoritas?id_utilizador=";
+        UrlAPIHistorico = baseURL + "/api/historico/get-historico?id_utilizador=";
+        UrlAPIToogleFavorite = baseURL + "/api/cerveja/favoritar?id=";
+        UrlAPIIsFavorito = baseURL + "/api/cerveja/is-favorito?id=";
+        UrlAPICreateUser = baseURL + "/api/signup/create";
+        UrlAPIFatura = baseURL + "/api/fatura";
+        UrlAPIItemFatura = baseURL + "/api/item-fatura";
+        UrlAPIGetAllItemFatura = baseURL + "/api/item-fatura/get-item-fatura";
+        UrlAPIGetHistoricoFatura = baseURL + "/api/fatura/historico";
+        UrlAPIBeber = baseURL + "/api/historico/beber";
+        UrlAPIVotar = baseURL + "/api/cerveja/votar";
+    }
     // Registro dos listeners
     public void setCervejasListener(CervejasListener cervejasListener) {
         this.cervejasListener = cervejasListener;
@@ -392,9 +432,11 @@ public class Singleton {
 
 
 
-    public void login(final String email, final String password,LoginListener loginListener, Context context) {
+    public void login(final String email, final String password,String ip, LoginListener loginListener, Context context) {
         this.loginListener = loginListener;
         this.context = context;
+        baseURL = "http://" + ip;
+        atualizarUrls();
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 UrlAPILogin,
@@ -406,7 +448,7 @@ public class Singleton {
                             utilizador = result.first;
                             String token = result.second;
                             if (utilizador != null) {
-                                // Armazene os dados do usuário nas SharedPreferences
+                                // Armazena os dados do usuário nas SharedPreferences
                                 SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("userId", utilizador.getId());
@@ -422,7 +464,6 @@ public class Singleton {
                                 utilizadorDBHelper.insertOrUpdateUtilizador(utilizador);
                                 System.out.println("---> utilizador existe: " + utilizador.getNome());
                             } else {
-                                // Lidar com erro de autenticação
                                 System.out.println("---> erro de autenticacao");
                             }
                         } catch (JSONException e) {
@@ -434,7 +475,6 @@ public class Singleton {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Lidar com erro na requisição
                         if (error instanceof VolleyError && error.networkResponse != null && error.networkResponse.statusCode == 403) {
 
                             if (loginListener != null) {
@@ -1058,4 +1098,5 @@ public class Singleton {
 
         Volley.newRequestQueue(context).add(request);
     }
+
 }
