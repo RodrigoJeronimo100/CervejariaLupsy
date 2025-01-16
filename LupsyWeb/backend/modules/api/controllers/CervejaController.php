@@ -79,15 +79,16 @@ class CervejaController extends ActiveController
             }
         }
     }
-    public function actionVotar($id)
+    public function actionVotar()
     {
        // Verifica se o usuário está logado
         if (Yii::$app->user->isGuest) {
             return ['error' => 'Usuário não autenticado.'];
         }
-
+        $id_utilizador = Yii::$app->user->id;
+        $cervejaID = Yii::$app->request->post('id_cerveja');
         // Busca a cerveja
-        $cerveja = Cerveja::findOne($id);
+        $cerveja = Cerveja::findOne($cervejaID);
         if (!$cerveja) {
             throw new NotFoundHttpException('Cerveja não encontrada.');
         }
@@ -100,12 +101,12 @@ class CervejaController extends ActiveController
 
         // Salva ou atualiza a nota do usuário
         $notaModel = Nota::findOne([
-            'id_utilizador' => Yii::$app->user->id,
-            'id_cerveja' => $id,
+            'id_user' => $id_utilizador,
+            'id_cerveja' => $cervejaID,
         ]) ?? new Nota();
 
-        $notaModel->id_utilizador = Yii::$app->user->id;
-        $notaModel->id_cerveja = $id;
+        $notaModel->id_user = $id_utilizador;
+        $notaModel->id_cerveja = $cervejaID;
         $notaModel->nota = $nota;
 
         if ($notaModel->save()) {

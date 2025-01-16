@@ -69,6 +69,7 @@ public class Singleton {
     public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
     public static final String UrlAPIGetHistoricoFatura = BASE_URL + "/api/fatura/historico";
     public static final String UrlAPIBeber = BASE_URL + "/api/historico/beber";
+    public static final String UrlAPIVotar = BASE_URL + "/api/cerveja/votar";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -1030,5 +1031,29 @@ public class Singleton {
             e.printStackTrace();
             System.out.println("Erro ao criar objeto JSON: " + e.getMessage());
         }
+    }
+    public void votar(int idCerveja, float rating, final Response.Listener<String> responseListener, Response.ErrorListener errorListener) {
+        String url = UrlAPIVotar;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, responseListener, errorListener) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("id_cerveja", String.valueOf(idCerveja));
+                params.put("nota", String.valueOf(rating));
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + token);
+                return headers;
+            }
+        };
+
+        Volley.newRequestQueue(context).add(request);
     }
 }

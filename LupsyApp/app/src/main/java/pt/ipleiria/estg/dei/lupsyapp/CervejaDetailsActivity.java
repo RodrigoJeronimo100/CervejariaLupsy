@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class CervejaDetailsActivity extends AppCompatActivity {
     private Cerveja cerveja;
     private boolean isFavorited = false;
     private int quantity = 1; // Valor inicial
+    private RatingBar ratingBar;
 
     public static final String ID_CERVEJA = "ID_CERVEJA";
 
@@ -62,7 +64,7 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         btnPlus = findViewById(R.id.btn_plus);
         btnMinus = findViewById(R.id.btn_minus);
         btnAddToCart = findViewById(R.id.btn_carrinho);
-
+        ratingBar = findViewById(R.id.ratingBar);
 
         int id = getIntent().getIntExtra(ID_CERVEJA, 0);
         Singleton.getInstance(this).getAllCervejasAPI(this);
@@ -106,6 +108,28 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         });
 
         btnAddToCart.setOnClickListener(v -> addToCart());
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (fromUser) {
+                    int idCerveja = id;
+                    Singleton.getInstance(getApplicationContext()).votar(idCerveja, rating, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            System.out.println("cerveja votada");
+                            Toast.makeText(CervejaDetailsActivity.this, "cerveja votada com sucesso", Toast.LENGTH_SHORT).show();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("Erro ao votar"+ error.getMessage());
+                            Toast.makeText(CervejaDetailsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void carrinhoClicado(View view) {
