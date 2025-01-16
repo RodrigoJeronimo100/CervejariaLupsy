@@ -85,10 +85,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     }
 
-    public void onClickFunil(View view) {
-        Toast.makeText(getActivity(), "Funil clicado!", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onRefresh() {
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());

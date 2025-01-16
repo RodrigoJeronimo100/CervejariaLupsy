@@ -84,7 +84,10 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         });
 
         // Listener para o botão Tchim-Tchim
-        tchimTchimButton.setOnClickListener(v -> showMessageBox());
+        tchimTchimButton.setOnClickListener(v ->{
+            int id_cerveja = id;
+            Singleton.getInstance(getApplicationContext()).Beber(id_cerveja);
+        });
 
         // Listener para o botão "+"
         btnPlus.setOnClickListener(v -> {

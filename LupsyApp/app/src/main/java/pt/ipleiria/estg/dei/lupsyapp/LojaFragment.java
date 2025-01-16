@@ -43,6 +43,7 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         View view = inflater.inflate(R.layout.fragment_loja, container, false);
         setHasOptionsMenu(true);
 
+        //System.out.println("Role na loja: " + Singleton.getInstance(getContext()).getUtilizadorGuardado(getContext()).getRole());
         lv_cervejas = view.findViewById(R.id.lv_cervejas);
 
         lv_cervejas.setOnItemClickListener(new AdapterView.OnItemClickListener() {

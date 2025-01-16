@@ -82,6 +82,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' =>  ['api/nota'], 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' =>  ['api/comentario'], 'pluralize'=>false],
                 ['class' => 'yii\rest\UrlRule', 'controller' =>  ['api/favorita'], 'pluralize'=>false],
+                ['class' => 'yii\rest\UrlRule', 'controller' =>  ['api/historico'], 'pluralize'=>false],
             ],
         ],
     ],

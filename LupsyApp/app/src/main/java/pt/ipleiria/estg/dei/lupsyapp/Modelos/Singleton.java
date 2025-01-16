@@ -68,6 +68,7 @@ public class Singleton {
     public static final String UrlAPIItemFatura = BASE_URL + "/api/item-fatura";
     public static final String UrlAPIGetAllItemFatura = BASE_URL + "/api/item-fatura/get-item-fatura";
     public static final String UrlAPIGetHistoricoFatura = BASE_URL + "/api/fatura/historico";
+    public static final String UrlAPIBeber = BASE_URL + "/api/historico/beber";
 
     private static Singleton instance;
     private static RequestQueue volleyQueue = null;
@@ -973,15 +974,13 @@ public class Singleton {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Trate a resposta da API (sucesso)
-                        // ...
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Trate o erro da API
-                        // ...
+
                     }
                 }) {
             @Override
@@ -994,5 +993,42 @@ public class Singleton {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(request);
+    }
+    public void Beber(int id_cerveja) {
+        String url = UrlAPIBeber;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
+
+        try {
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("id_cerveja", id_cerveja);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println("cerveja adicionada ao historico");
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("Erro em adicionar cerveja ao historico: " + error);
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao criar objeto JSON: " + e.getMessage());
+        }
     }
 }

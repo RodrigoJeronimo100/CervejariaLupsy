@@ -29,7 +29,6 @@ class CervejaController extends ActiveController
         return $behaviors;
     }
 
-    // Certifique-se de que a ação de update permite POST ou PUT
     public function actions()
     {
         $actions = parent::actions();
