@@ -37,18 +37,6 @@
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/btn_add"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="0.5"
-                android:clickable="true"
-                android:contentDescription="@string/txt_adicionar"
-                android:padding="1dp"
-                android:src="@drawable/ic_add"
-                android:text="Criar"
-                android:tint="@color/grey" />
         </LinearLayout>
 
         <!-- Linha separadora -->

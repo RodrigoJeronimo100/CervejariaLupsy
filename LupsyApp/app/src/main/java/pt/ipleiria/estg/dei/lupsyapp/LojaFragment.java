@@ -71,14 +71,6 @@ public class LojaFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Singleton.getInstance(getContext()).setCervejasListener(this);
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());
 
-        btn_add = view.findViewById(R.id.btn_add);
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), CervejaDetailsActivityADM.class);
-                startActivityForResult(intent, BarraInferior.ADD);
-            }
-        });
 
         // Configuração do FloatingActionButton
         fabAction = view.findViewById(R.id.fab_action);
