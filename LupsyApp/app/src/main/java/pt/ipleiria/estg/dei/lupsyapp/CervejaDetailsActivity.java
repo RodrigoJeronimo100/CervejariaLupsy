@@ -28,10 +28,11 @@ import pt.ipleiria.estg.dei.lupsyapp.Modelos.Cerveja;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Singleton;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.Utilizador;
 import pt.ipleiria.estg.dei.lupsyapp.Modelos.UtilizadorDBHelper;
+import pt.ipleiria.estg.dei.lupsyapp.adaptadores.ListaCervejasLojaAdaptador;
 
 public class CervejaDetailsActivity extends AppCompatActivity {
 
-    private TextView tv_nome, tv_descricao, tv_teor_alcool, tv_preco, tvQuantity;
+    private TextView tv_nome, tv_descricao, tv_teor_alcool, tv_preco, tvQuantity,tvNotaMedia;
     private ImageView imgCapa, heartImageView;
     private CardView heartContainer, tchimTchimButton, btnAddToCart;
     private Button btnPlus, btnMinus;
@@ -65,6 +66,7 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         btnMinus = findViewById(R.id.btn_minus);
         btnAddToCart = findViewById(R.id.btn_carrinho);
         ratingBar = findViewById(R.id.ratingBar);
+        tvNotaMedia = findViewById(R.id.tvNotaMedia);
 
         int id = getIntent().getIntExtra(ID_CERVEJA, 0);
         Singleton.getInstance(this).getAllCervejasAPI(this);
@@ -183,6 +185,18 @@ public class CervejaDetailsActivity extends AppCompatActivity {
             tv_descricao.setText(cerveja.getDescricao());
             tv_teor_alcool.setText(String.format("%.1f %%", cerveja.getTeor_alcoolico()));
             tv_preco.setText(String.format("%.2f €", cerveja.getPreco()));
+            Singleton.getInstance(this).getRate(cerveja.getId(),  new ListaCervejasLojaAdaptador.RateCallback() {
+                @Override
+                public void onRateReceived(String rate) {
+                    tvNotaMedia.setText("Nota Média: " + rate);
+                }
+
+                @Override
+                public void onRateError(VolleyError error) {
+                    //tvNotaMedia.setText("Erro ao obter a nota");
+                    System.out.println("Erro ao obter a nota");
+                }
+            });
         } else {
             Toast.makeText(this, "Erro ao carregar os detalhes da cerveja", Toast.LENGTH_SHORT).show();
         }

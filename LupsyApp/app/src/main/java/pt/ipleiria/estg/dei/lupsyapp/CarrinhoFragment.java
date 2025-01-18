@@ -76,7 +76,8 @@ public class CarrinhoFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         Singleton.getInstance(getContext()).PagarFatura(idFatura);
                         itensFatura.clear();
-                        getItensFatura();
+                        tvTotal.setText("");
+                        //getItensFatura();
                         adapter.notifyDataSetChanged();
                     }
                 })
@@ -90,6 +91,7 @@ public class CarrinhoFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         itensFatura.clear();
+                        tvTotal.setText("");
                         try {
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject itemJson = response.getJSONObject(i);
@@ -107,6 +109,8 @@ public class CarrinhoFragment extends Fragment {
                             tvTotal.setText(String.format("%.2f€", total));
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
+                            itensFatura.clear();
+                            tvTotal.setText("");
                             e.printStackTrace();
                             System.out.println("Erro JSONException getItemFatura");
                         }
