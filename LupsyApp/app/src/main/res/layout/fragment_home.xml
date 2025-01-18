@@ -107,17 +107,6 @@
                 android:text="@string/tvVendas"
                 android:textSize="24sp" />
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginRight="15dp"
-                android:layout_weight="0.05"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/ic_filtericon" />
-
         </LinearLayout>
 
         <View
