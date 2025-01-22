@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +47,7 @@ public class PerfilFragment extends Fragment {
     private ListView lvHistorico,lvTop3;
     private ListaCervejasPerfilAdaptador listaCervejasAdaptador;
     private ImageButton botaoLogout;
+    private Button buttonPag;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -51,6 +57,14 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_perfil, container, false);
+        setHasOptionsMenu(true);
+
+        if (getActivity() != null) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.show(); // Exibe a ActionBar
+            }
+        }
 
         UtilizadorDBHelper dbHelper = new UtilizadorDBHelper(getContext());
         Utilizador utilizador = dbHelper.getUtilizador(getContext());
@@ -59,6 +73,8 @@ public class PerfilFragment extends Fragment {
         telefone = view.findViewById(R.id.tvTelefone);
         morada = view.findViewById(R.id.tvMorada);
         botaoLogout = view.findViewById(R.id.botaoLogout);
+
+
 
         username.setText(utilizador.getUsername());
         nome.setText(utilizador.getNome());
@@ -79,6 +95,8 @@ public class PerfilFragment extends Fragment {
         });
 
         buscarHistorico();
+
+
 
         return view;
     }
@@ -118,6 +136,30 @@ public class PerfilFragment extends Fragment {
         Intent intent = new Intent(requireActivity(), LoginActivity.class);
         startActivity(intent);
         requireActivity().finish(); // Finalizar a BarraInferior
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_newpag, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_newpag) {
+
+            PagNovaFragment pagNovaFragment = new PagNovaFragment();
+
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, pagNovaFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

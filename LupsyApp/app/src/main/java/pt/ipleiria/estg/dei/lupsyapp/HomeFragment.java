@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private TextView tvData;
     private ListView lv_cervejas;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView tvProdutoDisponivel;
+    private Button btnZerarContador;
+    private int contadorProdutos = 0; // Contador inicial
+    private TextView tvProdutoMaisCaro;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,6 +85,26 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         System.out.println("--> on create view homefragment");
         Singleton.getInstance(getContext()).setCervejasListener(this);
         Singleton.getInstance(getContext()).getAllCervejasAPI(getContext());
+
+        tvProdutoDisponivel = view.findViewById(R.id.tvProdutoDisponivel);
+        btnZerarContador = view.findViewById(R.id.btnZerarContador);
+        tvProdutoMaisCaro = view.findViewById(R.id.tvProdutoMaisCaro);
+
+
+
+        contadorProdutos = Singleton.getInstance(getContext()).getCervejasCount();
+        atualizarContador();
+
+        btnZerarContador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contadorProdutos = 0; // Zera o contador
+                atualizarContador();
+                Toast.makeText(getContext(), "Contador zerado!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         return view;
 
 
@@ -93,16 +118,38 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefreshListaCervejas(ArrayList<Cerveja> listaCervejas) {
-        if(listaCervejas != null) {
+        if (listaCervejas != null) {
+            //cerveja da mais cara para a mais barata
+            listaCervejas.sort((c1, c2) -> Double.compare(c2.getPreco(), c1.getPreco()));
+
+
             lv_cervejas.setAdapter(new ListaCervejasAdaptador(getContext(), listaCervejas));
+
+            //contador de cervejas total
+            contadorProdutos = listaCervejas.size();
+            atualizarContador();
+
+            //cerveja mais cara em string
+            if (!listaCervejas.isEmpty()) {
+                Cerveja cervejaMaisCara = listaCervejas.get(0);
+                String mensagem = String.format("Produto mais caro: %s - Preço: %.2f €", cervejaMaisCara.getNome(), cervejaMaisCara.getPreco());
+                tvProdutoMaisCaro.setText(mensagem);
+            } else {
+                tvProdutoMaisCaro.setText("Nenhum produto disponível.");
+            }
         }
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.menu_carrinho, menu);
+    }
+
+    private void atualizarContador() {
+        tvProdutoDisponivel.setText("Produtos disponíveis: " + contadorProdutos);
     }
 
     @Override
