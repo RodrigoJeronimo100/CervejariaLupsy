@@ -121,8 +121,8 @@ class SiteController extends Controller
             ],
         ]);
 
-        //$logFilePath = Yii::getAlias('@backend') . '/access.log';
-        $logFilePath = '/var/log/nginx/access.log';
+        $logFilePath = Yii::getAlias('@backend') . '/access.log';
+        //$logFilePath = '/var/log/nginx/access.log';
 
         if (!file_exists($logFilePath)) {
             throw new WebNotFoundHttpException("Arquivo de log não encontrado.");
@@ -142,6 +142,8 @@ class SiteController extends Controller
             'webError5xxCount' => $logData['webError5xxCount'],
             'mobileError4xxCount' => $logData['mobileError4xxCount'],
             'mobileError5xxCount' => $logData['mobileError5xxCount'],
+            'total' => $logData['total'],
+            'Requests200Count' => $logData['Requests200Count'],
         ]);
     }
 
@@ -193,6 +195,8 @@ class SiteController extends Controller
             'webError5xxCount' => 0,
             'mobileError4xxCount' => 0,
             'mobileError5xxCount' => 0,
+            'total' => 0,
+            'Requests200Count' => 0,
         ];
     
         // Lista de User-Agents de bots
@@ -205,6 +209,7 @@ class SiteController extends Controller
         $logFile = fopen($logFilePath, "r");
         if ($logFile) {
             while (($line = fgets($logFile)) !== false) {
+                $logData['total']++;
                 // Expressão regular para capturar o código de status HTTP corretamente
                 if (preg_match('/"\s*(\d{3})\s/', $line, $matches)) {
                     $statusCode = (int) $matches[1]; // Converte o status para inteiro
@@ -230,6 +235,11 @@ class SiteController extends Controller
                             $logData['mobileError4xxCount']++;
                         } elseif ($statusCode >= 500 && $statusCode < 600) {
                             $logData['mobileError5xxCount']++;
+                        } else {
+                            // Contagem de requests 200 para mobile
+                            if ($statusCode === 200) {
+                                $logData['Requests200Count']++;
+                            }
                         }
                     } else {
                         // Contagem de erros 4xx e 5xx para web
@@ -237,6 +247,11 @@ class SiteController extends Controller
                             $logData['webError4xxCount']++;
                         } elseif ($statusCode >= 500 && $statusCode < 600) {
                             $logData['webError5xxCount']++;
+                        } else {
+                            // Contagem de requests 200 para web
+                            if ($statusCode === 200) {
+                                $logData['Requests200Count']++;
+                            }
                         }
                     }
                 }

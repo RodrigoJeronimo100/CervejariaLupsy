@@ -62,14 +62,37 @@ $this->title = 'BackOffice';
             </div>
         </div>
 
-        <!-- Erros-->
+        <!-- Requests-->
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Dashboard de Erros Ultimas 24h</h3>
+                        <h3 class="card-title">Dashboard Requests das Ultimas 24h</h3>
                     </div>
+                    <div class="row">
                     <div class="card-body">
+                        <div class="row">
+                            <!-- Total -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-info">
+                                    <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total de Requests</span>
+                                        <span class="info-box-number"><?= $total ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box bg-success">
+                                    <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Requests sucesso</span>
+                                        <span class="info-box-number"><?= $Requests200Count ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <!-- Erros na Web -->
                         <div class="row">
                             <!-- Erros 4xx na Web -->
