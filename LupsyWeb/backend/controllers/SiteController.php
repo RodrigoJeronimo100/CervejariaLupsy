@@ -18,6 +18,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException as WebNotFoundHttpException;
 
 /**
  * Site controller
@@ -120,6 +121,15 @@ class SiteController extends Controller
             ],
         ]);
 
+        $logFilePath = Yii::getAlias('@backend') . '/access.log';
+        //$logFilePath = '/var/log/nginx/access.log';
+
+        if (!file_exists($logFilePath)) {
+            throw new WebNotFoundHttpException("Arquivo de log não encontrado.");
+        }
+
+        // Contar os erros 400 e 500
+        $logData = $this->parseLogFile($logFilePath);
 
         return $this->render('index', [
             'userCount' => $userCount,
@@ -128,6 +138,10 @@ class SiteController extends Controller
             'topCervejas' => $topCervejas,
             'topRatedCervejas' => $topRatedCervejas,
             'dataProvider' => $dataProvider,
+            'webError4xxCount' => $logData['webError4xxCount'],
+            'webError5xxCount' => $logData['webError5xxCount'],
+            'mobileError4xxCount' => $logData['mobileError4xxCount'],
+            'mobileError5xxCount' => $logData['mobileError5xxCount'],
         ]);
     }
 
@@ -172,4 +186,62 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+    private function parseLogFile($logFilePath)
+    {
+        $logData = [
+            'webError4xxCount' => 0,
+            'webError5xxCount' => 0,
+            'mobileError4xxCount' => 0,
+            'mobileError5xxCount' => 0,
+        ];
+    
+        // Lista de User-Agents de bots
+        $botUserAgents = [
+            'bot','Palo Alto Networks', 'crawler', 'spider', 'scanner', 'googlebot', 'yandex', 'bingbot', 'curl', 'zgrab', 'censys','PRI','CensysInspect'
+        ];
+    
+        // Abrir o arquivo de log
+        $logFile = fopen($logFilePath, "r");
+        if ($logFile) {
+            while (($line = fgets($logFile)) !== false) {
+                // Verifica se a linha contém erro 4xx ou 5xx
+                if (preg_match('/\s4[0-9]{2}\s/', $line) || preg_match('/\s5[0-9]{2}\s/', $line)) {
+                    // Verifica se a linha contém algum User-Agent de bot
+                    $isBot = false;
+                    foreach ($botUserAgents as $bot) {
+                        if (stripos($line, $bot) !== false) {
+                            $isBot = true;
+                            break;
+                        }
+                    }
+    
+                    // Se for de bot, ignora a linha
+                    if ($isBot) {
+                        continue;
+                    }
+    
+                    // Separar por web e mobile (com base na rota '/api/')
+                    if (strpos($line, '/api/') !== false) {
+                        // Contagem de erros 4xx e 5xx para mobile
+                        if (preg_match('/\s4[0-9]{2}\s/', $line)) {
+                            $logData['mobileError4xxCount']++;
+                        } elseif (preg_match('/\s5[0-9]{2}\s/', $line)) {
+                            $logData['mobileError5xxCount']++;
+                        }
+                    } else {
+                        // Contagem de erros 4xx e 5xx para web
+                        if (preg_match('/\s4[0-9]{2}\s/', $line)) {
+                            $logData['webError4xxCount']++;
+                        } elseif (preg_match('/\s5[0-9]{2}\s/', $line)) {
+                            $logData['webError5xxCount']++;
+                        }
+                    }
+                }
+            }
+            fclose($logFile);
+        }
+    
+        return $logData;
+    }
+    
 }
