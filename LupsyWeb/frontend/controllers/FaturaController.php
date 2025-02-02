@@ -28,7 +28,7 @@ class FaturaController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => ['index', 'view','pagar','delete'],
+                            'actions' => ['index', 'view','pagar','delete','novo-pdf'],	
                             'allow' => true,
                             'roles' => ['@'],
                         ],
@@ -199,6 +199,7 @@ class FaturaController extends Controller
 
         Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
         Yii::$app->response->headers->add('Content-Type', 'application/pdf');
+        Yii::$app->response->headers->add('Content-Disposition', 'attachment; filename="Fatura_' . $fatura->id . '.pdf"');
 
         return $mpdf->Output('Fatura_' . $fatura->id . '.pdf', 'D'); // 'D' força o download
     }
