@@ -197,15 +197,18 @@ class SiteController extends Controller
     
         // Lista de User-Agents de bots
         $botUserAgents = [
-            'bot','Palo Alto Networks', 'crawler', 'spider', 'scanner', 'googlebot', 'yandex', 'bingbot', 'curl', 'zgrab', 'censys','PRI','CensysInspect'
+            'bot', 'Palo Alto Networks', 'crawler', 'spider', 'scanner', 'googlebot', 
+            'yandex', 'bingbot', 'curl', 'zgrab', 'censys', 'PRI', 'CensysInspect'
         ];
     
         // Abrir o arquivo de log
         $logFile = fopen($logFilePath, "r");
         if ($logFile) {
             while (($line = fgets($logFile)) !== false) {
-                // Verifica se a linha contém erro 4xx ou 5xx
-                if (preg_match('/\s4[0-9]{2}\s/', $line) || preg_match('/\s5[0-9]{2}\s/', $line)) {
+                // Expressão regular para capturar o código de status HTTP corretamente
+                if (preg_match('/"\s*(\d{3})\s/', $line, $matches)) {
+                    $statusCode = (int) $matches[1]; // Converte o status para inteiro
+    
                     // Verifica se a linha contém algum User-Agent de bot
                     $isBot = false;
                     foreach ($botUserAgents as $bot) {
@@ -223,16 +226,16 @@ class SiteController extends Controller
                     // Separar por web e mobile (com base na rota '/api/')
                     if (strpos($line, '/api/') !== false) {
                         // Contagem de erros 4xx e 5xx para mobile
-                        if (preg_match('/\s4[0-9]{2}\s/', $line)) {
+                        if ($statusCode >= 400 && $statusCode < 500) {
                             $logData['mobileError4xxCount']++;
-                        } elseif (preg_match('/\s5[0-9]{2}\s/', $line)) {
+                        } elseif ($statusCode >= 500 && $statusCode < 600) {
                             $logData['mobileError5xxCount']++;
                         }
                     } else {
                         // Contagem de erros 4xx e 5xx para web
-                        if (preg_match('/\s4[0-9]{2}\s/', $line)) {
+                        if ($statusCode >= 400 && $statusCode < 500) {
                             $logData['webError4xxCount']++;
-                        } elseif (preg_match('/\s5[0-9]{2}\s/', $line)) {
+                        } elseif ($statusCode >= 500 && $statusCode < 600) {
                             $logData['webError5xxCount']++;
                         }
                     }
