@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Fatura;
+use Mpdf\Mpdf;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -178,4 +179,30 @@ class FaturaController extends Controller
         }
         return $this->redirect(['view', 'id' => $model->id]);
     }
+
+    public function actionNovoPdf($id)
+    {
+        $fatura = Fatura::findOne($id);
+        if (!$fatura) {
+            throw new \yii\web\NotFoundHttpException("Fatura não encontrada.");
+        }
+
+        $items = $fatura->itemFaturas ?? [];
+
+        $mpdf = new \Mpdf\Mpdf();
+        $html = $this->renderPartial('pdf_template', [
+            'fatura' => $fatura,
+            'items' => $items
+        ]);
+
+        $mpdf->WriteHTML($html);
+
+        Yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+        Yii::$app->response->headers->add('Content-Type', 'application/pdf');
+
+        return $mpdf->Output('Fatura_' . $fatura->id . '.pdf', 'D'); // 'D' força o download
+    }
+
+
+
 }

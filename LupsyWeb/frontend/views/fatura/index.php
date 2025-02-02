@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     <h1><?= Html::encode($title = 'Carrinho') ?></h1>
 
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'summary' => false,
@@ -35,8 +36,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'estado',	
             [
                 'class' => yii\grid\ActionColumn::className(),
-                'template' => '{view} {delete}',
+                'template' => '{download} {view} {delete}',
                 'buttons' => [
+                    'download' => function ($url, $model, $key) {
+                        return Html::a(
+                            '<i class="fa-solid fa-file-arrow-down"></i>', // Ícone diferente
+                            Url::to(['fatura/novo-pdf', 'id' => $model->id]), // Mantendo URL relativa
+                            [
+                                'title' => 'Novo Download',
+                                'aria-label' => 'Novo Download da Fatura ' . $model->id,
+                                'style' => 'color: blue;', // Alterado para diferenciar visualmente
+                                'target' => '_blank', // Abre em nova aba (opcional)
+                                'download' => 'Fatura_' . $model->id . '.pdf' // Sugere nome de arquivo ao salvar
+                            ]
+                        );
+                    },
                     'view' => function ($url, $model, $key) {
                         return Html::a(
                             '<i class="fas fa-eye"></i>', // View icon
