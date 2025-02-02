@@ -121,8 +121,8 @@ class SiteController extends Controller
             ],
         ]);
 
-        $logFilePath = Yii::getAlias('@backend') . '/access.log';
-        //$logFilePath = '/var/log/nginx/access.log';
+        //$logFilePath = Yii::getAlias('@backend') . '/access.log';
+        $logFilePath = '/var/log/nginx/access.log';
 
         if (!file_exists($logFilePath)) {
             throw new WebNotFoundHttpException("Arquivo de log não encontrado.");
