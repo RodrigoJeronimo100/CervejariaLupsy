@@ -4,6 +4,8 @@
 /** @var int $userCount */
 /** @var int $cervejasCount */
 /** @var int $fornecedoresCount */
+/** @var int $error400Count */
+/** @var int $error500Count */
 
 use yii\grid\GridView;
 
@@ -14,6 +16,7 @@ $this->title = 'BackOffice';
 <div class="site-index">
 
     <div class="row">
+        <!-- Estatísticas existentes -->
         <div class="col-lg-4 col-md-5 col-sm-12">
             <div class="small-box bg-gradient-success">
                 <div class="inner">
@@ -28,6 +31,7 @@ $this->title = 'BackOffice';
                 </a>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-5 col-sm-12">
             <div class="small-box bg-info">
                 <div class="inner">
@@ -42,6 +46,7 @@ $this->title = 'BackOffice';
                 </a>
             </div>
         </div>
+
         <div class="col-lg-4 col-md-5 col-sm-12">
             <div class="small-box bg-gray-dark">
                 <div class="inner">
@@ -57,120 +62,101 @@ $this->title = 'BackOffice';
             </div>
         </div>
 
-
-        <div class="body-content">
-
-            <div class="row" style="margin-left: 7.5px!important;">
-                <div class="col-lg-4">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Top 5 Cervejas Mais Consumidas <i class="fa-solid fa-trophy"></i></h3>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center; width: 50px;">#</th>
-                                        <th style="text-align: center;">Nome da Cerveja</th>
-                                        <th style="text-align: center;">Quantidade Bebida</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($topCervejas as $index => $cerveja): ?>
-                                        <tr>
-                                            <td style="text-align: center; font-size: 16px; font-weight: bold;">
-                                                <?php
-                                                switch ($index) {
-                                                    case 0:
-                                                        echo '<i class="fa fa-trophy" style="color: gold; font-size: 18px;"></i>';
-                                                        break;
-                                                    case 1:
-                                                        echo '<i class="fa fa-trophy" style="color: #939393; font-size: 18px;"></i>';
-                                                        break;
-                                                    case 2:
-                                                        echo '<i class="fa fa-trophy" style="color: #cd7f32; font-size: 18px;"></i>';
-                                                        break;
-                                                    default:
-                                                        echo $index + 1;
-                                                }
-                                                ?>
-                                            </td>
-                                            <td style="text-align: center; font-size: 16px;">
-                                                <?= $cerveja['cerveja_nome'] ?>
-                                            </td>
-                                            <td style="text-align: center; font-size: 16px; color: rgba(0, 0, 0, 0.6);">
-                                                <?= $cerveja['total_consumed'] ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
+        <!-- Requests-->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dashboard Requests das Ultimas 24h</h3>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Cervejas Mais Bem Avaliadas <i class="fa-solid fa-star"></i></h3>
+                    <div class="row">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Total -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-info">
+                                    <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total de Requests</span>
+                                        <span class="info-box-number"><?= $total ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box bg-success">
+                                    <span class="info-box-icon"><i class="fas fa-chart-line"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Requests sucesso</span>
+                                        <span class="info-box-number"><?= $Requests200Count ?></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nome da Cerveja</th>
-                                        <th>Média da Nota</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($topRatedCervejas as $index => $cerveja): ?>
-                                        <tr>
-                                            <td><?= $index + 1 ?></td>
-                                            <td><?= $cerveja['cerveja_nome'] ?></td>
-                                            <td><?= number_format($cerveja['average_rating'], 2) ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card card-secondary">
-                        <div class="card-header">
-                            <h3 class="card-title">Top 5 Cervejas mais Favoritadas <i class="fa-solid fa-heart"></i></h3>
-                        </div>
-                        <div class="card-body">
-                            <?= GridView::widget([
-                                'dataProvider' => $dataProvider,
-                                'summary' => false,
-                                'columns' => [
-                                    [
-                                        'label' => 'Ranking',
-                                        'value' => function ($model, $key, $index, $widget) {
-                                            return $index + 1;
-                                        },
-                                        'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
-                                        'contentOptions' => ['style' => 'text-align: center;'],
-                                    ],
-                                    [
-                                        'attribute' => 'cerveja.nome',
-                                        'label' => 'Nome da Cerveja',
-                                        'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
-                                        'contentOptions' => ['style' => 'text-align: center;'],
-                                    ],
-                                    [
-                                        'attribute' => 'quantidade',
-                                        'label' => 'Quantidade de Favoritos',
-                                        'headerOptions' => ['style' => 'text-align: center; font-weight: bold;'],
-                                        'contentOptions' => ['style' => 'text-align: center;'],
-                                    ],
-                                ],
-                            ]); ?>
+                        <hr>
+                        <!-- Erros na Web -->
+                        <div class="row">
+                            <!-- Erros 4xx na Web -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-warning">
+                                    <span class="info-box-icon"><i class="fas fa-desktop"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Erros 4xx (Web)</span>
+                                        <span class="info-box-number"><?= $webError4xxCount ?></span>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <!-- Erros 5xx na Web -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-danger">
+                                    <span class="info-box-icon"><i class="fas fa-desktop"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Erros 5xx (Web)</span>
+                                        <span class="info-box-number"><?= $webError5xxCount ?></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <hr>
+
+                        <!-- Erros na API Mobile -->
+                        <div class="row">
+                            <!-- Erros 4xx na Mobile -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-warning">
+                                    <span class="info-box-icon"><i class="fas fa-mobile-alt"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Erros 4xx (Mobile)</span>
+                                        <span class="info-box-number"><?= $mobileError4xxCount ?></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Erros 5xx na Mobile -->
+                            <div class="col-md-6">
+                                <div class="info-box bg-danger">
+                                    <span class="info-box-icon"><i class="fas fa-mobile-alt"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Erros 5xx (Mobile)</span>
+                                        <span class="info-box-number"><?= $mobileError5xxCount ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
+
     </div>
+
+    <div class="body-content">
+        <div class="row" style="margin-left: 7.5px!important;">
+            <!-- Aqui você pode adicionar as outras seções como o ranking de cervejas -->
+        </div>
+    </div>
+
+</div>

@@ -82,4 +82,9 @@ class ItemFatura extends \yii\db\ActiveRecord
             $this->fatura->updateTotal();
         }
     }
+
+    public function getItemFaturas()
+    {
+        return $this->hasMany(ItemFatura::class, ['fatura_id' => 'id']);
+    }
 }

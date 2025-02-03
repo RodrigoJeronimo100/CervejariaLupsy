@@ -21,7 +21,8 @@
         android:hint="@string/ip_hint"
         android:inputType="text"
         android:minHeight="48dp"
-        android:paddingStart="10dp"/>
+        android:paddingStart="10dp"
+        android:text="3.252.73.52:8080" />
     <View
         android:id="@+id/vSpacing"
         android:layout_width="wrap_content"

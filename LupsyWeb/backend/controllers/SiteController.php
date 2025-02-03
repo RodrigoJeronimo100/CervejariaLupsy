@@ -18,6 +18,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException as WebNotFoundHttpException;
 
 /**
  * Site controller
@@ -120,6 +121,15 @@ class SiteController extends Controller
             ],
         ]);
 
+        //$logFilePath = Yii::getAlias('@backend') . '/access.log';
+        $logFilePath = '/var/log/nginx/access.log';
+
+        if (!file_exists($logFilePath)) {
+            throw new WebNotFoundHttpException("Arquivo de log não encontrado.");
+        }
+
+        // Contar os erros 400 e 500
+        $logData = $this->parseLogFile($logFilePath);
 
         return $this->render('index', [
             'userCount' => $userCount,
@@ -128,6 +138,12 @@ class SiteController extends Controller
             'topCervejas' => $topCervejas,
             'topRatedCervejas' => $topRatedCervejas,
             'dataProvider' => $dataProvider,
+            'webError4xxCount' => $logData['webError4xxCount'],
+            'webError5xxCount' => $logData['webError5xxCount'],
+            'mobileError4xxCount' => $logData['mobileError4xxCount'],
+            'mobileError5xxCount' => $logData['mobileError5xxCount'],
+            'total' => $logData['total'],
+            'Requests200Count' => $logData['Requests200Count'],
         ]);
     }
 
@@ -172,4 +188,78 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+    private function parseLogFile($logFilePath)
+    {
+        $logData = [
+            'webError4xxCount' => 0,
+            'webError5xxCount' => 0,
+            'mobileError4xxCount' => 0,
+            'mobileError5xxCount' => 0,
+            'total' => 0,
+            'Requests200Count' => 0,
+        ];
+    
+        // Lista de User-Agents de bots
+        $botUserAgents = [
+            'bot', 'Palo Alto Networks', 'crawler', 'spider', 'scanner', 'googlebot', 
+            'yandex', 'bingbot', 'curl', 'zgrab', 'censys', 'PRI', 'CensysInspect'
+        ];
+    
+        // Abrir o arquivo de log
+        $logFile = fopen($logFilePath, "r");
+        if ($logFile) {
+            while (($line = fgets($logFile)) !== false) {
+                $logData['total']++;
+                // Expressão regular para capturar o código de status HTTP corretamente
+                if (preg_match('/"\s*(\d{3})\s/', $line, $matches)) {
+                    $statusCode = (int) $matches[1]; // Converte o status para inteiro
+    
+                    // Verifica se a linha contém algum User-Agent de bot
+                    $isBot = false;
+                    foreach ($botUserAgents as $bot) {
+                        if (stripos($line, $bot) !== false) {
+                            $isBot = true;
+                            break;
+                        }
+                    }
+    
+                    // Se for de bot, ignora a linha
+                    if ($isBot) {
+                        continue;
+                    }
+    
+                    // Separar por web e mobile (com base na rota '/api/')
+                    if (strpos($line, '/api/') !== false) {
+                        // Contagem de erros 4xx e 5xx para mobile
+                        if ($statusCode >= 400 && $statusCode < 500) {
+                            $logData['mobileError4xxCount']++;
+                        } elseif ($statusCode >= 500 && $statusCode < 600) {
+                            $logData['mobileError5xxCount']++;
+                        } else {
+                            // Contagem de requests 200 para mobile
+                            if ($statusCode === 200) {
+                                $logData['Requests200Count']++;
+                            }
+                        }
+                    } else {
+                        // Contagem de erros 4xx e 5xx para web
+                        if ($statusCode >= 400 && $statusCode < 500) {
+                            $logData['webError4xxCount']++;
+                        } elseif ($statusCode >= 500 && $statusCode < 600) {
+                            $logData['webError5xxCount']++;
+                        } else {
+                            // Contagem de requests 200 para web
+                            if ($statusCode === 200) {
+                                $logData['Requests200Count']++;
+                            }
+                        }
+                    }
+                }
+            }
+            fclose($logFile);
+        }
+    
+        return $logData;
+    }
+    
 }
