@@ -15,7 +15,7 @@ class ContactCest
 
     public function checkContact(FunctionalTester $I)
     {
-        $I->see('Contact', 'h1');
+        $I->see('Contacto', 'h1');
     }
 
     public function checkContactSubmitNoData(FunctionalTester $I)

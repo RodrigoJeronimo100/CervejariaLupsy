@@ -50,6 +50,6 @@ class SignupCest
         ]);
 
         $I->seeEmailIsSent();
-        $I->see('Regist concluído com sucesso.');
+        $I->see('Registo concluído com sucesso.');
     }
 }
