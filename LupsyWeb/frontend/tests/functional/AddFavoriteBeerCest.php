@@ -16,5 +16,9 @@ class AddFavoriteBeerCest
         $I->click('Sagres');
         $I->seeElement('.fa.fa-heart');
         $I->click('.fa.fa-heart');
+        $I->wait(2);
+        $I->see('Favaoritos');
+        $I->click('Favoritos');
+        $I->see('Sagres');
     }
 }
