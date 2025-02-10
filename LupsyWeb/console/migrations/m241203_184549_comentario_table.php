@@ -18,7 +18,7 @@ class m241203_184549_comentario_table extends Migration
             'id_cerveja' => $this->integer()->notNull(),
             'comentario' => $this->text()->notNull(),
             'data' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-        ]);
+        ],'ENGINE=InnoDB');
 
         // Cria chaves estrangeiras para id_user e id_cerveja
         $this->addForeignKey(

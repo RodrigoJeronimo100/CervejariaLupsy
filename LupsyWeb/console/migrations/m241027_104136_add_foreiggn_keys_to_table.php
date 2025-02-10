@@ -13,23 +13,23 @@ class m241027_104136_add_foreiggn_keys_to_table extends Migration
     public function safeUp()
     {
         // Chaves estrangeiras para a tabela `avaliacao`
-        $this->addForeignKey(
-            'fk-avaliacao-id_utilizador', 
-            '{{%avaliacao}}', 
-            'id_utilizador', 
-            '{{%utilizador}}', 
-            'id', 
-            'CASCADE'
-        );
+        // $this->addForeignKey(
+        //     'fk-avaliacao-id_utilizador', 
+        //     '{{%avaliacao}}', 
+        //     'id_utilizador', 
+        //     '{{%utilizador}}', 
+        //     'id', 
+        //     'CASCADE'
+        // );
 
-        $this->addForeignKey(
-            'fk-avaliacao-id_cerveja', 
-            '{{%avaliacao}}', 
-            'id_cerveja', 
-            '{{%cerveja}}', 
-            'id', 
-            'CASCADE'
-        );
+        // $this->addForeignKey(
+        //     'fk-avaliacao-id_cerveja', 
+        //     '{{%avaliacao}}', 
+        //     'id_cerveja', 
+        //     '{{%cerveja}}', 
+        //     'id', 
+        //     'CASCADE'
+        // );
 
         // Chaves estrangeiras para a tabela `cerveja`
         $this->addForeignKey(
@@ -144,8 +144,8 @@ class m241027_104136_add_foreiggn_keys_to_table extends Migration
         $this->dropForeignKey('fk-fatura-id_utilizador', '{{%fatura}}');
         $this->dropForeignKey('fk-cerveja-id_categoria', '{{%cerveja}}');
         $this->dropForeignKey('fk-cerveja-id_fornecedor', '{{%cerveja}}');
-        $this->dropForeignKey('fk-avaliacao-id_cerveja', '{{%avaliacao}}');
-        $this->dropForeignKey('fk-avaliacao-id_utilizador', '{{%avaliacao}}');
+        //$this->dropForeignKey('fk-avaliacao-id_cerveja', '{{%avaliacao}}');
+        //$this->dropForeignKey('fk-avaliacao-id_utilizador', '{{%avaliacao}}');
     }
 
     /*

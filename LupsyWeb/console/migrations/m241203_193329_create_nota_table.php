@@ -17,7 +17,7 @@ class m241203_193329_create_nota_table extends Migration
             'id_user' => $this->integer()->notNull(),
             'id_cerveja' => $this->integer()->notNull(),
             'nota' => $this->decimal(2, 1)->notNull()->check("nota >= 0 AND nota <= 5"), // Valores entre 0 e 5
-        ]);
+        ],'ENGINE=InnoDB');
 
         // Chave estrangeira para id_user
         $this->addForeignKey(
