@@ -254,9 +254,6 @@ public class Singleton {
         adicionarFaturaBD(fatura);
     }
 
-    public int getCervejasCount() {
-        return cervejas != null ? cervejas.size() : 0;
-    }
 
     private void adicionarCervejaBD(Cerveja c) {
         cervejaDBHelper.adicionarCervejaBD(c);
@@ -349,8 +346,6 @@ public class Singleton {
             volleyQueue.add(request);
         }
     }
-
-
 
     public void getAllFaturasAPI(final Context context){
         if (!JsonParser.isConnectionInternet(context)){

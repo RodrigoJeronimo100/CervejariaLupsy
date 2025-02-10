@@ -43,7 +43,6 @@
                 android:text="@string/tvData"
                 android:textColor="@color/preto_fosco"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
         <!-- Segunda linha com TextViews -->
@@ -53,21 +52,16 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvProdutoDisponivel"
+                android:id="@+id/tvUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-10dp"
                 android:layout_weight="1"
-                android:text="Produtos disponíveis: 0"
+                android:text="@string/tvUser"
                 android:textColor="@color/preto_fosco"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/btnZerarContador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Zerar Contador" />
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvTotal"
@@ -95,13 +89,13 @@
         <!-- Linha Vendas e Funil -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/ivVendas"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 app:srcCompat="@drawable/ic_shopbag" />
 
@@ -109,21 +103,9 @@
                 android:id="@+id/tvMaisVendidas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/tvVendas"
                 android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/tvProdutoMaisCaro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="Aqui"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
 
         </LinearLayout>
 

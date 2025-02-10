@@ -74,7 +74,6 @@
     <string name="fab_action" />
     <string name="ip">ip</string>
     <string name="ip_hint">IP</string>
-    <string name="txt_salvar">guardar</string>
 
 
 </resources>

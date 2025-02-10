@@ -91,7 +91,6 @@ public class CervejaDetailsActivity extends AppCompatActivity {
         tchimTchimButton.setOnClickListener(v ->{
             int id_cerveja = id;
             Singleton.getInstance(getApplicationContext()).Beber(id_cerveja);
-            Toast.makeText(CervejaDetailsActivity.this, "Tchim-Tchim", Toast.LENGTH_SHORT).show();
         });
 
         // Listener para o botão "+"

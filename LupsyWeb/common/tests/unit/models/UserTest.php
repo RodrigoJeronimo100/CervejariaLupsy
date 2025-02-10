@@ -24,8 +24,7 @@ class UserTest extends \Codeception\Test\Unit
 
     protected function _after() {}
 
-
-
+    // tests
     public function testValidations()
     {
         $user = $this->createValidUser();

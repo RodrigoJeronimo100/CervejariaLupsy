@@ -96,18 +96,4 @@ public class ListaCervejasAdaptador extends BaseAdapter {
         this.cervejas.addAll(cervejas);
         notifyDataSetChanged(); // Notifica o adaptador sobre a mudança
     }
-
-    public Cerveja getCervejaMaisCara() {
-        if (cervejas == null || cervejas.isEmpty()) {
-            return null; // Nenhuma cerveja disponível
-        }
-
-        Cerveja maisCara = cervejas.get(0);
-        for (Cerveja cerveja : cervejas) {
-            if (cerveja.getPreco() > maisCara.getPreco()) {
-                maisCara = cerveja;
-            }
-        }
-        return maisCara;
-    }
 }

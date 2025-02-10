@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "885e809b335c66741cc8e82c3d10e294",
+  "content-hash": "28b151c9ea149e84df2d611e9aa93c11",
   "packages": [
     {
       "name": "almasaeed2010/adminlte",
@@ -54,12 +54,12 @@
       "version": "v3.2.0",
       "source": {
         "type": "git",
-        "url": "git@github.com:almasaeed2010/AdminLTE.git",
+        "url": "https://github.com/ColorlibHQ/AdminLTE.git",
         "reference": "bd4d9c72931f1dd28601b6bfb387554a381ad540"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/bd4d9c72931f1dd28601b6bfb387554a381ad540",
+        "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/bd4d9c72931f1dd28601b6bfb387554a381ad540",
         "reference": "bd4d9c72931f1dd28601b6bfb387554a381ad540"
       },
       "type": "bower-asset"
@@ -1140,31 +1140,31 @@
     },
     {
       "name": "setasign/fpdi",
-      "version": "v2.6.3",
+      "version": "v2.6.2",
       "source": {
         "type": "git",
         "url": "https://github.com/Setasign/FPDI.git",
-        "reference": "67c31f5e50c93c20579ca9e23035d8c540b51941"
+        "reference": "9e013b376939c0d4029f54150d2a16f3c67a5797"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/Setasign/FPDI/zipball/67c31f5e50c93c20579ca9e23035d8c540b51941",
-        "reference": "67c31f5e50c93c20579ca9e23035d8c540b51941",
+        "url": "https://api.github.com/repos/Setasign/FPDI/zipball/9e013b376939c0d4029f54150d2a16f3c67a5797",
+        "reference": "9e013b376939c0d4029f54150d2a16f3c67a5797",
         "shasum": ""
       },
       "require": {
         "ext-zlib": "*",
-        "php": "^7.1 || ^8.0"
+        "php": "^5.6 || ^7.0 || ^8.0"
       },
       "conflict": {
         "setasign/tfpdf": "<1.31"
       },
       "require-dev": {
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": "~5.7",
         "setasign/fpdf": "~1.8.6",
         "setasign/tfpdf": "~1.33",
         "squizlabs/php_codesniffer": "^3.5",
-        "tecnickcom/tcpdf": "^6.2"
+        "tecnickcom/tcpdf": "~6.2"
       },
       "suggest": {
         "setasign/fpdf": "FPDI will extend this class but as it is also possible to use TCPDF or tFPDF as an alternative. There's no fixed dependency configured."
@@ -1200,7 +1200,7 @@
       ],
       "support": {
         "issues": "https://github.com/Setasign/FPDI/issues",
-        "source": "https://github.com/Setasign/FPDI/tree/v2.6.3"
+        "source": "https://github.com/Setasign/FPDI/tree/v2.6.2"
       },
       "funding": [
         {
@@ -1208,7 +1208,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2025-02-05T13:22:35+00:00"
+      "time": "2024-12-10T13:12:19+00:00"
     },
     {
       "name": "symfony/deprecation-contracts",
@@ -2781,64 +2781,6 @@
         "source": "https://github.com/Codeception/module-asserts/tree/3.0.0"
       },
       "time": "2022-02-16T19:48:08+00:00"
-    },
-    {
-      "name": "codeception/module-db",
-      "version": "3.2.1",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/Codeception/module-db.git",
-        "reference": "8a295c40d009f9821fae5e32c4d3ce10273e57a6"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/Codeception/module-db/zipball/8a295c40d009f9821fae5e32c4d3ce10273e57a6",
-        "reference": "8a295c40d009f9821fae5e32c4d3ce10273e57a6",
-        "shasum": ""
-      },
-      "require": {
-        "codeception/codeception": "*@dev",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-pdo": "*",
-        "php": "^8.0"
-      },
-      "conflict": {
-        "codeception/codeception": "<5.0"
-      },
-      "require-dev": {
-        "squizlabs/php_codesniffer": "*"
-      },
-      "type": "library",
-      "autoload": {
-        "classmap": [
-          "src/"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Michael Bodnarchuk"
-        },
-        {
-          "name": "Gintautas Miselis"
-        }
-      ],
-      "description": "DB module for Codeception",
-      "homepage": "https://codeception.com/",
-      "keywords": [
-        "codeception",
-        "database-testing",
-        "db-testing"
-      ],
-      "support": {
-        "issues": "https://github.com/Codeception/module-db/issues",
-        "source": "https://github.com/Codeception/module-db/tree/3.2.1"
-      },
-      "time": "2025-02-06T19:34:04+00:00"
     },
     {
       "name": "codeception/module-filesystem",
@@ -6394,12 +6336,12 @@
   ],
   "aliases": [],
   "minimum-stability": "stable",
-  "stability-flags": {},
+  "stability-flags": [],
   "prefer-stable": false,
   "prefer-lowest": false,
   "platform": {
     "php": ">=7.4.0"
   },
-  "platform-dev": {},
+  "platform-dev": [],
   "plugin-api-version": "2.6.0"
 }
