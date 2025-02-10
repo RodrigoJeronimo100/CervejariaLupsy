@@ -1,5 +1,5 @@
 
-![Logótipo IPL](imagem/ipl.jpg)
+![Logótipo IPL](imagem/ipl.png)
 
 
 →→ Abner Gonçalves -- 2220906 ←←  
